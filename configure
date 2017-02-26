@@ -18,13 +18,17 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 # 
-# This script outputs two files: config.h and Makefile.local.
+# This script outputs two files: config.h and Makefile.configure.
 # It tries to read from configure.local, which contains predefined
 # values we won't autoconfigure.
 #
 # If you want to use configure with your project, have your GNUmakefile
-# or BSDmakefile---whichever---try to import/include Makefile.local at
-# the beginning of the file.
+# or BSDmakefile---whichever---try to import/include Makefile.configure
+# at the beginning of the file.
+#
+# Like so (note no quotes, no period, etc.):
+#
+#   include Makefile.configure
 #
 # If it exists, configure was run; otherwise, it wasn't.
 #
@@ -36,7 +40,7 @@ set -e
 #----------------------------------------------------------------------
 # Prepare for running: move aside previous configure runs.
 # Output file descriptor usage:
-#  1 (stdout): config.h or Makefile.local
+#  1 (stdout): config.h or Makefile.configure
 #  2 (stderr): original stderr, usually to the console
 #  3: config.log
 # You DO NOT want to change this.
@@ -170,6 +174,12 @@ __HEREDOC__
 runtest() {
 	eval _manual=\${HAVE_${2}}
 	ismanual "${1}" "${2}" "${_manual}" && return 0
+	if [ ! -r "test-${1}.c" ]
+	then
+		echo "${1}${3}: skipping (no test file)" 1>&2
+		eval HAVE_${2}=0
+		return 1
+	fi
 	singletest "${1}" "${2}" "${3}" && return 0
 	echo "${1}${3}: no" 1>&2
 	eval HAVE_${2}=0
@@ -274,13 +284,13 @@ echo "config.h: written" 1>&2
 echo "config.h: written" 1>&3
 
 #----------------------------------------------------------------------
-# Now we go to generate our Makefile.local.
+# Now we go to generate our Makefile.configure.
 # This file is simply a bunch of Makefile variables.
 # They'll work in both GNUmakefile and BSDmakefile.
 # You MIGHT want to change this.
 #----------------------------------------------------------------------
 
-exec > Makefile.local
+exec > Makefile.configure
 
 [ -z "${BINDIR}"     ] && BINDIR="${PREFIX}/bin"
 [ -z "${SBINDIR}"    ] && SBINDIR="${PREFIX}/sbin"
@@ -312,7 +322,7 @@ INSTALL_MAN	= ${INSTALL_MAN}
 INSTALL_DATA	= ${INSTALL_DATA}
 __HEREDOC__
 
-echo "Makefile.local: written" 1>&2
-echo "Makefile.local: written" 1>&3
+echo "Makefile.configure: written" 1>&2
+echo "Makefile.configure: written" 1>&3
 
 exit 0
