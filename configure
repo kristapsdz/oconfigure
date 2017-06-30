@@ -62,6 +62,7 @@ CC=`printf "all:\\n\\t@echo \\\$(CC)\\n" | env -i make -sf -`
 CFLAGS="-g -W -Wall -Wmissing-prototypes -Wstrict-prototypes -Wwrite-strings"
 CFLAGS="${CFLAGS} -Wno-unused-parameter"
 LDADD=
+CPPFLAGS=
 LDFLAGS=
 PREFIX="/usr/local"
 BINDIR=
@@ -74,6 +75,43 @@ INSTALL_PROGRAM=
 INSTALL_LIB=
 INSTALL_MAN=
 INSTALL_DATA=
+
+#----------------------------------------------------------------------
+# Allow certain variables to be overriden on the command line.
+#----------------------------------------------------------------------
+
+for keyvals in $@ 
+do
+	key=`echo $keyvals | cut -s -d '=' -f 1`
+	if [ -z "$key" ]
+	then
+		echo "$0: invalid key-value: $keyvals" 1>&2
+		exit 1
+	fi
+	val=`echo $keyvals | cut -d '=' -f 2-`
+	case "$key" in
+	LDFLAGS)
+		LDFLAGS="$val" ;;
+	CPPFLAGS)
+		CPPFLAGS="$val" ;;
+	PREFIX)
+		PREFIX="$val" ;;
+	MANDIR)
+		MANDIR="$val" ;;
+	LIBDIR)
+		LIBDIR="$val" ;;
+	BINDIR)
+		BINDIR="$val" ;;
+	SBINDIR)
+		SBINDIR="$val" ;;
+	INCLUDEDIR)
+		INCLUDEDIR="$val" ;;
+	*)
+		echo "$0: invalid key: $key" 1>&2
+		exit 1
+	esac
+done
+
 
 #----------------------------------------------------------------------
 # These are the values that will be pushed into config.h after we test
@@ -95,8 +133,8 @@ HAVE_STRLCPY=
 HAVE_STRTONUM=
 
 #----------------------------------------------------------------------
-# Allow configure.local to override all variables, default settings and
-# tested features, above.
+# Allow configure.local to override all variables, default settings, 
+# command-line arguments, and tested features, above.
 # You PROBABLY DO NOT want to change this.
 #----------------------------------------------------------------------
 
@@ -119,7 +157,7 @@ echo 1>&3
 # You DO NOT want to change this.
 #----------------------------------------------------------------------
 
-COMP="${CC} ${CFLAGS} -Wno-unused -Werror"
+COMP="${CC} ${CFLAGS} ${CPPFLAGS} -Wno-unused -Werror"
 
 # Check whether this HAVE_ setting is manually overridden.
 # If yes, use the override, if no, do not decide anything yet.
@@ -310,6 +348,7 @@ exec > Makefile.configure
 cat << __HEREDOC__
 CC		= ${CC}
 CFLAGS		= ${CFLAGS}
+CPPFLAGS	= ${CPPFLAGS}
 LDADD		= ${LDADD}
 LDFLAGS		= ${LDFLAGS}
 STATIC		= ${STATIC}
