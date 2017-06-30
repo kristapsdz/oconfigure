@@ -12,7 +12,7 @@ The source, which must include `config.h` as the first inclusion, may
 then use the CPP variable `HAVE_FEATURE`. In this case this would be
 `HAVE_PLEDGE`.
 
-```
+```c
 #include "config.h"
 
 #if HAVE_ERR
