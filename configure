@@ -128,6 +128,7 @@ HAVE_PATH_MAX=
 HAVE_PLEDGE=
 HAVE_PROGNAME=
 HAVE_REALLOCARRAY=
+HAVE_RECALLOCARRAY=
 HAVE_SANDBOX_INIT=
 HAVE_STRLCAT=
 HAVE_STRLCPY=
@@ -239,6 +240,7 @@ runtest PATH_MAX	PATH_MAX			  || true
 runtest pledge		PLEDGE				  || true
 runtest progname	PROGNAME			  || true
 runtest reallocarray	REALLOCARRAY			  || true
+runtest recallocarray	RECALLOCARRAY			  || true
 runtest sandbox_init	SANDBOX_INIT	"-Wno-deprecated" || true
 runtest strlcat		STRLCAT				  || true
 runtest strlcpy		STRLCPY				  || true
@@ -271,6 +273,7 @@ __HEREDOC__
 # For the function declaration variables...
 
 [ ${HAVE_REALLOCARRAY} -eq 0 -o \
+  ${HAVE_RECALLOCARRAY} -eq 0 -o \
   ${HAVE_STRLCAT} -eq 0 -o \
   ${HAVE_STRLCPY} -eq 0 ] \
 	&& echo "#include <sys/types.h>"
@@ -287,6 +290,7 @@ cat << __HEREDOC__
 #define HAVE_PLEDGE ${HAVE_PLEDGE}
 #define HAVE_PROGNAME ${HAVE_PROGNAME}
 #define HAVE_REALLOCARRAY ${HAVE_REALLOCARRAY}
+#define HAVE_RECALLOCARRAY ${HAVE_RECALLOCARRAY}
 #define HAVE_SANDBOX_INIT ${HAVE_SANDBOX_INIT}
 #define HAVE_STRLCAT ${HAVE_STRLCAT}
 #define HAVE_STRLCPY ${HAVE_STRLCPY}
@@ -309,6 +313,10 @@ fi
 
 if [ ${HAVE_REALLOCARRAY} -eq 0 ]; then
 	echo "extern void *reallocarray(void *, size_t, size_t);"
+fi
+
+if [ ${HAVE_RECALLOCARRAY} -eq 0 ]; then
+	echo "extern void *recallocarray(void *, size_t, size_t, size_t);"
 fi
 
 if [ ${HAVE_STRLCAT} -eq 0 ]; then
