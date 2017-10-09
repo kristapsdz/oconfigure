@@ -260,7 +260,7 @@ exec > config.h
 
 cat << __HEREDOC__
 #ifdef __cplusplus
-#error "Do not use C++.  See the INSTALL file."
+#error "Do not use C++: this is a C application."
 #endif
 #if !defined(__GNUC__) || (__GNUC__ < 4)
 #define __attribute__(x)
