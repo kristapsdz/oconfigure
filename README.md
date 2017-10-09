@@ -2,6 +2,7 @@ This is a simple configuration script use for some
 [BSD.lv](https://www.bsd.lv) project sources.  It is not really ready
 for general use, but is used in several projects
 ([ksql](https://kristaps.bsd.lv/ksql),
+[sblg](https://kristaps.bsd.lv/sblg),
 [lowdown](https://kristaps.bsd.lv/lowdown), etc.).
 
 In general, a user runs `./configure` prior to run `make`.  The
@@ -11,6 +12,7 @@ files, e.g.,
 The source, which must include `config.h` as the first inclusion, may
 then use the CPP variable `HAVE_FEATURE`. In this case this would be
 `HAVE_PLEDGE`.
+If not found, it provides a compatibility function.
 
 ```c
 #include "config.h"
