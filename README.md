@@ -11,7 +11,8 @@ files, e.g.,
 [test-pledge.c](https://github.com/kristapsdz/oconfigure/blob/master/test-pledge.c).
 The source, which must include `config.h` as the first inclusion, may
 then use the CPP variable `HAVE_FEATURE`. In this case this would be
-`HAVE_PLEDGE`.
+`HAVE_PLEDGE` and set to 1 on success, 0 on failure.
+
 If not found, it provides a compatibility function.
 
 ```c
@@ -36,3 +37,28 @@ int main(void) {
 This framework was inspired by [mandoc](https://mdocml.bsd.lv)'s
 `configure` script written by Ingo Schwarze, but has been expanded to
 accept configuration values on the command line.
+
+## err.h
+
+Provides error functions `err`, `errx`, `warn`, `warnx`.  The
+system-wide `<err.h>` header needs to be defined.
+
+```c
+#if HAVE_ERR
+# include <err.h>
+#endif
+```
+
+## PATH\_MAX
+## Capsicum
+## explicit\_bzero
+## md5
+## memset\_s
+## pledge
+## progname
+## reallocarray
+## recallocarray
+## strlcpy
+## strlcat
+## strtonum
+
