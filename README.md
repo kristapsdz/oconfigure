@@ -5,15 +5,21 @@ for general use, but is used in several projects
 [sblg](https://kristaps.bsd.lv/sblg),
 [lowdown](https://kristaps.bsd.lv/lowdown), etc.).
 
-In general, a user runs `./configure` prior to run `make`.  The
-`configure` script will check for common features as noted in the test
-files, e.g.,
-[test-pledge.c](https://github.com/kristapsdz/oconfigure/blob/master/test-pledge.c).
-The source, which must include `config.h` as the first inclusion, may
-then use the CPP variable `HAVE_FEATURE`. In this case this would be
-`HAVE_PLEDGE` and set to 1 on success, 0 on failure.
+To use:
 
-If not found, it provides a compatibility function.
+1. copy configure, compat\_\*.c, and test-\*.c into your sources
+2. have `include Makefile.configure` at the top of your Makefile
+3. have `#include "config.h"` as the first inclusion in your sources
+
+Once prepared, a user just runs `./configure` prior to run `make` within
+the source distribution.  The `configure` script will check for common
+features as noted in the test files, e.g.,
+[test-pledge.c](https://github.com/kristapsdz/oconfigure/blob/master/test-pledge.c).
+Sometimes it provides compatibility functions; other times (the `pledge`
+test is a good example), it simply notes the supported feature.
+
+Sources may either just use whatever's provided in compatibility or use
+the `HAVE\_FEATURE` macros for feature tests.
 
 ```c
 #include "config.h"
@@ -40,8 +46,9 @@ accept configuration values on the command line.
 
 ## err.h
 
-Provides error functions `err`, `errx`, `warn`, `warnx`.  The
-system-wide `<err.h>` header needs to be defined.
+If not found, provides error functions `err`, `errx`, `warn`, `warnx`.
+The `<err.h>` header inclusion needs to be guarded for systems that
+include it.
 
 ```c
 #if HAVE_ERR
@@ -50,8 +57,19 @@ system-wide `<err.h>` header needs to be defined.
 ```
 
 ## PATH\_MAX
-## Capsicum
+
+If not already defined, defines the `PATH\_MAX` CPP value to be 4096.
+
+## capsicum
+
+Tests for [FreeBSD](https://www.freebsd.org)'s
+[Capsicum](https://www.freebsd.org/cgi/man.cgi?capsicum(4)) support.
+Does not provide any compatibility.
+
 ## explicit\_bzero
+
+If not found, provides an `explicit\_bzero` function.
+
 ## md5
 ## memset\_s
 ## pledge
