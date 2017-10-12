@@ -1,11 +1,3 @@
-#include "config.h"
-
-#if HAVE_STRLCPY
-
-int dummy;
-
-#else
-
 /*	$OpenBSD$	*/
 
 /*
@@ -57,5 +49,3 @@ strlcpy(char *dst, const char *src, size_t siz)
 
 	return(s - src - 1);	/* count does not include NUL */
 }
-
-#endif

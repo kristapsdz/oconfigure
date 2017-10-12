@@ -1,11 +1,3 @@
-#include "config.h"
-
-#if HAVE_EXPLICIT_BZERO
-
-int dummy;
-
-#else
-
 /* OPENBSD ORIGINAL: lib/libc/string/explicit_bzero.c */
 /*	$OpenBSD$ */
 /*
@@ -57,5 +49,3 @@ explicit_bzero(void *p, size_t n)
 }
 
 #endif /* HAVE_MEMSET_S */
-
-#endif
