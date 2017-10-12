@@ -1,11 +1,3 @@
-#include "config.h"
-
-#if HAVE_RECALLOCARRAY
-
-int dummy;
-
-#else
-
 /*	$OpenBSD$	*/
 /*
  * Copyright (c) 2008, 2017 Otto Moerbeek <otto@drijf.net>
@@ -88,6 +80,3 @@ recallocarray(void *ptr, size_t oldnmemb, size_t newnmemb, size_t size)
 
 	return newptr;
 }
-/* DEF_WEAK(recallocarray); */
-
-#endif

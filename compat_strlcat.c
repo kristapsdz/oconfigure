@@ -1,11 +1,3 @@
-#include "config.h"
-
-#if HAVE_STRLCAT
-
-int dummy;
-
-#else
-
 /*	$OpenBSD$	*/
 
 /*
@@ -61,5 +53,3 @@ strlcat(char *dst, const char *src, size_t siz)
 
 	return(dlen + (s - src));	/* count does not include NUL */
 }
-
-#endif
