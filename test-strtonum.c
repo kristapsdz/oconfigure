@@ -1,4 +1,3 @@
-/*	$Id$	*/
 /*
  * Copyright (c) 2015 Ingo Schwarze <schwarze@openbsd.org>
  *
