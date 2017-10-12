@@ -1,0 +1,24 @@
+#! /bin/sh
+
+COMPATS="compats.c"
+TESTS="tests.c"
+
+echo "#include \"config.h\"" >$COMPATS
+cp /dev/null $TESTS
+
+for f in test-*.c
+do
+	ff="`echo $f | sed -e 's!\.c$!!' -e 's!^test-!!'`"
+	up="`echo $ff | tr '[:lower:]' '[:upper:]'`"
+	if [ -r "compat_${ff}.c" ]
+	then
+		echo "HAVE_${up}: adding to build"
+		echo "#if !HAVE_${up}" >>$COMPATS
+		cat "compat_${ff}.c" >>$COMPATS
+		echo "#endif /* !HAVE_${up} */ " >>$COMPATS
+	fi
+	echo "TEST_${up}: adding to test file"
+	echo "#if TEST_${up}" >>$TESTS
+	cat $f >>$TESTS
+	echo "#endif /* TEST_${up} */" >>$TESTS
+done
