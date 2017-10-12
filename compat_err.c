@@ -1,11 +1,3 @@
-#include "config.h"
-
-#if HAVE_ERR
-
-int dummy;
-
-#else
-
 /* $Id$ */
 /*
  * Copyright (c) 1993
@@ -108,5 +100,3 @@ warnx(const char *fmt, ...)
 	va_end(ap);
 	fputc('\n', stderr);
 }
-
-#endif

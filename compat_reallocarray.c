@@ -1,11 +1,3 @@
-#include "config.h"
-
-#if HAVE_REALLOCARRAY
-
-int dummy;
-
-#else
-
 /*	$Id$	*/
 /*	$OpenBSD: reallocarray.c,v 1.2 2014/12/08 03:45:00 bcook Exp $	*/
 /*
@@ -45,5 +37,3 @@ reallocarray(void *optr, size_t nmemb, size_t size)
 	}
 	return realloc(optr, size * nmemb);
 }
-
-#endif /*!HAVE_REALLOCARRAY*/

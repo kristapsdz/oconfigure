@@ -1,11 +1,3 @@
-#include "config.h"
-
-#if HAVE_STRTONUM
-
-int dummy;
-
-#else
-
 /*	$Id$	*/
 /*	$OpenBSD: strtonum.c,v 1.7 2013/04/17 18:40:58 tedu Exp $	*/
 
@@ -72,5 +64,3 @@ strtonum(const char *numstr, long long minval, long long maxval,
 
 	return (ll);
 }
-
-#endif /* !HAVE_STRTONUM */

@@ -1,11 +1,3 @@
-#include "config.h"
-
-#if HAVE_STRLCPY
-
-int dummy;
-
-#else
-
 /*	$OpenBSD: strlcpy.c,v 1.11 2006/05/05 15:27:38 millert Exp $	*/
 
 /*
@@ -57,5 +49,3 @@ strlcpy(char *dst, const char *src, size_t siz)
 
 	return(s - src - 1);	/* count does not include NUL */
 }
-
-#endif

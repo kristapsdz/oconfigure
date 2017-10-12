@@ -1,11 +1,3 @@
-#include "config.h"
-
-#if HAVE_MD5
-
-int dummy;
-
-#else
-
 /*	$OpenBSD: md5.c,v 1.9 2014/01/08 06:14:57 tedu Exp $	*/
 
 /*
@@ -272,5 +264,3 @@ MD5End(MD5_CTX *ctx, char *buf)
 	buf[i+i] = '\0';
 	return buf;
 }
-
-#endif
