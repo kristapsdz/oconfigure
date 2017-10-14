@@ -4,6 +4,8 @@ for general use, but is used in several projects
 ([ksql](https://kristaps.bsd.lv/ksql),
 [sblg](https://kristaps.bsd.lv/sblg),
 [lowdown](https://kristaps.bsd.lv/lowdown), etc.).
+Its mission is to provide [OpenBSD](https://www.openbsd.org) portability
+functions and feature testing for system-specific security facilities.
 
 To use:
 
