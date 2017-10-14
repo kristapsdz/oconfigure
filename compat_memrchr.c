@@ -1,11 +1,3 @@
-#include "config.h"
-
-#if HAVE_MEMRCHR
-
-int dummy;
-
-#else
-
 /*
  * Copyright (c) 2007 Todd C. Miller <Todd.Miller@courtesan.com>
  *
@@ -43,5 +35,3 @@ memrchr(const void *s, int c, size_t n)
     }
     return(NULL);
 }
-
-#endif

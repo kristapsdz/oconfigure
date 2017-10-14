@@ -1,5 +1,3 @@
-/*	$Id$	*/
-/*	$OpenBSD$	*/
 /*
  * Copyright (c) 2008 Otto Moerbeek <otto@drijf.net>
  *

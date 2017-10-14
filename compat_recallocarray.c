@@ -1,4 +1,3 @@
-/*	$OpenBSD$	*/
 /*
  * Copyright (c) 2008, 2017 Otto Moerbeek <otto@drijf.net>
  *
