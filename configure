@@ -140,6 +140,7 @@ HAVE_SECCOMP_FILTER=
 HAVE_STRLCAT=
 HAVE_STRLCPY=
 HAVE_STRTONUM=
+HAVE_SYSTRACE=
 HAVE___PROGNAME=
 
 #----------------------------------------------------------------------
@@ -254,6 +255,7 @@ runtest seccomp-filter	SECCOMP_FILTER			  || true
 runtest strlcat		STRLCAT				  || true
 runtest strlcpy		STRLCPY				  || true
 runtest strtonum	STRTONUM			  || true
+runtest systrace	SYSTRACE			  || true
 runtest __progname	__PROGNAME			  || true
 
 #----------------------------------------------------------------------
@@ -314,6 +316,7 @@ cat << __HEREDOC__
 #define HAVE_STRLCAT ${HAVE_STRLCAT}
 #define HAVE_STRLCPY ${HAVE_STRLCPY}
 #define HAVE_STRTONUM ${HAVE_STRTONUM}
+#define HAVE_SYSTRACE ${HAVE_SYSTRACE}
 #define HAVE___PROGNAME ${HAVE___PROGNAME}
 __HEREDOC__
 
