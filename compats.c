@@ -1,4 +1,3 @@
-#include "config.h"
 #if !HAVE_ERR
 /* $Id$ */
 /*
@@ -102,7 +101,7 @@ warnx(const char *fmt, ...)
 	va_end(ap);
 	fputc('\n', stderr);
 }
-#endif /* !HAVE_ERR */ 
+#endif /* !HAVE_ERR */
 #if !HAVE_EXPLICIT_BZERO
 /* OPENBSD ORIGINAL: lib/libc/string/explicit_bzero.c */
 /*	$OpenBSD$ */
@@ -155,7 +154,7 @@ explicit_bzero(void *p, size_t n)
 }
 
 #endif /* HAVE_MEMSET_S */
-#endif /* !HAVE_EXPLICIT_BZERO */ 
+#endif /* !HAVE_EXPLICIT_BZERO */
 #if !HAVE_GETPROGNAME
 /*
  * Copyright (c) 2016 Nicholas Marriott <nicholas.marriott@gmail.com>
@@ -195,7 +194,7 @@ getprogname(void)
 #else
 #error No getprogname available.
 #endif
-#endif /* !HAVE_GETPROGNAME */ 
+#endif /* !HAVE_GETPROGNAME */
 #if !HAVE_MD5
 /*	$OpenBSD$	*/
 
@@ -463,7 +462,7 @@ MD5End(MD5_CTX *ctx, char *buf)
 	buf[i+i] = '\0';
 	return buf;
 }
-#endif /* !HAVE_MD5 */ 
+#endif /* !HAVE_MD5 */
 #if !HAVE_MEMRCHR
 #include "config.h"
 
@@ -512,7 +511,7 @@ memrchr(const void *s, int c, size_t n)
 }
 
 #endif
-#endif /* !HAVE_MEMRCHR */ 
+#endif /* !HAVE_MEMRCHR */
 #if !HAVE_REALLOCARRAY
 /*	$Id$	*/
 /*	$OpenBSD$	*/
@@ -553,7 +552,7 @@ reallocarray(void *optr, size_t nmemb, size_t size)
 	}
 	return realloc(optr, size * nmemb);
 }
-#endif /* !HAVE_REALLOCARRAY */ 
+#endif /* !HAVE_REALLOCARRAY */
 #if !HAVE_RECALLOCARRAY
 /*	$OpenBSD$	*/
 /*
@@ -637,7 +636,7 @@ recallocarray(void *ptr, size_t oldnmemb, size_t newnmemb, size_t size)
 
 	return newptr;
 }
-#endif /* !HAVE_RECALLOCARRAY */ 
+#endif /* !HAVE_RECALLOCARRAY */
 #if !HAVE_STRLCAT
 /*	$OpenBSD$	*/
 
@@ -694,7 +693,7 @@ strlcat(char *dst, const char *src, size_t siz)
 
 	return(dlen + (s - src));	/* count does not include NUL */
 }
-#endif /* !HAVE_STRLCAT */ 
+#endif /* !HAVE_STRLCAT */
 #if !HAVE_STRLCPY
 /*	$OpenBSD$	*/
 
@@ -747,7 +746,7 @@ strlcpy(char *dst, const char *src, size_t siz)
 
 	return(s - src - 1);	/* count does not include NUL */
 }
-#endif /* !HAVE_STRLCPY */ 
+#endif /* !HAVE_STRLCPY */
 #if !HAVE_STRTONUM
 /*	$Id$	*/
 /*	$OpenBSD$	*/
@@ -815,4 +814,4 @@ strtonum(const char *numstr, long long minval, long long maxval,
 
 	return (ll);
 }
-#endif /* !HAVE_STRTONUM */ 
+#endif /* !HAVE_STRTONUM */
