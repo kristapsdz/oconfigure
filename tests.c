@@ -116,6 +116,16 @@ int main(void)
 	return 0;
 }
 #endif /* TEST_MD5 */
+#if TEST_MEMMEM
+#include <string.h>
+
+int
+main(void)
+{
+	char *a = memmem("hello, world", strlen("hello, world"), "world", strlen("world"));
+	return(NULL == a);
+}
+#endif /* TEST_MEMMEM */
 #if TEST_MEMRCHR
 #if defined(__linux__) || defined(__MINT__)
 #define _GNU_SOURCE	/* See test-*.c what needs this. */
