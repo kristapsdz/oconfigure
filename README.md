@@ -153,7 +153,8 @@ If not found, defines the `PATH_MAX` macro to be 4096.
 
 ## pledge(2)
 
-Tests for the [pledge(2)](https://man.openbsd.org/pledge.2) function,
+Test for [OpenBSD](https://www.openbsd.org)'s
+[pledge(2)](https://man.openbsd.org/pledge.2) function,
 defining `HAVE_PLEDGE` with the result.
 Does not provide any compatibility.
 For example,
@@ -197,7 +198,7 @@ Does not provide any compatibility.
 
 ## seccomp-filter(3)
 
-Tests for the
+Tests for Linux's
 [prctl(2)](http://man7.org/linux/man-pages/man2/prctl.2.html) function,
 which is the gateway for
 [seccomp(2)](http://man7.org/linux/man-pages/man2/seccomp.2.html).
@@ -222,3 +223,8 @@ Tests for the [strtonum(3)](https://man.openbsd.org/strtonum.3)
 function, defining `HAVE_STRTONUM` with the result.
 Provides a compatibility function if not found.
 
+## systrace(4)
+
+Tests for OpenBSD's deprecated systrace(4) interface.
+Defines `HAVE_SYSTRACE` if found.
+Does not provide any compatibility.

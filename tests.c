@@ -283,3 +283,16 @@ main(void)
 	return 0;
 }
 #endif /* TEST_STRTONUM */
+#if TEST_SYSTRACE
+#include <sys/param.h>
+#include <dev/systrace.h>
+
+#include <stdlib.h>
+
+int
+main(void)
+{
+
+	return(0);
+}
+#endif /* TEST_SYSTRACE */
