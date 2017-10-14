@@ -30,6 +30,7 @@ TESTS	= test-PATH_MAX.c \
 all: compats.c tests.c
 
 compats.c: $(COMPATS)
+	echo "#include \"config.h\"" >$@
 	for f in $(COMPATS) ; \
 	do \
 		ff="`echo $$f | sed -e 's!\.c$$!!' -e 's!^compat_!!'`" ; \
@@ -37,7 +38,7 @@ compats.c: $(COMPATS)
 		echo "#if !HAVE_$${up}" ; \
 		cat "$$f" ; \
 		echo "#endif /* !HAVE_$${up} */" ; \
-	done >$@
+	done >>$@
 
 tests.c: $(TESTS)
 	for f in $(TESTS) ; \
