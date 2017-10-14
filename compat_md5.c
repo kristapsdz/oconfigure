@@ -1,5 +1,3 @@
-/*	$OpenBSD: md5.c,v 1.9 2014/01/08 06:14:57 tedu Exp $	*/
-
 /*
  * This code implements the MD5 message-digest algorithm.
  * The algorithm is due to Ron Rivest.	This code was

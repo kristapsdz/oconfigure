@@ -1,6 +1,3 @@
-/*	$Id$	*/
-/*	$OpenBSD: strtonum.c,v 1.7 2013/04/17 18:40:58 tedu Exp $	*/
-
 /*
  * Copyright (c) 2004 Ted Unangst and Todd Miller
  * All rights reserved.
