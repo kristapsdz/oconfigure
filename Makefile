@@ -2,6 +2,7 @@ COMPATS	= compat_err.c \
 	  compat_explicit_bzero.c \
 	  compat_getprogname.c \
 	  compat_md5.c \
+	  compat_memmem.c \
 	  compat_memrchr.c \
 	  compat_reallocarray.c \
 	  compat_recallocarray.c \
@@ -15,6 +16,7 @@ TESTS	= test-PATH_MAX.c \
 	  test-explicit_bzero.c \
 	  test-getprogname.c \
 	  test-md5.c \
+	  test-memmem.c \
 	  test-memrchr.c \
 	  test-memset_s.c \
 	  test-pledge.c \
