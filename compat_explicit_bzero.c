@@ -1,5 +1,4 @@
 /* OPENBSD ORIGINAL: lib/libc/string/explicit_bzero.c */
-/*	$OpenBSD$ */
 /*
  * Public domain.
  * Written by Ted Unangst
