@@ -106,6 +106,12 @@ Tests for
 
 If not found, provides a compatibility function.
 
+## memmem(3)
+
+Tests for the [memmem(3)](https://man.openbsd.org/memmem.3)
+function, defining `HAVE_MEMMEM` with the result.
+Provides a compatibility function if not found.
+
 ## memrchr(3)
 
 Tests for the [memrchr(3)](https://man.openbsd.org/memrchr.3)
