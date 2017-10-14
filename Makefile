@@ -27,7 +27,8 @@ TESTS	= test-PATH_MAX.c \
 	  test-seccomp-filter.c \
 	  test-strlcat.c \
 	  test-strlcpy.c \
-	  test-strtonum.c
+	  test-strtonum.c \
+	  test-systrace.c
 
 all: compats.c tests.c
 
