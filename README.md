@@ -205,6 +205,26 @@ which is the gateway for
 Defines `HAVE_SECCOMP_FILTER` if found.
 Does not provide any compatibility.
 
+## SOCK\_NONBLOCK
+
+Tests for [socketpair(2)](https://man.openbsd.org/socketpair.2)
+supporting the `SOCK_NONBLOCK` mask as found on OpenBSD.
+Defines the `HAVE_SOCK_NONBLOCK` variable.
+
+```c
+#if HAVE_SOCK_NONBLOCK
+	socketpair(AF_UNIX, flags|SOCK_NONBLOCK, 0, fd);
+#else
+	socketpair(AF_UNIX, flags, 0, fd);
+	fcntl(fd[0], F_SETFL, 
+	      fcntl(fd[0], F_GETFL, 0)|O_NONBLOCK);
+	fcntl(fd[1], F_SETFL, 
+	      fcntl(fd[1], F_GETFL, 0)|O_NONBLOCK);
+#endif
+```
+
+Does not provide any compatibility.
+
 ## strlcat(3)
 
 Tests for the [strlcat(3)](https://man.openbsd.org/strlcat.3)
