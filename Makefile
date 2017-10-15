@@ -9,16 +9,18 @@ COMPATS	= compat_err.c \
 	  compat_strlcat.c \
 	  compat_strlcpy.c \
 	  compat_strtonum.c
-TESTS	= test-PATH_MAX.c \
-	  test-__progname.c \
+TESTS	= test-__progname.c \
+	  test-arc4random.c \
 	  test-capsicum.c \
 	  test-err.c \
 	  test-explicit_bzero.c \
 	  test-getprogname.c \
+	  test-INFTIM.c \
 	  test-md5.c \
 	  test-memmem.c \
 	  test-memrchr.c \
 	  test-memset_s.c \
+	  test-PATH_MAX.c \
 	  test-pledge.c \
 	  test-program_invocation_short_name.c \
 	  test-reallocarray.c \
