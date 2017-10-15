@@ -24,7 +24,7 @@ TESTS	= test-PATH_MAX.c \
 	  test-reallocarray.c \
 	  test-recallocarray.c \
 	  test-sandbox_init.c \
-	  test-seccomp-filter.c \
+	  test-seccomp_filter.c \
 	  test-SOCK_NONBLOCK.c \
 	  test-strlcat.c \
 	  test-strlcpy.c \
