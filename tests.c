@@ -117,6 +117,7 @@ int main(void)
 }
 #endif /* TEST_MD5 */
 #if TEST_MEMMEM
+#define _GNU_SOURCE
 #include <string.h>
 
 int
