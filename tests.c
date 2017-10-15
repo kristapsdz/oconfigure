@@ -218,6 +218,21 @@ main(void)
 	return(EFAULT == errno ? 0 : 1);
 }
 #endif /* TEST_SECCOMP-FILTER */
+#if TEST_SOCK_NONBLOCK
+/*
+ * Linux doesn't (always?) have this.
+ */
+
+#include <sys/socket.h>
+
+int
+main(void)
+{
+	int fd[2];
+	socketpair(AF_UNIX, SOCK_STREAM|SOCK_NONBLOCK, 0, fd);
+	return 0;
+}
+#endif /* TEST_SOCK_NONBLOCK */
 #if TEST_STRLCAT
 #include <string.h>
 
