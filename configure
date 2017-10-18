@@ -287,6 +287,12 @@ cat << __HEREDOC__
 #if defined(__linux__) || defined(__MINT__)
 #define _GNU_SOURCE	/* See test-*.c what needs this. */
 #endif
+#if !defined(__BEGIN_DECLS)
+# define __BEGIN_DECLS
+#endif
+#if !defined(__END_DECLS)
+# define __END_DECLS
+#endif
 __HEREDOC__
 
 # For the function declaration variables...
@@ -356,6 +362,21 @@ typedef struct MD5Context {
 	echo "extern void MD5Transform(u_int32_t [4], const u_int8_t [MD5_BLOCK_LENGTH]);"
 	echo "extern char *MD5End(MD5_CTX *, char *);"
 	echo "extern void MD5Final(u_int8_t [MD5_DIGEST_LENGTH], MD5_CTX *);";
+fi
+
+if [ ${HAVE_SECCOMP_FILTER} -eq 0 ]; then
+	arch=`uname -m 2>/dev/null || echo unknown`
+	case "$arch" in
+		x86_64)
+			echo "#define SECCOMP_AUDIT_ARCH AUDIT_ARCH_X86_64"
+			;;
+		i*86)
+			echo "#define SECCOMP_AUDIT_ARCH AUDIT_ARCH_I386"
+			;;
+		arm*)
+			echo "#define SECCOMP_AUDIT_ARCH AUDIT_ARCH_ARM"
+			;;
+	esac
 fi
 
 if [ ${HAVE_EXPLICIT_BZERO} -eq 0 ]; then
