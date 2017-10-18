@@ -313,6 +313,9 @@ __HEREDOC__
 [ ${HAVE_PATH_MAX} -eq 0 ] \
 	&& echo "#define PATH_MAX 4096"
 
+[ ${HAVE_INFTIM} -eq 0 ] \
+	&& echo "#define INFTIM (-1)"
+
 cat << __HEREDOC__
 #define HAVE_ARC4RANDOM ${HAVE_ARC4RANDOM}
 #define HAVE_CAPSICUM ${HAVE_CAPSICUM}
