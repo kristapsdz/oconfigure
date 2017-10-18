@@ -106,6 +106,14 @@ Tests for
 
 If not found, provides a compatibility function.
 
+## INFTIM
+
+Some systems (like OpenBSD) define INFTIM for use with
+[poll(2)](https://man.openbsd.org/poll.2).
+Others don't.
+This defines the `HAVE_INFTIM` variable with the results and, if not
+found, defines `INFTIM` to be the proper value.
+
 ## memmem(3)
 
 Tests for the [memmem(3)](https://man.openbsd.org/memmem.3)
@@ -248,3 +256,8 @@ Provides a compatibility function if not found.
 Tests for OpenBSD's deprecated systrace(4) interface.
 Defines `HAVE_SYSTRACE` if found.
 Does not provide any compatibility.
+
+## zlib(3)
+
+Tests for zlib(3) compilation and linking.  Defines `HAVE_ZLIB` if
+found.  Does not provide any compatibility.
