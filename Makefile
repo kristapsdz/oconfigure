@@ -31,7 +31,8 @@ TESTS	= test-__progname.c \
 	  test-strlcat.c \
 	  test-strlcpy.c \
 	  test-strtonum.c \
-	  test-systrace.c
+	  test-systrace.c \
+	  test-zlib.c
 
 all: compats.c tests.c
 
