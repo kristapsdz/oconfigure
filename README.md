@@ -78,7 +78,7 @@ For example,
 ```c
 #if HAVE_CAPSICUM
 # include <sys/resource.h>
-# include <sys/capability.h>
+# include <sys/capsicum.h>
 #endif
 ```
 
