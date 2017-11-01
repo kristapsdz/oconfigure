@@ -1,4 +1,4 @@
-#include <sys/capability.h>
+#include <sys/capsicum.h>
 
 int
 main(void)
