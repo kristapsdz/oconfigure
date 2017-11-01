@@ -1,7 +1,5 @@
 #! /bin/sh
 #
-# $Id$
-#
 # Copyright (c) 2014, 2015, 2016 Ingo Schwarze <schwarze@openbsd.org>
 # Copyright (c) 2017 Kristaps Dzonsons <kristaps@bsd.lv>
 #
