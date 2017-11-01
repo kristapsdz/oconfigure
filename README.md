@@ -25,6 +25,18 @@ test files, e.g., [pledge(2)](https://man.openbsd.org/pledge.2), and
 also provide compatibility for other functions, e.g.,
 [strlcpy(3)](https://man.openbsd.org/strlcpy.3).
 
+If you have Makefile flags you'd like to set, set them when you invoke
+`configure` as key-value pairs on the command-line, e.g.,
+
+```
+./configure PREFIX=/opt
+```
+
+The following flags are recognised and accepted: `LDFLAGS`, `CPPFLAGS`,
+`DESTDIR`, `PREFIX`, `MANDIR`, `LIBDIR`, `BINDIR`, `SHAREDIR`,
+`SBINDIR`, and `INCLUDEDIR`.  Un-recognised flags are discarded and
+warned about.
+
 ```c
 #include "config.h" /* required inclusion */
 
