@@ -37,6 +37,9 @@ The following flags are recognised and accepted: `LDFLAGS`, `CPPFLAGS`,
 `SBINDIR`, and `INCLUDEDIR`.  Un-recognised flags are discarded and
 warned about.
 
+Using oconfigure requires some work within your sources to node
+compatibility areas, then some in your build environment:
+
 ```c
 #include "config.h" /* required inclusion */
 
