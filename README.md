@@ -260,6 +260,12 @@ Tests for the [strlcpy(3)](https://man.openbsd.org/strlcpy.3)
 function, defining `HAVE_STRLCPY` with the result.
 Provides a compatibility function if not found.
 
+## strndup(3)
+
+Tests for the [strndup(3)](https://man.openbsd.org/strndup.3)
+function, defining `HAVE_STRNDUP` with the result.
+Provides a compatibility function if not found.
+
 ## strtonum(3)
 
 Tests for the [strtonum(3)](https://man.openbsd.org/strtonum.3)
