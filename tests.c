@@ -293,6 +293,19 @@ main(void)
 	return(0 != strcmp(baz, "b"));
 }
 #endif /* TEST_STRNDUP */
+#if TEST_STRNLEN
+#include <string.h>
+
+int
+main(void)
+{
+	const char *foo = "bar";
+	size_t sz;
+
+	sz = strnlen(foo, 1);
+	return(1 != sz);
+}
+#endif /* TEST_STRNLEN */
 #if TEST_STRTONUM
 /*
  * Copyright (c) 2015 Ingo Schwarze <schwarze@openbsd.org>
