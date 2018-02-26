@@ -9,6 +9,7 @@ COMPATS	= compat_err.c \
 	  compat_strlcat.c \
 	  compat_strlcpy.c \
 	  compat_strndup.c \
+	  compat_strnlen.c \
 	  compat_strtonum.c
 TESTS	= test-__progname.c \
 	  test-arc4random.c \
@@ -32,6 +33,7 @@ TESTS	= test-__progname.c \
 	  test-strlcat.c \
 	  test-strlcpy.c \
 	  test-strndup.c \
+	  test-strnlen.c \
 	  test-strtonum.c \
 	  test-systrace.c \
 	  test-zlib.c
