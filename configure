@@ -266,6 +266,7 @@ runtest SOCK_NONBLOCK	SOCK_NONBLOCK			  || true
 runtest strlcat		STRLCAT				  || true
 runtest strlcpy		STRLCPY				  || true
 runtest strndup		STRNDUP				  || true
+runtest strnlen		STRNLEN				  || true
 runtest strtonum	STRTONUM			  || true
 runtest systrace	SYSTRACE			  || true
 runtest zlib		ZLIB		"" "-lz"	  || true
@@ -308,7 +309,8 @@ __HEREDOC__
   ${HAVE_RECALLOCARRAY} -eq 0 -o \
   ${HAVE_STRLCAT} -eq 0 -o \
   ${HAVE_STRLCPY} -eq 0 -o \
-  ${HAVE_STRNDUP} -eq 0 ] \
+  ${HAVE_STRNDUP} -eq 0 -o \
+  ${HAVE_STRNLEN} -eq 0 ] \
 	&& echo "#include <sys/types.h>"
 
 # Now we handle our HAVE_xxxx values.
@@ -342,6 +344,7 @@ cat << __HEREDOC__
 #define HAVE_STRLCAT ${HAVE_STRLCAT}
 #define HAVE_STRLCPY ${HAVE_STRLCPY}
 #define HAVE_STRNDUP ${HAVE_STRNDUP}
+#define HAVE_STRNLEN ${HAVE_STRNLEN}
 #define HAVE_STRTONUM ${HAVE_STRTONUM}
 #define HAVE_SYSTRACE ${HAVE_SYSTRACE}
 #define HAVE_ZLIB ${HAVE_ZLIB}
@@ -425,6 +428,10 @@ fi
 
 if [ ${HAVE_STRNDUP} -eq 0 ]; then
 	echo "extern char *strndup(const char *, size_t);"
+fi
+
+if [ ${HAVE_STRNLEN} -eq 0 ]; then
+	echo "extern size_t strnlen(const char *, size_t);"
 fi
 
 if [ ${HAVE_STRTONUM} -eq 0 ]; then
