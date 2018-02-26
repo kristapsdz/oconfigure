@@ -266,6 +266,12 @@ Tests for the [strndup(3)](https://man.openbsd.org/strndup.3)
 function, defining `HAVE_STRNDUP` with the result.
 Provides a compatibility function if not found.
 
+## strnlen(3)
+
+Tests for the [strnlen(3)](https://man.openbsd.org/strnlen.3)
+function, defining `HAVE_STRNLEN` with the result.
+Provides a compatibility function if not found.
+
 ## strtonum(3)
 
 Tests for the [strtonum(3)](https://man.openbsd.org/strtonum.3)
