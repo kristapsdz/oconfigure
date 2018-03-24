@@ -1,3 +1,4 @@
+VERSION	= 0.1.2
 COMPATS	= compat_err.c \
 	  compat_explicit_bzero.c \
 	  compat_getprogname.c \
@@ -38,7 +39,10 @@ TESTS	= test-__progname.c \
 	  test-systrace.c \
 	  test-zlib.c
 
-all: compats.c tests.c
+all: compats.c tests.c configure
+
+configure: configure.in
+	sed "s!@VERSION@!$(VERSION)!g" configure.in >$@
 
 compats.c: $(COMPATS)
 	echo "#include \"config.h\"" >$@
@@ -62,4 +66,4 @@ tests.c: $(TESTS)
 	done >$@
 
 clean:
-	rm -f compats.c tests.c compats.o tests.o Makefile.configure config.h config.log
+	rm -f configure compats.c tests.c compats.o tests.o Makefile.configure config.h config.log
