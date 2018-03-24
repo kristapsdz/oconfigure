@@ -7,6 +7,8 @@ for general use, but is used in several projects
 Its mission is to provide [OpenBSD](https://www.openbsd.org) portability
 functions and feature testing for system-specific security facilities.
 
+See [versions.md](versions.md) for version information.
+
 To use:
 
 1. copy
