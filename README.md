@@ -32,10 +32,10 @@ If you have Makefile flags you'd like to set, set them when you invoke
 ./configure PREFIX=/opt
 ```
 
-The following flags are recognised and accepted: `LDFLAGS`, `CPPFLAGS`,
-`DESTDIR`, `PREFIX`, `MANDIR`, `LIBDIR`, `BINDIR`, `SHAREDIR`,
-`SBINDIR`, and `INCLUDEDIR`.  Un-recognised flags are discarded and
-warned about.
+The following flags are recognised and accepted: `LDADD`, `LDFLAGS`,
+`CPPFLAGS`, `DESTDIR`, `PREFIX`, `MANDIR`, `LIBDIR`, `BINDIR`,
+`SHAREDIR`, `SBINDIR`, and `INCLUDEDIR`.  Un-recognised flags are
+discarded and warned about.
 
 Using oconfigure requires some work within your sources to node
 compatibility areas, then some in your build environment:
