@@ -1,5 +1,9 @@
 This file describes version information of this project.
 
+## 0.1.3
+
+Add `vwarn` and `vwarnx` to the `err.h` compatibility.
+
 ## 0.1.2
 
 Accept multiple words when passing arguments on the command line.

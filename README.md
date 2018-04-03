@@ -105,9 +105,9 @@ Tests for the [err(3)](https://man.openbsd.org/err.3) functions,
 defining `HAVE_ERR` variable with the result.
 
 If not found, provides compatibility functions `err`, `errx`, `warn`,
-`warnx`.  The `<err.h>` header inclusion needs to be guarded for systems
-that include it by default; otherwise, the definitions are provided in
-the generated `config.h`.
+`warnx`, `vwarn`, `vwarnx`.  The `<err.h>` header inclusion needs to be
+guarded for systems that include it by default; otherwise, the
+definitions are provided in the generated `config.h`.
 
 ```c
 #if HAVE_ERR
