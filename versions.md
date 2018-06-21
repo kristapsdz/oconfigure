@@ -1,5 +1,10 @@
 This file describes version information of this project.
 
+## 0.1.4
+
+Add a test for `b64_ntop` and also introduce cross-compilation support
+by not actually executing tests---just compiling them.
+
 ## 0.1.3
 
 Add `vwarn` and `vwarnx` to the `err.h` compatibility.
