@@ -1,11 +1,7 @@
 This is a simple configuration script use for some
-[BSD.lv](https://www.bsd.lv) project sources.  It is not really ready
-for general use, but is used in several projects
-([ksql](https://kristaps.bsd.lv/ksql),
-[sblg](https://kristaps.bsd.lv/sblg),
-[lowdown](https://kristaps.bsd.lv/lowdown), etc.).
+[BSD.lv](https://www.bsd.lv) project sources.
 Its mission is to provide [OpenBSD](https://www.openbsd.org) portability
-functions and feature testing for system-specific security facilities.
+functions and feature testing.
 
 See [versions.md](versions.md) for version information.
 
@@ -26,6 +22,9 @@ The `configure` script will check for common features as noted in the
 test files, e.g., [pledge(2)](https://man.openbsd.org/pledge.2), and
 also provide compatibility for other functions, e.g.,
 [strlcpy(3)](https://man.openbsd.org/strlcpy.3).
+
+The `./configure` script may be executed in a cross-compiling
+environment with the compiler and linker set appropriately.
 
 If you have Makefile flags you'd like to set, set them when you invoke
 `configure` as key-value pairs on the command-line, e.g.,
@@ -73,7 +72,7 @@ cc config.o main.o
 
 Though you can just build this into your Makefile.
 
-This framework was inspired by [mandoc](https://mdocml.bsd.lv)'s
+This framework was inspired by [mandoc](https://mandoc.bsd.lv)'s
 `configure` script written by Ingo Schwarze, but has been expanded to
 accept configuration values on the command line.
 
@@ -83,6 +82,22 @@ the package when included into your sources.
 The compatibility layer is generally provided by the excellent portable
 [OpenSSH](https://www.openssh.com/).  All copyrights are noted within
 the included sources.
+
+## b64\_ntop
+
+This function, annoyingly, is sometimes declared but not defined.  The
+following will guard against that in your sources.  (You'll need to
+guard again around the function use itself, of course.)
+
+```c
+#if HAVE_B64_NTOP
+# include <net/inet.h>
+# include <resolv.h>
+#endif
+```
+
+In future versions, I'll probably provide a compatibility version of the
+function.
 
 ## Capsicum
 
@@ -229,6 +244,10 @@ which is the gateway for
 [seccomp(2)](http://man7.org/linux/man-pages/man2/seccomp.2.html).
 Defines `HAVE_SECCOMP_FILTER` if found.
 Does not provide any compatibility.
+
+*Note: this test does not mean that the sandboxing is enabled.* You'll
+need to perform a run-time check for `prctl`'s return value in your
+sources.
 
 ## SOCK\_NONBLOCK
 
