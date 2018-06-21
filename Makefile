@@ -1,4 +1,4 @@
-VERSION	= 0.1.3
+VERSION	= 0.1.4
 COMPATS	= compat_err.c \
 	  compat_explicit_bzero.c \
 	  compat_getprogname.c \
