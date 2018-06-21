@@ -91,7 +91,7 @@ guard again around the function use itself, of course.)
 
 ```c
 #if HAVE_B64_NTOP
-# include <net/inet.h>
+# include <netinet/in.h>
 # include <resolv.h>
 #endif
 ```
