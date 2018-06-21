@@ -14,6 +14,7 @@ COMPATS	= compat_err.c \
 	  compat_strtonum.c
 TESTS	= test-__progname.c \
 	  test-arc4random.c \
+	  test-b64_ntop.c \
 	  test-capsicum.c \
 	  test-err.c \
 	  test-explicit_bzero.c \

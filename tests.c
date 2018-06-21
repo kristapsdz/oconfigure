@@ -16,6 +16,19 @@ main(void)
 	return (arc4random() + 1) ? 0 : 1;
 }
 #endif /* TEST_ARC4RANDOM */
+#if TEST_B64_NTOP
+#include <netinet/in.h>
+#include <resolv.h>
+
+int
+main(void)
+{
+	const char *src = "hello world";
+	char output[1024];
+
+	return b64_ntop(src, 11, output, sizeof(output)) > 0 ? 0 : 1;
+}
+#endif /* TEST_B64_NTOP */
 #if TEST_CAPSICUM
 #include <sys/capsicum.h>
 
