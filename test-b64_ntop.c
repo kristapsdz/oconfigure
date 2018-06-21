@@ -7,5 +7,5 @@ main(void)
 	const char *src = "hello world";
 	char output[1024];
 
-	return b64_ntop(src, 11, output, sizeof(output)) > 0 ? 0 : 1;
+	return b64_ntop((const unsigned char *)src, 11, output, sizeof(output)) > 0 ? 0 : 1;
 }
