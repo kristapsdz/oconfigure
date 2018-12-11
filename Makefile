@@ -1,5 +1,6 @@
 VERSION	= 0.1.4
 COMPATS	= compat_err.c \
+	  compat-b64_ntop.c \
 	  compat_explicit_bzero.c \
 	  compat_getprogname.c \
 	  compat_md5.c \
