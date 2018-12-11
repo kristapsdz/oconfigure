@@ -260,7 +260,7 @@ runtest() {
 #----------------------------------------------------------------------
 
 runtest arc4random	ARC4RANDOM			  || true
-runtest b64_ntop	B64_NTOP			  || true
+runtest b64_ntop	B64_NTOP	""	"-lresolv"	|| true
 runtest capsicum	CAPSICUM			  || true
 runtest err		ERR				  || true
 runtest explicit_bzero	EXPLICIT_BZERO			  || true
