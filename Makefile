@@ -44,6 +44,7 @@ TESTS	= test-__progname.c \
 all: compats.c tests.c configure
 
 configure: configure.in
+	rm -f $@
 	sed "s!@VERSION@!$(VERSION)!g" configure.in >$@
 	chmod 555 $@
 
