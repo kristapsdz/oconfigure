@@ -439,6 +439,11 @@ if [ ${HAVE_SECCOMP_FILTER} -eq 1 ]; then
 	esac
 fi
 
+if [ ${HAVE_B64_NTOP} -eq 0 ]; then
+	echo "extern int b64_ntop(unsigned char const *, size_t, char *, size_t);";
+	echo "extern int b64_pton(char const *, unsigned char *, size_t);"
+fi
+
 if [ ${HAVE_EXPLICIT_BZERO} -eq 0 ]; then
 	echo "extern void explicit_bzero(void *, size_t);"
 fi
