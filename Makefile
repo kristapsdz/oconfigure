@@ -44,6 +44,7 @@ all: compats.c tests.c configure
 
 configure: configure.in
 	sed "s!@VERSION@!$(VERSION)!g" configure.in >$@
+	chmod 555 $@
 
 compats.c: $(COMPATS)
 	echo "#include \"config.h\"" >$@
