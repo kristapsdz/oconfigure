@@ -202,21 +202,37 @@ ismanual() {
 # CFLAGS, additional LIBS.
 
 singletest() {
+	extralib=""
 	cat 1>&3 << __HEREDOC__
 ${1}: testing...
 ${COMP} -DTEST_${2} ${3} -o test-${1} tests.c ${4}
 __HEREDOC__
-
 	if ${COMP} -DTEST_${2} ${3} -o "test-${1}" tests.c ${4} 1>&3 2>&3; then
 		echo "${1}: ${CC} succeeded" 1>&3
-	else
-		echo "${1}: ${CC} failed with $?" 1>&3
-		echo 1>&3
-		return 1
+	else 
+		if [ -n "${5}" ] ; then
+			echo "${1}: ${CC} failed with $? (retrying)" 1>&3
+			cat 1>&3 << __HEREDOC__
+${1}: testing...
+${COMP} -DTEST_${2} ${3} -o test-${1} tests.c ${5}
+__HEREDOC__
+			if ${COMP} -DTEST_${2} ${3} -o "test-${1}" tests.c ${5} 1>&3 2>&3; then
+				echo "${1}: ${CC} succeeded" 1>&3
+				extralib="(with ${5})"
+			else 
+				echo "${1}: ${CC} failed with $?" 1>&3
+				echo 1>&3
+				return 1
+			fi
+		else
+			echo "${1}: ${CC} failed with $?" 1>&3
+			echo 1>&3
+			return 1
+		fi
 	fi
 
-	echo "${1}: yes" 1>&2
-	echo "${1}: yes" 1>&3
+	echo "${1}: yes ${extralib}" 1>&2
+	echo "${1}: yes ${extralib}" 1>&3
 	echo 1>&3
 	eval HAVE_${2}=1
 	rm "test-${1}"
@@ -241,12 +257,13 @@ __HEREDOC__
 
 # Run a complete autoconfiguration test, including the check for
 # a manual override and disabling the feature on failure.
-# Arguments: lower case name, upper case name, additional CFLAGS
+# Arguments: lower case name, upper case name, additional CFLAGS, 
+# additional LDADD, alternative LDADD.
 
 runtest() {
 	eval _manual=\${HAVE_${2}}
 	ismanual "${1}" "${2}" "${_manual}" && return 0
-	singletest "${1}" "${2}" "${3}" "${4}" "${test}" && return 0
+	singletest "${1}" "${2}" "${3}" "${4}" "${5}" && return 0
 	echo "${1}: no" 1>&2
 	eval HAVE_${2}=0
 	return 1
@@ -257,10 +274,17 @@ runtest() {
 # All of your tests must be defined here.
 # Please sort as the HAVE_xxxx values were defined.
 # You WANT to change this.
+# It consists of the following columns:
+#    runtest
+#    (1) test file
+#    (2) macro to set
+#    (3) argument to cc *before* -o
+#    (4) argument to cc *after* 
+#    (5) alternative argument to cc *after* 
 #----------------------------------------------------------------------
 
 runtest arc4random	ARC4RANDOM			  || true
-runtest b64_ntop	B64_NTOP			  || true
+runtest b64_ntop	B64_NTOP "" "" "-lresolv"	  || true
 runtest capsicum	CAPSICUM			  || true
 runtest err		ERR				  || true
 runtest explicit_bzero	EXPLICIT_BZERO			  || true
