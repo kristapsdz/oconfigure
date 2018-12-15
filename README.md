@@ -86,8 +86,7 @@ the included sources.
 ## b64\_ntop
 
 This function, annoyingly, is sometimes declared but not defined.  The
-following will guard against that in your sources.  (You'll need to
-guard again around the function use itself, of course.)
+following will guard against that in your sources.
 
 ```c
 #if HAVE_B64_NTOP
@@ -100,8 +99,8 @@ On some systems (Linux in particular) with `HAVE_B64_NTOP`, you'll
 also need to add `-lresolv` when you compile your system, else it will
 fail with `undefined reference to __b64_ntop`.
 
-In future versions, I'll probably provide a compatibility version of the
-function.
+If not found, provides compatibility functions `b64_ntop` and
+`b64_pton`.
 
 ## Capsicum
 
