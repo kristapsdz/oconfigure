@@ -96,6 +96,10 @@ guard again around the function use itself, of course.)
 #endif
 ```
 
+On some systems (Linux in particular) with `HAVE_B64_NTOP`, you'll
+also need to add `-lresolv` when you compile your system, else it will
+fail with `undefined reference to __b64_ntop`.
+
 In future versions, I'll probably provide a compatibility version of the
 function.
 
