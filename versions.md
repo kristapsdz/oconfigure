@@ -1,5 +1,9 @@
 This file describes version information of this project.
 
+## 0.1.5
+
+Improve test for b64 and also add compatibility functions.
+
 ## 0.1.4
 
 Add a test for `b64_ntop` and also introduce cross-compilation support
