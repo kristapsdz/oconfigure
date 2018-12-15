@@ -230,7 +230,7 @@ b64_ntop(u_char const *src, size_t srclength, char *target, size_t targsize)
 	size_t datalength = 0;
 	u_char input[3];
 	u_char output[4];
-	int i;
+	size_t i;
 
 	while (2 < srclength) {
 		input[0] = *src++;
@@ -287,7 +287,8 @@ b64_ntop(u_char const *src, size_t srclength, char *target, size_t targsize)
 int
 b64_pton(char const *src, u_char *target, size_t targsize)
 {
-	int tarindex, state, ch;
+	int state, ch;
+	size_t tarindex;
 	u_char nextbyte;
 	char *pos;
 
