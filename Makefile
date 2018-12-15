@@ -1,4 +1,4 @@
-VERSION	= 0.1.4
+VERSION	= 0.1.5
 COMPATS	= compat_err.c \
 	  compat_b64_ntop.c \
 	  compat_explicit_bzero.c \
@@ -43,7 +43,7 @@ TESTS	= test-__progname.c \
 
 all: compats.c tests.c configure
 
-configure: configure.in
+configure: configure.in Makefile
 	rm -f $@
 	sed "s!@VERSION@!$(VERSION)!g" configure.in >$@
 	chmod 555 $@
