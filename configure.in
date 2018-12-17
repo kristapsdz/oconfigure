@@ -307,6 +307,7 @@ runtest strlcpy		STRLCPY				  || true
 runtest strndup		STRNDUP				  || true
 runtest strnlen		STRNLEN				  || true
 runtest strtonum	STRTONUM			  || true
+runtest sys_queue	SYS_QUEUE			  || true
 runtest systrace	SYSTRACE			  || true
 runtest zlib		ZLIB		"" "-lz"	  || true
 runtest __progname	__PROGNAME			  || true
@@ -389,6 +390,7 @@ cat << __HEREDOC__
 #define HAVE_STRNDUP ${HAVE_STRNDUP}
 #define HAVE_STRNLEN ${HAVE_STRNLEN}
 #define HAVE_STRTONUM ${HAVE_STRTONUM}
+#define HAVE_SYS_QUEUE ${HAVE_SYS_QUEUE}
 #define HAVE_SYSTRACE ${HAVE_SYSTRACE}
 #define HAVE_ZLIB ${HAVE_ZLIB}
 #define HAVE___PROGNAME ${HAVE___PROGNAME}

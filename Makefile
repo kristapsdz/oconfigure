@@ -38,6 +38,7 @@ TESTS	= test-__progname.c \
 	  test-strndup.c \
 	  test-strnlen.c \
 	  test-strtonum.c \
+	  test-sys_queue.c \
 	  test-systrace.c \
 	  test-zlib.c
 
