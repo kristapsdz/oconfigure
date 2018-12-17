@@ -39,6 +39,13 @@ The following flags are recognised and accepted: `LDADD`, `LDFLAGS`,
 `SHAREDIR`, `SBINDIR`, and `INCLUDEDIR`.  Un-recognised flags are
 discarded and warned about.
 
+If, however, you want to use an alternative CC or CFLAGS, specify them
+as an environmental variable.  (This may be fixed in future versions.)
+
+```
+CC=musl-gcc ./configure
+```
+
 Using oconfigure requires some work within your sources to node
 compatibility areas, then some in your build environment:
 
