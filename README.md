@@ -15,7 +15,8 @@ and
 into your source tree
 2. have `include Makefile.configure` at the top of your Makefile
 3. have `#include "config.h"` as the first inclusion in your sources
-4. compile compile.o and link to it
+4. read over the included bits below in case you need to guard header inclusion
+5. compile compile.o and link to it
 
 Once prepared, a user just runs `./configure` prior to running `make`.
 The `configure` script will check for common features as noted in the
@@ -57,7 +58,7 @@ int main(void) {
 		err(EXIT_FAILURE, NULL);
 #endif
 	warnx("hello, world!"); /* compat provides this */
-	return(EXIT_SUCCESS);
+	return EXIT_SUCCESS;
 }
 ```
 
@@ -73,8 +74,7 @@ cc config.o main.o
 Though you can just build this into your Makefile.
 
 This framework was inspired by [mandoc](https://mandoc.bsd.lv)'s
-`configure` script written by Ingo Schwarze, but has been expanded to
-accept configuration values on the command line.
+`configure` script written by Ingo Schwarze.
 
 What follows is a description of the features and facilities provided by
 the package when included into your sources.
