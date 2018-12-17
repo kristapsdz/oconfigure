@@ -302,6 +302,19 @@ Tests for the [strtonum(3)](https://man.openbsd.org/strtonum.3)
 function, defining `HAVE_STRTONUM` with the result.
 Provides a compatibility function if not found.
 
+## queue(3)
+
+Tests for the [queue(3)](https://man.openbsd.org/queue.3) header,
+*sys/queue.h*.  Defines `HAVE_SYS_QUEUE` if found.  This provides all of
+the basic queue functions if `HAVE_SYS_QUEUE` is not found.  To use
+these functions, make sure to guard inclusion:
+
+```c
+#if HAVE_SYS_QUEUE
+# include <sys/queue.h>
+#endif
+```
+
 ## systrace(4)
 
 Tests for OpenBSD's deprecated systrace(4) interface.
