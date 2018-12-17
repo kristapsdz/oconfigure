@@ -1,5 +1,9 @@
 This file describes version information of this project.
 
+## 0.1.6
+
+Bundle a version of *sys/queue.h* if it's not found.
+
 ## 0.1.5
 
 Improve test for b64 and also add compatibility functions.
