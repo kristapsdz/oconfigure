@@ -3,6 +3,8 @@ This is a simple configuration script use for some
 Its mission is to provide [OpenBSD](https://www.openbsd.org) portability
 functions and feature testing.
 
+It allows easy porting to Linux (glibc and musl), FreeBSD, and Mac OSX.
+
 See [versions.md](versions.md) for version information.
 
 To use:

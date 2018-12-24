@@ -1,5 +1,11 @@
 This file describes version information of this project.
 
+## 0.1.7
+
+Fix the *sys/queue.h* check on non-OpenBSD systems (specifically
+glibc and musl Linux systems) and fix MD5 test to catch -lmd on
+FreeBSD.
+
 ## 0.1.6
 
 Bundle a version of *sys/queue.h* if it's not found.
