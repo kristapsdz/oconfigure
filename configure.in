@@ -290,7 +290,7 @@ runtest err		ERR				  || true
 runtest explicit_bzero	EXPLICIT_BZERO			  || true
 runtest getprogname	GETPROGNAME			  || true
 runtest INFTIM		INFTIM				  || true
-runtest md5		MD5				  || true
+runtest md5		MD5 "" "" "-lmd"		  || true
 runtest memmem		MEMMEM			  	  || true
 runtest memrchr		MEMRCHR			  	  || true
 runtest memset_s	MEMSET_S			  || true

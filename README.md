@@ -195,6 +195,10 @@ system-default:
 #endif
 ```
 
+On some systems (FreeBSD in particular) with `HAVE_MD5`, you'll
+also need to add `-lmd` when you compile your system, else it will
+fail with undefined references.
+
 ## PATH\_MAX
 
 Tests for the `PATH_MAX` variable, defining `HAVE_PATH_MAX` with the
