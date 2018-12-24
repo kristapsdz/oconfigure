@@ -1,4 +1,5 @@
 #include <sys/queue.h>
+#include <stddef.h>
 
 struct foo {
 	int bar;
