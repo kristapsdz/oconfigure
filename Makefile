@@ -40,6 +40,7 @@ TESTS	= test-__progname.c \
 	  test-strtonum.c \
 	  test-sys_queue.c \
 	  test-systrace.c \
+	  test-unveil.c \
 	  test-zlib.c
 
 all: compats.c tests.c configure
