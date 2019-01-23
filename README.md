@@ -221,6 +221,20 @@ For example,
 #endif
 ```
 
+## unveil(2)
+
+Test for [OpenBSD](https://www.openbsd.org)'s
+[unveil(2)](https://man.openbsd.org/unveil.2) function,
+defining `HAVE_UNVEIL` with the result.
+Does not provide any compatibility.
+For example,
+
+```c
+#if HAVE_UNVEIL
+# include <unistd.h> /* unveil(2) */
+#endif
+```
+
 ## getprogname(3)
 
 Tests for the [getprogname(3)](https://man.openbsd.org/getprogname.3)
