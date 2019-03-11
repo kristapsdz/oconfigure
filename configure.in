@@ -356,6 +356,9 @@ __HEREDOC__
 [ ${HAVE_ERR} -eq 0 ] \
 	&& echo "#include <stdarg.h>"
 
+[ ${HAVE_MEMSET_S} -eq 0 ] \
+	&& echo "#include <string.h>"
+
 # Now we handle our HAVE_xxxx values.
 # Most will just be defined as 0 or 1.
 
