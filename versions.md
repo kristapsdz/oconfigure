@@ -1,5 +1,10 @@
 This file describes version information of this project.
 
+## 0.1.8
+
+Test for [unveil(2)](https://man.openbsd.org/unveil.2) and some small
+fixes to initialisations.
+
 ## 0.1.7
 
 Fix the *sys/queue.h* check on non-OpenBSD systems (specifically
