@@ -342,6 +342,11 @@ these functions, make sure to guard inclusion:
 #endif
 ```
 
+This uses `TAILQ_FOREACH_SAFE` as a basis for determining whether the
+header exists and is well-formed.
+This is because glibc provides a skeleton *sys/queue.h* without this
+critical macro.
+
 ## systrace(4)
 
 Tests for OpenBSD's deprecated systrace(4) interface.
