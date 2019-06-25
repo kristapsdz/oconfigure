@@ -1,5 +1,12 @@
 This file describes version information of this project.
 
+## 0.1.9
+
+Make the test for *sys/queue.h* look for the `TAILQ_FOREACH_SAFE`
+function, as the glibc version of this header file does not include that
+critical macro.
+
+
 ## 0.1.8
 
 Test for [unveil(2)](https://man.openbsd.org/unveil.2) and some small
