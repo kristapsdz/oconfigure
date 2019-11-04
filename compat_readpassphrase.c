@@ -1,5 +1,6 @@
-/*	$OpenBSD$	*/
-
+/* 
+ * Original: readpassphrase.c in OpenSSH portable
+ */
 /*
  * Copyright (c) 2000-2002, 2007, 2010
  *	Todd C. Miller <millert@openbsd.org>
@@ -31,19 +32,14 @@
 #include <termios.h>
 #include <unistd.h>
 
-#ifndef TCSASOFT
-/* If we don't have TCSASOFT define it so that ORing it it below is a no-op. */
-# define TCSASOFT 0
-#endif
+static volatile sig_atomic_t readpassphrase_signo[_NSIG];
 
-/* SunOS 4.x which lacks _POSIX_VDISABLE, but has VDISABLE */
-#if !defined(_POSIX_VDISABLE) && defined(VDISABLE)
-#  define _POSIX_VDISABLE       VDISABLE
-#endif
+static void
+readpassphrase_handler(int s)
+{
 
-static volatile sig_atomic_t signo[_NSIG];
-
-static void handler(int);
+	readpassphrase_signo[s] = 1;
+}
 
 char *
 readpassphrase(const char *prompt, char *buf, size_t bufsiz, int flags)
@@ -54,6 +50,12 @@ readpassphrase(const char *prompt, char *buf, size_t bufsiz, int flags)
 	struct termios term, oterm;
 	struct sigaction sa, savealrm, saveint, savehup, savequit, saveterm;
 	struct sigaction savetstp, savettin, savettou, savepipe;
+/* If we don't have TCSASOFT define it so that ORing it it below is a no-op. */
+#ifndef TCSASOFT
+	const int tcasoft = 0;
+#else
+	const int tcasoft = TCASOFT;
+#endif
 
 	/* I suppose we could alloc on demand in this case (XXX). */
 	if (bufsiz == 0) {
@@ -63,7 +65,7 @@ readpassphrase(const char *prompt, char *buf, size_t bufsiz, int flags)
 
 restart:
 	for (i = 0; i < _NSIG; i++)
-		signo[i] = 0;
+		readpassphrase_signo[i] = 0;
 	nr = -1;
 	save_errno = 0;
 	need_restart = 0;
@@ -94,7 +96,7 @@ restart:
 		if (term.c_cc[VSTATUS] != _POSIX_VDISABLE)
 			term.c_cc[VSTATUS] = _POSIX_VDISABLE;
 #endif
-		(void)tcsetattr(input, TCSAFLUSH|TCSASOFT, &term);
+		(void)tcsetattr(input, TCSAFLUSH|tcasoft, &term);
 	} else {
 		memset(&term, 0, sizeof(term));
 		term.c_lflag |= ECHO;
@@ -109,7 +111,7 @@ restart:
 	 */
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;		/* don't restart system calls */
-	sa.sa_handler = handler;
+	sa.sa_handler = readpassphrase_handler;
 	(void)sigaction(SIGALRM, &sa, &savealrm);
 	(void)sigaction(SIGHUP, &sa, &savehup);
 	(void)sigaction(SIGINT, &sa, &saveint);
@@ -144,13 +146,13 @@ restart:
 
 	/* Restore old terminal settings and signals. */
 	if (memcmp(&term, &oterm, sizeof(term)) != 0) {
-		const int sigttou = signo[SIGTTOU];
+		const int sigttou = readpassphrase_signo[SIGTTOU];
 
 		/* Ignore SIGTTOU generated when we are not the fg pgrp. */
-		while (tcsetattr(input, TCSAFLUSH|TCSASOFT, &oterm) == -1 &&
-		    errno == EINTR && !signo[SIGTTOU])
+		while (tcsetattr(input, TCSAFLUSH|tcasoft, &oterm) == -1 &&
+		    errno == EINTR && !readpassphrase_signo[SIGTTOU])
 			continue;
-		signo[SIGTTOU] = sigttou;
+		readpassphrase_signo[SIGTTOU] = sigttou;
 	}
 	(void)sigaction(SIGALRM, &savealrm, NULL);
 	(void)sigaction(SIGHUP, &savehup, NULL);
@@ -169,7 +171,7 @@ restart:
 	 * now that we have restored the signal handlers.
 	 */
 	for (i = 0; i < _NSIG; i++) {
-		if (signo[i]) {
+		if (readpassphrase_signo[i]) {
 			kill(getpid(), i);
 			switch (i) {
 			case SIGTSTP:
@@ -185,11 +187,4 @@ restart:
 	if (save_errno)
 		errno = save_errno;
 	return(nr == -1 ? NULL : buf);
-}
-
-static void
-handler(int s)
-{
-
-	signo[s] = 1;
 }
