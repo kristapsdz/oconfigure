@@ -247,6 +247,20 @@ This internally tests for `__progname` and
 also be defined.  Do not use these: use
 [getprogname(3)](https://man.openbsd.org/getprogname.3) instead.
 
+## readpassphrase(3)
+Tests for the [readpassphrase(3)](https://man.openbsd.org/readpassphrase.3)
+function, defining `HAVE_READPASSPHRASE` with the result.
+Provides a compatibility function if not found.
+The `<readpassphrase.h>` header inclusion needs to be
+guarded for systems that include it by default; otherwise, the
+definitions are provided in the generated `config.h`:
+
+```c
+#if HAVE_READPASSPHRASE
+# include <readpassphrase.h>
+#endif
+```
+
 ## reallocarray(3)
 
 Tests for the [reallocarray(3)](https://man.openbsd.org/reallocarray.3)
