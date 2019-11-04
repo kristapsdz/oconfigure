@@ -261,6 +261,10 @@ definitions are provided in the generated `config.h`:
 #endif
 ```
 
+If using this function, makes sure you explicitly zero the passphrase
+buffer as described in
+[readpassphrase(3)](https://man.openbsd.org/readpassphrase.3).
+
 ## reallocarray(3)
 
 Tests for the [reallocarray(3)](https://man.openbsd.org/reallocarray.3)
