@@ -6,6 +6,7 @@ COMPATS	= compat_err.c \
 	  compat_md5.c \
 	  compat_memmem.c \
 	  compat_memrchr.c \
+	  compat_readpassphrase.c \
 	  compat_reallocarray.c \
 	  compat_recallocarray.c \
 	  compat_strlcat.c \
@@ -28,6 +29,7 @@ TESTS	= test-__progname.c \
 	  test-PATH_MAX.c \
 	  test-pledge.c \
 	  test-program_invocation_short_name.c \
+	  test-readpassphrase.c \
 	  test-reallocarray.c \
 	  test-recallocarray.c \
 	  test-sandbox_init.c \
