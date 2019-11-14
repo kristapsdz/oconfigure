@@ -1,5 +1,10 @@
 This file describes version information of this project.
 
+## 0.1.12
+
+Fix [readpassphrase(3)](https://man.openbsd.org/readpassphrase.3)
+compatibility to run on FreeBSD.
+
 ## 0.1.11
 
 Test for (OpenBSD/Linux) *endian.h* or (FreeBSD) *sys/endian.h*.

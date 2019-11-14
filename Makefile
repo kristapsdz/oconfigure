@@ -1,4 +1,4 @@
-VERSION	= 0.1.11
+VERSION	= 0.1.12
 COMPATS	= compat_err.c \
 	  compat_b64_ntop.c \
 	  compat_explicit_bzero.c \
