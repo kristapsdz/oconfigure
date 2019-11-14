@@ -1,5 +1,9 @@
 This file describes version information of this project.
 
+## 0.1.11
+
+Test for (OpenBSD/Linux) *endian.h* or (FreeBSD) *sys/endian.h*.
+
 ## 0.1.10
 
 Add a test and compatibility for 
