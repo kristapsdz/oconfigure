@@ -18,6 +18,7 @@ TESTS	= test-__progname.c \
 	  test-arc4random.c \
 	  test-b64_ntop.c \
 	  test-capsicum.c \
+	  test-endian_h.c \
 	  test-err.c \
 	  test-explicit_bzero.c \
 	  test-getprogname.c \

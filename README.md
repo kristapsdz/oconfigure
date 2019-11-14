@@ -126,6 +126,28 @@ For example,
 #endif
 ```
 
+## endian.h
+
+On most operating systems (Linux, OpenBSD), *endian.h* provides the
+POSIX.1 endian functions, e.g.,
+[htole32(3)](https://man.openbsd.org/htole32.3).
+On FreeBSD, however, these are in *sys/endian.h*.
+If this macro is defined, the functions are in the usual place; if not,
+they're in *sys* (or don't exist at all).
+
+The usual invocation is:
+
+```c
+#if HAVE_ENDIAN_H
+# include <endian.h>
+#else
+# include <sys/endian.h>
+#endif
+```
+
+If you like breaking apart *sys* headers, use the invocation twice, once
+with `if HAVE_ENDIAN_H` and the other with `if !HAVE_ENDIAN_H`.
+
 ## err.h
 
 Tests for the [err(3)](https://man.openbsd.org/err.3) functions,
