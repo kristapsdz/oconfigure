@@ -54,10 +54,10 @@ configure: configure.in Makefile configure-sys_queue.h
 	( sed -n '/^@CONFIGURE_SYS_QUEUE_H@$$/!p;//q' configure.in ; \
 	  sed -e 's!\\$$!\\\\!g' -e 's!\$$!\\$$!g' configure-sys_queue.h ; \
 	  sed '1,/^@CONFIGURE_SYS_QUEUE_H@$$/d' configure.in ; ) > configure.1
-	( sed -n '/^@CONFIGURE_SYS_TREE_H@$$/!p;//q' configure.in ; \
+	( sed -n '/^@CONFIGURE_SYS_TREE_H@$$/!p;//q' configure.1 ; \
 	  sed -e 's!\\$$!\\\\!g' -e 's!\$$!\\$$!g' configure-sys_tree.h ; \
-	  sed '1,/^@CONFIGURE_SYS_TREE_H@$$/d' configure.in ; ) > configure.2
-	cat configure.1 configure.2 | sed "s!@VERSION@!$(VERSION)!g" >$@
+	  sed '1,/^@CONFIGURE_SYS_TREE_H@$$/d' configure.1 ; ) > configure.2
+	sed "s!@VERSION@!$(VERSION)!g" configure.2 >$@
 	rm -f configure.1 configure.2
 	chmod 555 $@
 
