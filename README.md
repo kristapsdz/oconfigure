@@ -369,12 +369,12 @@ Tests for the [strtonum(3)](https://man.openbsd.org/strtonum.3)
 function, defining `HAVE_STRTONUM` with the result.
 Provides a compatibility function if not found.
 
-## queue(3)
+## sys/queue.h
 
 Tests for the [queue(3)](https://man.openbsd.org/queue.3) header,
-*sys/queue.h*.  Defines `HAVE_SYS_QUEUE` if found.  This provides all of
-the basic queue functions if `HAVE_SYS_QUEUE` is not found.  To use
-these functions, make sure to guard inclusion:
+*sys/queue.h*.  Defines `HAVE_SYS_QUEUE` if found and provides all of
+the queue macros if not.  To use these macros, make sure to guard
+inclusion:
 
 ```c
 #if HAVE_SYS_QUEUE
@@ -386,6 +386,19 @@ This uses `TAILQ_FOREACH_SAFE` as a basis for determining whether the
 header exists and is well-formed.
 This is because glibc provides a skeleton *sys/queue.h* without this
 critical macro.
+
+## sys/tree.h
+
+Tests for the [tree(3)](https://man.openbsd.org/tree.3) header,
+*sys/tree.h*.  Defines `HAVE_SYS_TREE` if found and provides all of the
+tree macros if not.  To use these macros, make sure to guard
+inclusion:
+
+```c
+#if HAVE_SYS_TREE
+# include <sys/tree.h>
+#endif
+```
 
 ## systrace(4)
 

@@ -1,5 +1,10 @@
 This file describes version information of this project.
 
+## 0.1.13
+
+Test for [tree(3)](https://man.openbsd.org/tree.3) (*sys/tree.h*) macros
+and provide compatibility macros if not found.
+
 ## 0.1.12
 
 Fix [readpassphrase(3)](https://man.openbsd.org/readpassphrase.3)
