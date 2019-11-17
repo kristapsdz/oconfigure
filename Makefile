@@ -48,9 +48,12 @@ TESTS	= test-__progname.c \
 
 all: compats.c tests.c configure
 
-configure: configure.in Makefile
+configure: configure.in Makefile configure-sys_queue.h
 	rm -f $@
-	sed "s!@VERSION@!$(VERSION)!g" configure.in >$@
+	( sed -n '/^@CONFIGURE_SYS_QUEUE_H@$$/!p;//q' configure.in ; \
+	  sed -e 's!\\$$!\\\\!g' -e 's!\$$!\\$$!g' configure-sys_queue.h ; \
+	  sed '1,/^@CONFIGURE_SYS_QUEUE_H@$$/d' configure.in ; ) | \
+	  sed "s!@VERSION@!$(VERSION)!g" >$@
 	chmod 555 $@
 
 compats.c: $(COMPATS)
