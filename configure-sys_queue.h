@@ -34,9 +34,6 @@
 
 /* OPENBSD ORIGINAL: sys/sys/queue.h */
 
-#ifndef	_FAKE_QUEUE_H_
-#define	_FAKE_QUEUE_H_
-
 /*
  * Require for OS/X and other platforms that have old/broken/incomplete
  * <sys/queue.h>.
@@ -655,5 +652,3 @@ struct {								\
 	_Q_INVALIDATE((elm)->field.cqe_prev);				\
 	_Q_INVALIDATE((elm)->field.cqe_next);				\
 } while (0)
-
-#endif	/* !_FAKE_QUEUE_H_ */
