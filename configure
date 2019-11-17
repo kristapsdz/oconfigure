@@ -158,6 +158,7 @@ HAVE_STRNDUP=
 HAVE_STRNLEN=
 HAVE_STRTONUM=
 HAVE_SYS_QUEUE=
+HAVE_SYS_TREE=
 HAVE_SYSTRACE=
 HAVE_UNVEIL=
 HAVE_ZLIB=
@@ -317,6 +318,7 @@ runtest strndup		STRNDUP				  || true
 runtest strnlen		STRNLEN				  || true
 runtest strtonum	STRTONUM			  || true
 runtest sys_queue	SYS_QUEUE			  || true
+runtest sys_tree	SYS_TREE			  || true
 runtest systrace	SYSTRACE			  || true
 runtest unveil		UNVEIL				  || true
 runtest zlib		ZLIB		"" "-lz"	  || true
@@ -407,6 +409,7 @@ cat << __HEREDOC__
 #define HAVE_STRNLEN ${HAVE_STRNLEN}
 #define HAVE_STRTONUM ${HAVE_STRTONUM}
 #define HAVE_SYS_QUEUE ${HAVE_SYS_QUEUE}
+#define HAVE_SYS_TREE ${HAVE_SYS_TREE}
 #define HAVE_SYSTRACE ${HAVE_SYSTRACE}
 #define HAVE_UNVEIL ${HAVE_UNVEIL}
 #define HAVE_ZLIB ${HAVE_ZLIB}
@@ -519,10 +522,9 @@ if [ ${HAVE_STRTONUM} -eq 0 ]; then
 fi
 
 if [ ${HAVE_SYS_QUEUE} -eq 0 ]; then
-cat <<!!
-
-/*	$OpenBSD$	*/
-/*	$NetBSD: queue.h,v 1.11 1996/05/16 05:17:14 mycroft Exp $	*/
+	cat << __HEREDOC__
+/*	\$OpenBSD$	*/
+/*	\$NetBSD: queue.h,v 1.11 1996/05/16 05:17:14 mycroft Exp \$	*/
 
 /*
  * Copyright (c) 1991, 1993
@@ -604,6 +606,7 @@ cat <<!!
 #undef SIMPLEQ_EMPTY
 #undef SIMPLEQ_NEXT
 #undef SIMPLEQ_FOREACH
+#undef SIMPLEQ_FOREACH_SAFE
 #undef SIMPLEQ_INIT
 #undef SIMPLEQ_INSERT_HEAD
 #undef SIMPLEQ_INSERT_TAIL
@@ -1177,9 +1180,9 @@ struct {								\\
 	_Q_INVALIDATE((elm)->field.cqe_prev);				\\
 	_Q_INVALIDATE((elm)->field.cqe_next);				\\
 } while (0)
-#endif	/* !_FAKE_QUEUE_H_ */
 
-!!
+#endif	/* !_FAKE_QUEUE_H_ */
+__HEREDOC__
 fi
 
 echo "config.h: written" 1>&2

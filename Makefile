@@ -42,6 +42,7 @@ TESTS	= test-__progname.c \
 	  test-strnlen.c \
 	  test-strtonum.c \
 	  test-sys_queue.c \
+	  test-sys_tree.c \
 	  test-systrace.c \
 	  test-unveil.c \
 	  test-zlib.c
