@@ -26,14 +26,6 @@
 
 /* OPENBSD ORIGINAL: sys/sys/tree.h */
 
-#include "config.h"
-#ifdef NO_ATTRIBUTE_ON_RETURN_TYPE
-# define __attribute__(x)
-#endif
-
-#ifndef	_SYS_TREE_H_
-#define	_SYS_TREE_H_
-
 /*
  * This file defines data structures for different types of trees:
  * splay trees and red-black trees.
@@ -751,5 +743,3 @@ name##_RB_MINMAX(struct name *head, int val)				\
 	for ((x) = RB_MAX(name, head);					\
 	    ((x) != NULL) && ((y) = name##_RB_PREV(x), 1);		\
 	     (x) = (y))
-
-#endif	/* _SYS_TREE_H_ */
