@@ -527,6 +527,12 @@ if [ ${HAVE_SYS_QUEUE} -eq 0 ]; then
 __HEREDOC__
 fi
 
+if [ ${HAVE_SYS_TREE} -eq 0 ]; then
+	cat << __HEREDOC__
+@CONFIGURE_SYS_TREE_H@
+__HEREDOC__
+fi
+
 echo "config.h: written" 1>&2
 echo "config.h: written" 1>&3
 
