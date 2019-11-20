@@ -337,6 +337,8 @@ exec > config.h
 # Start with prologue.
 
 cat << __HEREDOC__
+#ifndef __config_h
+#define __config_h
 #ifdef __cplusplus
 #error "Do not use C++: this is a C application."
 #endif
@@ -532,6 +534,10 @@ if [ ${HAVE_SYS_TREE} -eq 0 ]; then
 @CONFIGURE_SYS_TREE_H@
 __HEREDOC__
 fi
+
+cat << __HEREDOC__
+#endif /* __config_h */
+__HEREDOC__
 
 echo "config.h: written" 1>&2
 echo "config.h: written" 1>&3
