@@ -15,7 +15,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-OCONFIGURE_VERSION="0.1.14"
+OCONFIGURE_VERSION="0.1.15"
 
 #
 # This script outputs two files: config.h and Makefile.configure.
@@ -337,6 +337,8 @@ exec > config.h
 # Start with prologue.
 
 cat << __HEREDOC__
+#ifndef OCONFIGURE_CONFIG_H
+#define OCONFIGURE_CONFIG_H
 #ifdef __cplusplus
 #error "Do not use C++: this is a C application."
 #endif
@@ -1932,6 +1934,10 @@ name##_RB_MINMAX(struct name *head, int val)				\\
 	     (x) = (y))
 __HEREDOC__
 fi
+
+cat << __HEREDOC__
+#endif /*!OCONFIGURE_CONFIG_H*/
+__HEREDOC__
 
 echo "config.h: written" 1>&2
 echo "config.h: written" 1>&3
