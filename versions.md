@@ -1,5 +1,10 @@
 This file describes version information of this project.
 
+## 0.1.14
+
+Add aarch64 to Linux seccomp tests.
+This patch comes from [kcgi/pull/74](https://github.com/kristapsdz/kcgi/pull/74).
+
 ## 0.1.13
 
 Test for [tree(3)](https://man.openbsd.org/tree.3) (*sys/tree.h*) macros
