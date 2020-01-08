@@ -1,5 +1,9 @@
 This file describes version information of this project.
 
+## 0.1.15
+
+Add a header guard to the output *config.h*.
+
 ## 0.1.14
 
 Add aarch64 to Linux seccomp tests.
