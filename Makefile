@@ -22,6 +22,7 @@ TESTS	= test-__progname.c \
 	  test-err.c \
 	  test-explicit_bzero.c \
 	  test-getprogname.c \
+	  test-getrandom.c \
 	  test-INFTIM.c \
 	  test-md5.c \
 	  test-memmem.c \
