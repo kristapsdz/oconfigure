@@ -1,5 +1,13 @@
 This file describes version information of this project.
 
+## 0.1.16
+
+Support `getprogname()` on systems inheriting from SunOS.
+Fix up the README documentation not to directly mention "supporting"
+tools used in the compatibility layer, such as `memset_s` or
+`__progname`.  These should not be used directly: the compatibility
+functions should be used instead.
+
 ## 0.1.15
 
 Add a header guard to the output *config.h*.
