@@ -3,7 +3,9 @@ This is a simple configuration script use for some
 Its mission is to provide [OpenBSD](https://www.openbsd.org) portability
 functions and feature testing.
 
-It allows easy porting to Linux (glibc and musl), FreeBSD, and Mac OSX.
+It allows easy porting to Linux (glibc and musl), FreeBSD, Mac OSX, and
+some derivatives of SunOS.  Other systems may also be supported: please
+let us know if they are!
 
 See [versions.md](versions.md) for version information.
 
@@ -171,6 +173,9 @@ Tests for
 `HAVE_EXPLICIT_BZERO` variable with the result.
 
 If not found, provides a compatibility function.
+The compatibility layer will use
+[memset\_s](http://en.cppreference.com/w/c/string/byte/memset), if
+found.
 
 ## INFTIM
 
@@ -191,13 +196,6 @@ Provides a compatibility function if not found.
 Tests for the [memrchr(3)](https://man.openbsd.org/memrchr.3)
 function, defining `HAVE_MEMRCHR` with the result.
 Provides a compatibility function if not found.
-
-## memset\_s
-
-Tests for the C11
-[memset\_s](http://en.cppreference.com/w/c/string/byte/memset) function,
-defining the `HAVE_MEMSET_S` variable with the result.
-Does not provide a compatibility function.
 
 ## md5.h
 
@@ -263,13 +261,12 @@ Tests for the [getprogname(3)](https://man.openbsd.org/getprogname.3)
 function, defining `HAVE_GETPROGNAME` with the result.
 Provides a compatibility function if not found.
 
-This internally tests for `__progname` and
-`program_invocation_short_name` if not found, so the 
-`HAVE___PROGNAME` AND `HAVE_PROGRAM_INVOCATION_SHORT_NAME` macros will
-also be defined.  Do not use these: use
-[getprogname(3)](https://man.openbsd.org/getprogname.3) instead.
+The compatibility function tries to use `__progname`,
+`program_invocation_short_name`, or `getexecname()`.  If none of these
+interfaces may be found, it will emit a compile-time error.  
 
 ## readpassphrase(3)
+
 Tests for the [readpassphrase(3)](https://man.openbsd.org/readpassphrase.3)
 function, defining `HAVE_READPASSPHRASE` with the result.
 Provides a compatibility function if not found.
