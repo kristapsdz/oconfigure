@@ -21,6 +21,7 @@ TESTS	= test-__progname.c \
 	  test-endian_h.c \
 	  test-err.c \
 	  test-explicit_bzero.c \
+	  test-getexecname.c \
 	  test-getprogname.c \
 	  test-INFTIM.c \
 	  test-md5.c \

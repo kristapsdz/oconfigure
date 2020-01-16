@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2016 Nicholas Marriott <nicholas.marriott@gmail.com>
  * Copyright (c) 2017 Kristaps Dzonsons <kristaps@bsd.lv>
+ * Copyright (c) 2020 Stephen Gregoratto <dev@sgregoratto.me>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,7 +20,14 @@
 
 #include <errno.h>
 
-#if HAVE_PROGRAM_INVOCATION_SHORT_NAME
+#if HAVE_GETEXECNAME
+#include <stdlib.h>
+const char *
+getprogname(void)
+{
+	return getexecname();
+}
+#elif HAVE_PROGRAM_INVOCATION_SHORT_NAME
 const char *
 getprogname(void)
 {
