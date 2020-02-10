@@ -1,5 +1,11 @@
 This file describes version information of this project.
 
+## 0.1.17
+
+Fix typo in
+[readpassphrase(3)](https://man.openbsd.org/readpassphrase.3)
+compatibility.
+
 ## 0.1.16
 
 Support `getprogname()` on systems inheriting from SunOS.

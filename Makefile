@@ -1,4 +1,6 @@
-VERSION	= 0.1.16
+.PHONY: distcheck
+
+VERSION	= 0.1.17
 COMPATS	= compat_err.c \
 	  compat_b64_ntop.c \
 	  compat_explicit_bzero.c \
@@ -49,6 +51,9 @@ TESTS	= test-__progname.c \
 	  test-zlib.c
 
 all: compats.c tests.c configure
+
+distcheck:
+	grep "^## $(VERSION)$$" versions.md >/dev/null
 
 configure: configure.in Makefile configure-sys_queue.h
 	rm -f $@
