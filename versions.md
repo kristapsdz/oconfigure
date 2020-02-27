@@ -1,5 +1,12 @@
 This file describes version information of this project.
 
+## 0.1.18
+
+Have checks that require external libraries (MD5, `b64_ntop`, etc.) set
+those libraries in *Makefile.configure* if required.  This makes it
+easier for software to add those libraries without requiring the porters
+to do so.
+
 ## 0.1.17
 
 Fix typo in

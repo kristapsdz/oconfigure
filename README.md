@@ -60,16 +60,15 @@ compatibility areas, then some in your build environment:
 # include <err.h>
 #endif
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
 #if HAVE_PLEDGE /* do we have pledge? */
-	if (-1 == pledge("stdio", NULL))
+	if (pledge("stdio", NULL) == -1)
 		err(EXIT_FAILURE, NULL);
 #endif
 	warnx("hello, world!"); /* compat provides this */
-	return EXIT_SUCCESS;
+	return 0;
 }
 ```
 
@@ -82,7 +81,9 @@ cc -o main.o -c main.c
 cc config.o main.o
 ```
 
-Though you can just build this into your Makefile.
+It's better to build this into your Makefile, as the output
+*Makefile.configure* will set compiler, compiler flags, installation
+utilities, and so on.
 
 This framework was inspired by [mandoc](https://mandoc.bsd.lv)'s
 `configure` script written by Ingo Schwarze.
@@ -91,8 +92,8 @@ What follows is a description of the features and facilities provided by
 the package when included into your sources.
 
 The compatibility layer is generally provided by the excellent portable
-[OpenSSH](https://www.openssh.com/).  All copyrights are noted within
-the included sources.
+[OpenSSH](https://www.openssh.com/).  All copyrights are in their
+respective sources.
 
 ## b64\_ntop
 
@@ -108,7 +109,10 @@ following will guard against that in your sources.
 
 On some systems (Linux in particular) with `HAVE_B64_NTOP`, you'll
 also need to add `-lresolv` when you compile your system, else it will
-fail with `undefined reference to __b64_ntop`.
+fail with undefined references.
+
+The `LDADD_B64_NTOP` value provided in *Makefile.configure* will be set
+to `-lresolv` if required.  Otherwise it is empty.
 
 If not found, provides compatibility functions `b64_ntop` and
 `b64_pton`.
@@ -220,6 +224,9 @@ system-default:
 On some systems (FreeBSD in particular) with `HAVE_MD5`, you'll
 also need to add `-lmd` when you compile your system, else it will
 fail with undefined references.
+
+The `LDADD_MD5` value provided in *Makefile.configure* will be set to
+`-lmd` if it's required. Otherwise it is empty.
 
 ## PATH\_MAX
 
@@ -407,3 +414,6 @@ Does not provide any compatibility.
 
 Tests for zlib(3) compilation and linking.  Defines `HAVE_ZLIB` if
 found.  Does not provide any compatibility.
+
+The `LDADD_ZLIB` value provided in *Makefile.configure* will be set to
+`-lz` if found. Otherwise it is empty.
