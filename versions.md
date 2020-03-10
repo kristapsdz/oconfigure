@@ -1,5 +1,14 @@
 This file describes version information of this project.
 
+## 0.1.22
+
+Fix
+[mknodat(2)](https://man.openbsd.org/mknodat.2)
+and
+[mkfifoat(2)](https://man.openbsd.org/mkfifoat.2)
+and compatibility not to leak file descriptors and to properly clean up
+on exit.
+
 ## 0.1.21
 
 Provide
