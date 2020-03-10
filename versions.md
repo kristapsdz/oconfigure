@@ -1,5 +1,13 @@
 This file describes version information of this project.
 
+## 0.1.21
+
+Provide
+[mknodat(2)](https://man.openbsd.org/mknodat.2)
+and
+[mkfifoat(2)](https://man.openbsd.org/mkfifoat.2)
+compatibility for Mac OS X.
+
 ## 0.1.20
 
 Provide `COMPAT_ENDIAN_H` as short-hand for the three-phase conditional

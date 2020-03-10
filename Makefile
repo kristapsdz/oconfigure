@@ -1,6 +1,6 @@
 .PHONY: distcheck
 
-VERSION	= 0.1.20
+VERSION	= 0.1.21
 COMPATS	= compat_err.c \
 	  compat_b64_ntop.c \
 	  compat_explicit_bzero.c \
@@ -9,6 +9,7 @@ COMPATS	= compat_err.c \
 	  compat_memmem.c \
 	  compat_memrchr.c \
 	  compat_mkfifoat.c \
+	  compat_mknodat.c \
 	  compat_readpassphrase.c \
 	  compat_reallocarray.c \
 	  compat_recallocarray.c \
@@ -33,6 +34,7 @@ TESTS	= test-__progname.c \
 	  test-memrchr.c \
 	  test-memset_s.c \
 	  test-mkfifoat.c \
+	  test-mknodat.c \
 	  test-osbyteorder_h.c \
 	  test-PATH_MAX.c \
 	  test-pledge.c \
