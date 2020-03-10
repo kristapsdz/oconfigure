@@ -282,6 +282,26 @@ The compatibility function tries to use `__progname`,
 `program_invocation_short_name`, or `getexecname()`.  If none of these
 interfaces may be found, it will emit a compile-time error.  
 
+## mkfifoat(2)
+
+Tests for [mkfifoat(2)](https://man.openbsd.org/mkfifoat.2), which does
+not exist on some systems (e.g., Mac OS X), and provides a compatibility
+function if not found.
+
+This is *not* a direct replacement, as the function is not atomic: it
+internally gets a reference to the current directory, changes into the
+"at" directory, runs the function, then returns to the prior current.
+
+## mknodat(2)
+
+Tests for [mknodat(2)](https://man.openbsd.org/mknodat.2), which does
+not exist on some systems (e.g., Mac OS X), and provides a compatibility
+function if not found.
+
+This is *not* a direct replacement, as the function is not atomic: it
+internally gets a reference to the current directory, changes into the
+"at" directory, runs the function, then returns to the prior current.
+
 ## readpassphrase(3)
 
 Tests for the [readpassphrase(3)](https://man.openbsd.org/readpassphrase.3)
