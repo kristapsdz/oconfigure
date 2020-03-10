@@ -191,6 +191,16 @@ The compatibility layer will use
 [memset\_s](http://en.cppreference.com/w/c/string/byte/memset), if
 found.
 
+## getprogname(3)
+
+Tests for the [getprogname(3)](https://man.openbsd.org/getprogname.3)
+function, defining `HAVE_GETPROGNAME` with the result.
+Provides a compatibility function if not found.
+
+The compatibility function tries to use `__progname`,
+`program_invocation_short_name`, or `getexecname()`.  If none of these
+interfaces may be found, it will emit a compile-time error.  
+
 ## INFTIM
 
 Some systems (like OpenBSD) define INFTIM for use with
@@ -198,18 +208,6 @@ Some systems (like OpenBSD) define INFTIM for use with
 Others don't.
 This defines the `HAVE_INFTIM` variable with the results and, if not
 found, defines `INFTIM` to be the proper value.
-
-## memmem(3)
-
-Tests for the [memmem(3)](https://man.openbsd.org/memmem.3)
-function, defining `HAVE_MEMMEM` with the result.
-Provides a compatibility function if not found.
-
-## memrchr(3)
-
-Tests for the [memrchr(3)](https://man.openbsd.org/memrchr.3)
-function, defining `HAVE_MEMRCHR` with the result.
-Provides a compatibility function if not found.
 
 ## md5.h
 
@@ -238,6 +236,44 @@ fail with undefined references.
 The `LDADD_MD5` value provided in *Makefile.configure* will be set to
 `-lmd` if it's required. Otherwise it is empty.
 
+## memmem(3)
+
+Tests for the [memmem(3)](https://man.openbsd.org/memmem.3)
+function, defining `HAVE_MEMMEM` with the result.
+Provides a compatibility function if not found.
+
+## memrchr(3)
+
+Tests for the [memrchr(3)](https://man.openbsd.org/memrchr.3)
+function, defining `HAVE_MEMRCHR` with the result.
+Provides a compatibility function if not found.
+
+## mkfifoat(2)
+
+Tests for the [mkfifoat(3)](https://man.openbsd.org/mkfifoat.3)
+function, defining `HAVE_MKFIFOAT` with the result.
+Provides a compatibility function if not found.
+
+This is *not* a direct replacement, as the function is not atomic: it
+internally gets a reference to the current directory, changes into the
+"at" directory, runs the function, then returns to the prior current.
+
+Upon errors, it makes a best effort to restore the current working
+directory to what it was.
+
+## mknodat(2)
+
+Tests for the [mknodat(3)](https://man.openbsd.org/mknodat.3)
+function, defining `HAVE_MKNODAT` with the result.
+Provides a compatibility function if not found.
+
+This is *not* a direct replacement, as the function is not atomic: it
+internally gets a reference to the current directory, changes into the
+"at" directory, runs the function, then returns to the prior current.
+
+Upon errors, it makes a best effort to restore the current working
+directory to what it was.
+
 ## PATH\_MAX
 
 Tests for the `PATH_MAX` variable, defining `HAVE_PATH_MAX` with the
@@ -257,50 +293,6 @@ For example,
 # include <unistd.h> /* pledge(2) */
 #endif
 ```
-
-## unveil(2)
-
-Test for [OpenBSD](https://www.openbsd.org)'s
-[unveil(2)](https://man.openbsd.org/unveil.2) function,
-defining `HAVE_UNVEIL` with the result.
-Does not provide any compatibility.
-For example,
-
-```c
-#if HAVE_UNVEIL
-# include <unistd.h> /* unveil(2) */
-#endif
-```
-
-## getprogname(3)
-
-Tests for the [getprogname(3)](https://man.openbsd.org/getprogname.3)
-function, defining `HAVE_GETPROGNAME` with the result.
-Provides a compatibility function if not found.
-
-The compatibility function tries to use `__progname`,
-`program_invocation_short_name`, or `getexecname()`.  If none of these
-interfaces may be found, it will emit a compile-time error.  
-
-## mkfifoat(2)
-
-Tests for the [mkfifoat(3)](https://man.openbsd.org/mkfifoat.3)
-function, defining `HAVE_MKFIFOAT` with the result.
-Provides a compatibility function if not found.
-
-This is *not* a direct replacement, as the function is not atomic: it
-internally gets a reference to the current directory, changes into the
-"at" directory, runs the function, then returns to the prior current.
-
-## mknodat(2)
-
-Tests for the [mknodat(3)](https://man.openbsd.org/mknodat.3)
-function, defining `HAVE_MKNODAT` with the result.
-Provides a compatibility function if not found.
-
-This is *not* a direct replacement, as the function is not atomic: it
-internally gets a reference to the current directory, changes into the
-"at" directory, runs the function, then returns to the prior current.
 
 ## readpassphrase(3)
 
@@ -439,6 +431,20 @@ inclusion:
 Tests for OpenBSD's deprecated systrace(4) interface.
 Defines `HAVE_SYSTRACE` if found.
 Does not provide any compatibility.
+
+## unveil(2)
+
+Test for [OpenBSD](https://www.openbsd.org)'s
+[unveil(2)](https://man.openbsd.org/unveil.2) function,
+defining `HAVE_UNVEIL` with the result.
+Does not provide any compatibility.
+For example,
+
+```c
+#if HAVE_UNVEIL
+# include <unistd.h> /* unveil(2) */
+#endif
+```
 
 ## zlib(3)
 
