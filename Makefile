@@ -8,6 +8,7 @@ COMPATS	= compat_err.c \
 	  compat_md5.c \
 	  compat_memmem.c \
 	  compat_memrchr.c \
+	  compat_mkfifoat.c \
 	  compat_readpassphrase.c \
 	  compat_reallocarray.c \
 	  compat_recallocarray.c \
