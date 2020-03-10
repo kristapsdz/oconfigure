@@ -159,7 +159,7 @@ provided.
 To make this easier, the `COMPAT_ENDIAN_H` is also defined:
 
 ```c
-include COMPAT_ENDIAN_H
+#include COMPAT_ENDIAN_H
 ```
 
 This will paste the appropriate location.
