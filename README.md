@@ -284,9 +284,9 @@ interfaces may be found, it will emit a compile-time error.
 
 ## mkfifoat(2)
 
-Tests for [mkfifoat(2)](https://man.openbsd.org/mkfifoat.2), which does
-not exist on some systems (e.g., Mac OS X), and provides a compatibility
-function if not found.
+Tests for the [mkfifoat(3)](https://man.openbsd.org/mkfifoat.3)
+function, defining `HAVE_MKFIFOAT` with the result.
+Provides a compatibility function if not found.
 
 This is *not* a direct replacement, as the function is not atomic: it
 internally gets a reference to the current directory, changes into the
@@ -294,9 +294,9 @@ internally gets a reference to the current directory, changes into the
 
 ## mknodat(2)
 
-Tests for [mknodat(2)](https://man.openbsd.org/mknodat.2), which does
-not exist on some systems (e.g., Mac OS X), and provides a compatibility
-function if not found.
+Tests for the [mknodat(3)](https://man.openbsd.org/mknodat.3)
+function, defining `HAVE_MKNODAT` with the result.
+Provides a compatibility function if not found.
 
 This is *not* a direct replacement, as the function is not atomic: it
 internally gets a reference to the current directory, changes into the
