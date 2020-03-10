@@ -156,6 +156,14 @@ The required invocation to use the endian functions is:
 Compatibility for the Mac OS X functions to the usual `htole32` style is
 provided.
 
+To make this easier, the `COMPAT_ENDIAN_H` is also defined:
+
+```c
+include COMPAT_ENDIAN_H
+```
+
+This will paste the appropriate location.
+
 ## err.h
 
 Tests for the [err(3)](https://man.openbsd.org/err.3) functions,

@@ -1,6 +1,6 @@
 .PHONY: distcheck
 
-VERSION	= 0.1.19
+VERSION	= 0.1.20
 COMPATS	= compat_err.c \
 	  compat_b64_ntop.c \
 	  compat_explicit_bzero.c \

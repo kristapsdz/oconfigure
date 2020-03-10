@@ -381,26 +381,6 @@ __HEREDOC__
 [ ${HAVE_PATH_MAX} -eq 0 ] \
 	&& echo "#define PATH_MAX 4096"
 
-# Compat for libkern/OSByteOrder.h in place of endian.h.
-
-[ ${HAVE_OSBYTEORDER_H} -eq 1 -a \
-  ${HAVE_ENDIAN_H} -eq 0 -a \
-  ${HAVE_SYS_ENDIAN_H} -eq 0 ] \
-	&& cat << __HEREDOC__
-#define htobe16(x) OSSwapHostToBigInt16(x)
-#define htole16(x) OSSwapHostToLittleInt16(x)
-#define be16toh(x) OSSwapBigToHostInt16(x)
-#define le16toh(x) OSSwapLittleToHostInt16(x)
-#define htobe32(x) OSSwapHostToBigInt32(x)
-#define htole32(x) OSSwapHostToLittleInt32(x)
-#define be32toh(x) OSSwapBigToHostInt32(x)
-#define le32toh(x) OSSwapLittleToHostInt32(x)
-#define htobe64(x) OSSwapHostToBigInt64(x)
-#define htole64(x) OSSwapHostToLittleInt64(x)
-#define be64toh(x) OSSwapBigToHostInt64(x)
-#define le64toh(x) OSSwapLittleToHostInt64(x)
-__HEREDOC__
-
 [ ${HAVE_INFTIM} -eq 0 ] \
 	&& echo "#define INFTIM (-1)"
 
@@ -440,6 +420,42 @@ cat << __HEREDOC__
 #define HAVE_UNVEIL ${HAVE_UNVEIL}
 #define HAVE_ZLIB ${HAVE_ZLIB}
 #define HAVE___PROGNAME ${HAVE___PROGNAME}
+__HEREDOC__
+
+# Compat for libkern/OSByteOrder.h in place of endian.h.
+
+[ ${HAVE_OSBYTEORDER_H} -eq 1 -a \
+  ${HAVE_ENDIAN_H} -eq 0 -a \
+  ${HAVE_SYS_ENDIAN_H} -eq 0 ] \
+	&& cat << __HEREDOC__
+#define htobe16(x) OSSwapHostToBigInt16(x)
+#define htole16(x) OSSwapHostToLittleInt16(x)
+#define be16toh(x) OSSwapBigToHostInt16(x)
+#define le16toh(x) OSSwapLittleToHostInt16(x)
+#define htobe32(x) OSSwapHostToBigInt32(x)
+#define htole32(x) OSSwapHostToLittleInt32(x)
+#define be32toh(x) OSSwapBigToHostInt32(x)
+#define le32toh(x) OSSwapLittleToHostInt32(x)
+#define htobe64(x) OSSwapHostToBigInt64(x)
+#define htole64(x) OSSwapHostToLittleInt64(x)
+#define be64toh(x) OSSwapBigToHostInt64(x)
+#define le64toh(x) OSSwapLittleToHostInt64(x)
+__HEREDOC__
+
+# Make endian.h easier by providing a COMPAT_ENDIAN_H.
+
+cat << __HEREDOC__
+#if HAVE_ENDIAN_H
+# define COMPAT_ENDIAN_H <endian.h>
+#elif HAVE_SYS_ENDIAN_H
+# define COMPAT_ENDIAN_H <sys/endian.h>
+#elif HAVE_OSBYTEORDER_H
+# define COMPAT_ENDIAN_H <libkern/OSByteOrder.h>
+#else
+# warning No suitable endian.h could be found.
+# warning Please e-mail the maintainers with your OS.
+# define COMPAT_ENDIAN_H <endian.h>
+#endif
 __HEREDOC__
 
 # Now we do our function declarations for missing functions.

@@ -1,5 +1,10 @@
 This file describes version information of this project.
 
+## 0.1.20
+
+Provide `COMPAT_ENDIAN_H` as short-hand for the three-phase conditional
+for detecting endian functions.
+
 ## 0.1.19
 
 Make the *endian.h* checks compatible with Mac OS X, which provides
