@@ -1,5 +1,12 @@
 This file describes version information of this project.
 
+## 0.1.19
+
+Make the *endian.h* checks compatible with Mac OS X, which provides
+neither an *endian.h* nor the functions therein.
+Add another conditional to the required check (`HAVE_OSBYTEORDER_H`) and
+provide compatibility functions as well.
+
 ## 0.1.18
 
 Have checks that require external libraries (MD5, `b64_ntop`, etc.) set

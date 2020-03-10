@@ -139,25 +139,22 @@ POSIX.1 endian functions, e.g.,
 [htole32(3)](https://man.openbsd.org/htole32.3),
 [be32toh(3)](https://man.openbsd.org/be32toh.3), etc.
 On FreeBSD, however, these are in *sys/endian.h*.
-On Mac OS X, these don't exist at all!
-If `HAVE_ENDIAN_H` is defined, the functions are in the usual place; if
-`HAVE_SYS_ENDIAN_H`, then in *sys*.
-If neither are defined, compatible functions are provided.
-At this time, compatibility is only needed on Mac OS X.
+Mac OS X has its own functions in their own place.
 
-The usual invocation is:
+The required invocation to use the endian functions is:
 
 ```c
 #if HAVE_ENDIAN_H
 # include <endian.h>
 #elif HAVE_SYS_ENDIAN_H
 # include <sys/endian.h>
+#elif HAVE_OSBYTEORDER_H
+# include <libkern/OSByteOrder.h>
 #endif
 ```
 
-It's possible (as for OpenBSD) to have both of these defined, hence
-using `elif`.  If breaking the conditional apart, make sure that
-*endian.h* is selected over *sys/endian.h* if both are found.
+Compatibility for the Mac OS X functions to the usual `htole32` style is
+provided.
 
 ## err.h
 
