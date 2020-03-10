@@ -136,23 +136,28 @@ For example,
 
 On most operating systems (Linux, OpenBSD), *endian.h* provides the
 POSIX.1 endian functions, e.g.,
-[htole32(3)](https://man.openbsd.org/htole32.3).
+[htole32(3)](https://man.openbsd.org/htole32.3),
+[be32toh(3)](https://man.openbsd.org/be32toh.3), etc.
 On FreeBSD, however, these are in *sys/endian.h*.
-If this macro is defined, the functions are in the usual place; if not,
-they're in *sys* (or don't exist at all).
+On Mac OS X, these don't exist at all!
+If `HAVE_ENDIAN_H` is defined, the functions are in the usual place; if
+`HAVE_SYS_ENDIAN_H`, then in *sys*.
+If neither are defined, compatible functions are provided.
+At this time, compatibility is only needed on Mac OS X.
 
 The usual invocation is:
 
 ```c
 #if HAVE_ENDIAN_H
 # include <endian.h>
-#else
+#elif HAVE_SYS_ENDIAN_H
 # include <sys/endian.h>
 #endif
 ```
 
-If you like breaking apart *sys* headers, use the invocation twice, once
-with `if HAVE_ENDIAN_H` and the other with `if !HAVE_ENDIAN_H`.
+It's possible (as for OpenBSD) to have both of these defined, hence
+using `elif`.  If breaking the conditional apart, make sure that
+*endian.h* is selected over *sys/endian.h* if both are found.
 
 ## err.h
 

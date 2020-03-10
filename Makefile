@@ -21,6 +21,7 @@ TESTS	= test-__progname.c \
 	  test-b64_ntop.c \
 	  test-capsicum.c \
 	  test-endian_h.c \
+	  test-sys_endian_h.c \
 	  test-err.c \
 	  test-explicit_bzero.c \
 	  test-getexecname.c \
@@ -30,6 +31,7 @@ TESTS	= test-__progname.c \
 	  test-memmem.c \
 	  test-memrchr.c \
 	  test-memset_s.c \
+	  test-osbyteorder_h.c \
 	  test-PATH_MAX.c \
 	  test-pledge.c \
 	  test-program_invocation_short_name.c \
