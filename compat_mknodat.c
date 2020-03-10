@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 int
-mkfifoat(int fd, const char *path, mode_t mode)
+mknodat(int fd, const char *path, mode_t mode, dev_t dev)
 {
 	int	er, curfd = -1, newfd = -1;
 
@@ -18,10 +18,10 @@ mkfifoat(int fd, const char *path, mode_t mode)
 			goto out;
 	}
 
-	if ((newfd = mkfifo(path, mode)) == -1)
+	if ((newfd = mknod(path, mode, dev)) == -1)
 		goto out;
 
-	/* This leaves the fifo if it fails. */
+	/* This leaves the node if it fails. */
 
 	if (curfd != -1 && fchdir(curfd) == -1)
 		goto out;
@@ -30,6 +30,7 @@ mkfifoat(int fd, const char *path, mode_t mode)
 
 	return newfd;
 out:
+	
 	/* Ignore errors in close(2). */
 
 	er = errno;
