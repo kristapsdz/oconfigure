@@ -31,6 +31,7 @@ TESTS	= test-__progname.c \
 	  test-memmem.c \
 	  test-memrchr.c \
 	  test-memset_s.c \
+	  test-mkfifoat.c \
 	  test-osbyteorder_h.c \
 	  test-PATH_MAX.c \
 	  test-pledge.c \
