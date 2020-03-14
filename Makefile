@@ -23,7 +23,6 @@ TESTS	= test-__progname.c \
 	  test-b64_ntop.c \
 	  test-capsicum.c \
 	  test-endian_h.c \
-	  test-sys_endian_h.c \
 	  test-err.c \
 	  test-explicit_bzero.c \
 	  test-getexecname.c \
@@ -50,6 +49,8 @@ TESTS	= test-__progname.c \
 	  test-strndup.c \
 	  test-strnlen.c \
 	  test-strtonum.c \
+	  test-sys_byteorder_h.c \
+	  test-sys_endian_h.c \
 	  test-sys_queue.c \
 	  test-sys_tree.c \
 	  test-systrace.c \
