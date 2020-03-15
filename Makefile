@@ -6,6 +6,8 @@ OBJS		= compats.o
 REGRESS_MD5	= regress/md5
 REGRESS_NODEP	= regress/endian \
 	  	  regress/explicit_bzero \
+	  	  regress/strnlen \
+	  	  regress/strlcpy \
 	  	  regress/strlcat
 REGRESS		= $(REGRESS_MD5) \
 		  $(REGRESS_NODEP)
@@ -24,6 +26,9 @@ ${r}: ${r}.c compats.o config.h
 ${r}: ${r}.c compats.o config.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_MD5)
 .endfor
+
+install:
+	# Do nothing.
 
 regress: $(REGRESS)
 	@for f in $(REGRESS) ; \
