@@ -1,5 +1,11 @@
 This file describes version information of this project.
 
+## 0.1.24
+
+Make sure that all (or at least most) of the MD5 functions are
+available.  SunOS, for instance, only provides some of them.  Also make
+the MD5 compatibility layer use C11 types for greater portability.
+
 ## 0.1.23
 
 If <code>$CC</code> is not found, try to use <code>clang</code> then
