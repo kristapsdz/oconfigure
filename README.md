@@ -228,6 +228,7 @@ system-default:
 
 ```c
 #if HAVE_MD5
+# include <sys/types.h>
 # include <md5.h>
 #endif
 ```

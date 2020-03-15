@@ -5,6 +5,7 @@ include Makefile.configure
 OBJS	= compats.o
 REGRESS	= regress/endian \
 	  regress/explicit_bzero \
+	  regress/md5 \
 	  regress/strlcat
 
 all: compats.o
