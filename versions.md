@@ -1,5 +1,16 @@
 This file describes version information of this project.
 
+## 0.1.23
+
+If <code>$CC</code> is not found, try to use <code>clang</code> then
+<code>gcc</code> before giving up.
+This is primarily for SunOS machines that define the compiler as
+<code>cc</code>, but do not provide it as such.
+
+Also support the SunOS byte order functions.
+
+The system is now fully tested on SunOS.
+
 ## 0.1.22
 
 Fix
