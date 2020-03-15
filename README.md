@@ -223,6 +223,10 @@ needing any crypto libraries) MD5 hashing functions.  These are
 `MD5Final`.  The preprocessor macros `MD5_BLOCK_LENGTH`,
 `MD5_DIGEST_LENGTH`, and `MD5_DIGEST_STRING_LENGTH` are also defined.  
 
+These differ ever-so-slightly from the OpenBSD versions in that they use
+C99 types for greater portability, e.g., `uint8_t` instead of
+`u_int8_t`.
+
 If using these functions, you'll want to guard an inclusion of the
 system-default:
 

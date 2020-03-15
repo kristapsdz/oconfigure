@@ -12,10 +12,10 @@ main(void)
 {
 	MD5_CTX ctx;
 	char result[MD5_DIGEST_STRING_LENGTH];
-	char digest[MD5_DIGEST_LENGTH];
+	uint8_t digest[MD5_DIGEST_LENGTH];
 
 	MD5Init(&ctx);
-	MD5Update(&ctx, "abcd", 4);
+	MD5Update(&ctx, (const uint8_t *)"abcd", 4);
 	MD5Final(digest, &ctx);
 	MD5End(&ctx, result);
 
