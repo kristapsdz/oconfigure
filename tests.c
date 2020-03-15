@@ -271,6 +271,9 @@ main(void)
 }
 #endif /* TEST_READPASSPHRASE */
 #if TEST_REALLOCARRAY
+#ifdef __NetBSD__
+# define _OPENBSD_SOURCE
+#endif
 #include <stdlib.h>
 
 int
@@ -395,7 +398,9 @@ main(void)
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-
+#ifdef __NetBSD__
+# define _OPENBSD_SOURCE
+#endif
 #include <stdlib.h>
 
 int

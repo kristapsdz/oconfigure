@@ -1,3 +1,6 @@
+#ifdef __NetBSD__
+# define _OPENBSD_SOURCE
+#endif
 #include <stdlib.h>
 
 int
