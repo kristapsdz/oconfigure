@@ -15,7 +15,7 @@ distcheck:
 
 .for r in $(REGRESS)
 ${r}: ${r}.c compats.o config.h
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_MD5)
 .endfor
 
 regress: $(REGRESS)
