@@ -1,5 +1,15 @@
 This file describes version information of this project.
 
+## 0.2.0
+
+Extensive work for portability on SunOS, NetBSD, FreeBSD, and Linux.
+A small regression framework is in place (still in development) to make sure
+that these systems are continuously supported.
+
+The system is now part of BSD.lv's 
+[continuous integration](https://kristaps.bsd.lv/cgi-bin/minci.cgi/index.html?project-name=oconfigure)
+suite.
+
 ## 0.1.24
 
 Make sure that all (or at least most) of the MD5 functions are
