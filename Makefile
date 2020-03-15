@@ -13,8 +13,8 @@ distcheck:
 	$(MAKE) -f Makefile.regen distcheck
 
 .for r in $(REGRESS)
-${r}: regress/${r}.o compats.o config.h
-	$(CC) -o $@ regress/${r}.o compats.o
+${r}: ${r}.c compats.o config.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o
 .endfor
 
 regress: $(REGRESS)
