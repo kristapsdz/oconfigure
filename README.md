@@ -140,7 +140,7 @@ POSIX.1 endian functions, e.g.,
 [htole32(3)](https://man.openbsd.org/htole32.3),
 [be32toh(3)](https://man.openbsd.org/be32toh.3), etc.
 On FreeBSD, however, these are in *sys/endian.h*.
-Mac OS X has its own functions in their own place.
+Mac OS X and SunOS have their own functions in their own places.
 
 The required invocation to use the endian functions is:
 
@@ -151,11 +151,13 @@ The required invocation to use the endian functions is:
 # include <sys/endian.h>
 #elif HAVE_OSBYTEORDER_H
 # include <libkern/OSByteOrder.h>
+#elif HAVE_SYS_BYTEORDER_H
+# include <sys/byteorder.h>
 #endif
 ```
 
-Compatibility for the Mac OS X functions to the usual `htole32` style is
-provided.
+Compatibility for the Mac OS X and SunOS functions to the usual
+`htole32` style is provided.
 
 To make this easier, the `COMPAT_ENDIAN_H` is also defined:
 
