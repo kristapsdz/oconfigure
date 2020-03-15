@@ -3,9 +3,9 @@ This is a simple configuration script use for some
 Its mission is to provide [OpenBSD](https://www.openbsd.org) portability
 functions and feature testing.
 
-It allows easy porting to Linux (glibc and musl), FreeBSD, Mac OSX, and
-some derivatives of SunOS.  Other systems may also be supported: please
-let us know if they are!
+It allows easy porting to Linux (glibc and musl), FreeBSD, Mac OS X, and
+SunOS.  Other systems may also be supported: please let us know if they
+are!
 
 See [versions.md](versions.md) for version information.
 
@@ -43,14 +43,15 @@ The following flags are recognised and accepted: `LDADD`, `LDFLAGS`,
 `SHAREDIR`, `SBINDIR`, and `INCLUDEDIR`.  Un-recognised flags are
 discarded and warned about.
 
-If, however, you want to use an alternative CC or CFLAGS, specify them
-as an environmental variable.  (This may be fixed in future versions.)
+If you want to use an alternative CC or CFLAGS, specify them as an
+environmental variable.  If the compiler is not found, **oconfigure**
+will try to locate `clang` and `gcc` before giving up.
 
 ```
 CC=musl-gcc ./configure
 ```
 
-Using oconfigure requires some work within your sources to node
+Using **oconfigure** requires some work within your sources to node
 compatibility areas, then some in your build environment:
 
 ```c
