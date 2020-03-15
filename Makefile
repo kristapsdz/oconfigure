@@ -1,4 +1,4 @@
-.PHONY: distcheck
+.PHONY: distcheck regress
 
 VERSION	= 0.1.23
 COMPATS	= compat_err.c \
@@ -56,6 +56,9 @@ TESTS	= test-__progname.c \
 	  test-systrace.c \
 	  test-unveil.c \
 	  test-zlib.c
+REGRESS	= regress/endian \
+	  regress/explicit_bzero \
+	  regress/strlcat
 
 all: compats.c tests.c configure
 
@@ -95,5 +98,21 @@ tests.c: $(TESTS)
 		echo "#endif /* TEST_$${up} */" ; \
 	done >$@
 
+regress: $(REGRESS) config.h
+	@for f in $(REGRESS) ; \
+	do \
+		printf "%s... " "$$f" ; \
+		set +e ; \
+		./$$f ; \
+		if [ $$? -ne 0 ]; then \
+			echo "FAIL"; \
+			exit 1 ; \
+		else \
+			echo "ok" ; \
+		fi ; \
+		set -e ; \
+	done
+
 clean:
 	rm -f configure compats.c tests.c compats.o tests.o Makefile.configure config.h config.log
+	rm -f $(REGRESS)
