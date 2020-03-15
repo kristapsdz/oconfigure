@@ -5,7 +5,7 @@ functions and feature testing.
 
 It allows easy porting to Linux (glibc and musl), FreeBSD, Mac OS X, and
 SunOS.  Other systems may also be supported: please let us know if they
-are!
+are.
 
 See [versions.md](versions.md) for version information.
 
@@ -19,13 +19,13 @@ and
 into your source tree
 2. have `include Makefile.configure` at the top of your Makefile
 3. have `#include "config.h"` as the first inclusion in your sources
-4. read over the included bits below in case you need to guard header inclusion
-5. compile compile.o and link to it
+4. read over the documentation below in case you need to guard header inclusion
+5. compile compats.o and link with it
 
-Once prepared, a user just runs `./configure` prior to running `make`.
-The `configure` script will check for common features as noted in the
-test files, e.g., [pledge(2)](https://man.openbsd.org/pledge.2), and
-also provide compatibility for other functions, e.g.,
+Source users run `./configure` prior to running `make`.  The `configure`
+script will check for common features as noted in the test files, e.g.,
+[pledge(2)](https://man.openbsd.org/pledge.2), and also provide
+compatibility for other functions, e.g.,
 [strlcpy(3)](https://man.openbsd.org/strlcpy.3).
 
 The `./configure` script may be executed in a cross-compiling
