@@ -1,8 +1,6 @@
 #include "../config.h"
 
-#if HAVE_PLEDGE
-# include <unistd.h> /* pledge */
-#endif
+#include <unistd.h> /* pledge */
 
 int
 main(void)

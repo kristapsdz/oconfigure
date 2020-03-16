@@ -15,9 +15,14 @@ REGRESS_NODEP	= regress/capsicum \
 	  	  regress/memrchr \
 	  	  regress/PATH_MAX \
 	  	  regress/pledge \
+	  	  regress/SOCK_NONBLOCK \
+	  	  regress/strndup \
 	  	  regress/strnlen \
 	  	  regress/strlcpy \
-	  	  regress/strlcat
+	  	  regress/strlcat \
+	  	  regress/strtonum \
+	  	  regress/systrace \
+		  regress/unveil
 REGRESS		= $(REGRESS_B64) \
 		  $(REGRESS_MD5) \
 		  $(REGRESS_NODEP)
