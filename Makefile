@@ -10,6 +10,7 @@ REGRESS_NODEP	= regress/capsicum \
 		  regress/err \
 	  	  regress/explicit_bzero \
 	  	  regress/getprogname \
+	  	  regress/INFTIM \
 	  	  regress/memmem \
 	  	  regress/memrchr \
 	  	  regress/strnlen \

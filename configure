@@ -390,12 +390,14 @@ cat << __HEREDOC__
 
 __HEREDOC__
 
-# This is just for size_t.
+# This is just for size_t, mode_t, and dev_t.
 # Most of these functions, in the real world, pull in <string.h> or
 # someting that pulls in support for size_t.
 # Our function declarations are standalone, so specify them here.
 
 if [ ${HAVE_MD5} -eq 0 -o \
+     ${HAVE_MEMMEM} -eq 0 -o \
+     ${HAVE_MEMRCHR} -eq 0 -o \
      ${HAVE_MKFIFOAT} -eq 0 -o \
      ${HAVE_MKNODAT} -eq 0 -o \
      ${HAVE_READPASSPHRASE} -eq 0 -o \
