@@ -87,24 +87,21 @@ INSTALL_DATA=
 # It does have gcc, so try that instead.
 # Prefer clang, though.
 
-if [ -z "$(which ${CC} 2>/dev/null)" ]
-then
+which ${CC} 2>/dev/null 1>&2 || {
 	echo "${CC} not found: trying clang" 1>&2
 	echo "${CC} not found: trying clang" 1>&3
 	CC=clang
-	if [ -z "$(which ${CC} 2>/dev/null)" ]
-	then
+	which ${CC} 2>/dev/null 1>&2 || {
 		echo "${CC} not found: trying gcc" 1>&2
 		echo "${CC} not found: trying gcc" 1>&3
 		CC=gcc
-		if [ -z "$(which ${CC} 2>/dev/null)" ]
-		then
+		which ${CC} 2>/dev/null 1>&2 || {
 			echo "gcc not found: giving up" 1>&2
 			echo "gcc not found: giving up" 1>&3
 			exit 1
-		fi
-	fi
-fi
+		}
+	}
+}
 
 #----------------------------------------------------------------------
 # Allow certain variables to be overriden on the command line.
