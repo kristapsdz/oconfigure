@@ -353,10 +353,8 @@ directly used in most circumstances.
 
 ## pledge(2)
 
-Test for [OpenBSD](https://www.openbsd.org)'s
-[pledge(2)](https://man.openbsd.org/pledge.2) function,
-defining `HAVE_PLEDGE` with the result.
-Does not provide any compatibility.
+Test for [pledge(2)](https://man.openbsd.org/pledge.2), defining `HAVE_PLEDGE`
+with the result.  Does not provide any compatibility.
 
 ```c
 #if HAVE_PLEDGE
@@ -364,7 +362,7 @@ Does not provide any compatibility.
 #endif
 ```
 
-The guard is required for systems not having this function.
+The guard is not required except around the function invocation.
 
 ## readpassphrase(3)
 
@@ -419,8 +417,8 @@ sources.
 
 ## SOCK\_NONBLOCK
 
-Tests for [socketpair(2)](https://man.openbsd.org/socketpair.2)
-supporting the `SOCK_NONBLOCK` mask as found on OpenBSD.
+Tests for [socketpair(2)](https://man.openbsd.org/socketpair.2) in
+*sys/socket.h* supporting the `SOCK_NONBLOCK` mask as found on OpenBSD.
 Defines the `HAVE_SOCK_NONBLOCK` variable.
 
 ```c
@@ -435,37 +433,74 @@ Defines the `HAVE_SOCK_NONBLOCK` variable.
 #endif
 ```
 
-Does not provide any compatibility.
+The guard is not required only around the variable usage, not header
+inclusion.  However, the above example could have the *fcntl.h* header
+guarded by `!HAVE_SOCK_NONBLOCK`.
 
 ## strlcat(3)
 
-Tests for the [strlcat(3)](https://man.openbsd.org/strlcat.3)
-function, defining `HAVE_STRLCAT` with the result.
-Provides a compatibility function if not found.
+Tests for [strlcat(3)](https://man.openbsd.org/strlcat.3) in *string.h*,
+defining `HAVE_STRLCAT` with the result.  Provides a compatibility function if
+not found.
+
+```c
+#include <string.h> /* strlcat */
+```
+
+Since a compatibility function is provided, `HAVE_STRLCAT` shouldn't be
+directly used in most circumstances.
 
 ## strlcpy(3)
 
-Tests for the [strlcpy(3)](https://man.openbsd.org/strlcpy.3)
-function, defining `HAVE_STRLCPY` with the result.
-Provides a compatibility function if not found.
+Tests for [strlcpy(3)](https://man.openbsd.org/strlcpy.3) in *string.h*,
+defining `HAVE_STRLCPY` with the result.  Provides a compatibility function if
+not found.
+
+```c
+#include <string.h> /* strlcpy */
+```
+
+Since a compatibility function is provided, `HAVE_STRLCPY` shouldn't be
+directly used in most circumstances.
 
 ## strndup(3)
 
-Tests for the [strndup(3)](https://man.openbsd.org/strndup.3)
-function, defining `HAVE_STRNDUP` with the result.
-Provides a compatibility function if not found.
+Tests for [strndup(3)](https://man.openbsd.org/strndup.3)
+in *string.h*, defining `HAVE_STRNDUP` with the result.  Provides a
+compatibility function if not found.
+
+```c
+#include <string.h> /* strndup */
+```
+
+Since a compatibility function is provided, `HAVE_STRNDUP` shouldn't be
+directly used in most circumstances.
 
 ## strnlen(3)
 
-Tests for the [strnlen(3)](https://man.openbsd.org/strnlen.3)
-function, defining `HAVE_STRNLEN` with the result.
-Provides a compatibility function if not found.
+Tests for [strnlen(3)](https://man.openbsd.org/strnlen.3) in *string.h*,
+defining `HAVE_STRNLEN` with the result.  Provides a compatibility function if
+not found.
+
+```c
+#include <string.h> /* strnlen */
+```
+
+Since a compatibility function is provided, `HAVE_STRNLEN` shouldn't be
+directly used in most circumstances.
 
 ## strtonum(3)
 
-Tests for the [strtonum(3)](https://man.openbsd.org/strtonum.3)
-function, defining `HAVE_STRTONUM` with the result.
-Provides a compatibility function if not found.
+Tests for [strtonum(3)](https://man.openbsd.org/strtonum.3) in *stdlib.h*,
+defining `HAVE_STRTONUM` with the result.  Provides a compatibility function if
+not found.
+
+```c
+#include <stdlib.h> /* strtonum */
+```
+
+Since a compatibility value is provided, `HAVE_STRTONUM` shouldn't be directly
+used in most circumstances.
 
 ## sys/queue.h
 
@@ -500,23 +535,23 @@ inclusion:
 
 ## systrace(4)
 
-Tests for OpenBSD's deprecated systrace(4) interface.
-Defines `HAVE_SYSTRACE` if found.
-Does not provide any compatibility.
+Tests for the deprecated systrace(4) interface.  Defines `HAVE_SYSTRACE` if
+found.  Does not provide any compatibility.
+
+This function is never "found".
 
 ## unveil(2)
 
-Test for [OpenBSD](https://www.openbsd.org)'s
-[unveil(2)](https://man.openbsd.org/unveil.2) function,
-defining `HAVE_UNVEIL` with the result.
-Does not provide any compatibility.
-For example,
+Test for [unveil(2)](https://man.openbsd.org/unveil.2), defining `HAVE_UNVEIL`
+with the result.  Does not provide any compatibility.
 
 ```c
 #if HAVE_UNVEIL
-# include <unistd.h> /* unveil(2) */
+# include <unistd.h> /* unveil */
 #endif
 ```
+
+The guard is not required except around the function invocation.
 
 ## zlib(3)
 

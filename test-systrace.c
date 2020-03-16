@@ -1,11 +1,10 @@
-#include <sys/param.h>
-#include <dev/systrace.h>
-
-#include <stdlib.h>
+/*
+ * Don't use this function.
+ */
 
 int
 main(void)
 {
 
-	return(0);
+	return 0;
 }

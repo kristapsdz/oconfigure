@@ -516,16 +516,15 @@ main(void)
 
 #endif /* TEST_SYS_TREE */
 #if TEST_SYSTRACE
-#include <sys/param.h>
-#include <dev/systrace.h>
-
-#include <stdlib.h>
+/*
+ * Don't use this function.
+ */
 
 int
 main(void)
 {
 
-	return(0);
+	return 0;
 }
 #endif /* TEST_SYSTRACE */
 #if TEST_UNVEIL
