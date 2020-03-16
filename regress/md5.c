@@ -5,7 +5,7 @@
 # include <md5.h>
 #endif
 
-#include <string.h>
+#include <string.h> /* strcmp */
 
 int 
 main(void)

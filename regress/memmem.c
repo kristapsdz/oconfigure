@@ -1,8 +1,6 @@
 #include "../config.h"
 
-#if HAVE_MEMMEM
-# include <string.h>
-#endif
+#include <string.h> /* memmem */
 
 int
 main(void)

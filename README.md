@@ -150,7 +150,6 @@ Tests for [FreeBSD](https://www.freebsd.org)'s
 [Capsicum](https://www.freebsd.org/cgi/man.cgi?capsicum(4)) subsystem,
 defining the `HAVE_CAPSICUM` variable with the result.
 Does not provide any compatibility.
-For example,
 
 ```c
 #if HAVE_CAPSICUM
@@ -158,6 +157,8 @@ For example,
 # include <sys/capsicum.h>
 #endif
 ```
+
+The guard is required for systems without these headers.
 
 ## endian.h
 
@@ -196,12 +197,9 @@ This will paste the appropriate location.
 ## err.h
 
 Tests for the [err(3)](https://man.openbsd.org/err.3) functions,
-defining `HAVE_ERR` variable with the result.
-
-If not found, provides compatibility functions `err`, `errx`, `warn`,
-`warnx`, `vwarn`, `vwarnx`.  The `<err.h>` header inclusion needs to be
-guarded for systems that include it by default; otherwise, the
-definitions are provided in the generated `config.h`.
+defining `HAVE_ERR` variable with the result.  If not found, provides
+compatibility functions `err`, `errx`, `warn`, `warnx`, `vwarn`,
+`vwarnx`.
 
 ```c
 #if HAVE_ERR
@@ -209,43 +207,51 @@ definitions are provided in the generated `config.h`.
 #endif
 ```
 
+The *err.h* header needs to be guarded to prevent systems using the
+compatibility functions for failing, as the header does not exist.
+
 ## explicit\_bzero(3)
 
-Tests for
-[explicit\_bzero(3)](https://man.openbsd.org/explicit_bzero.3), defining
-`HAVE_EXPLICIT_BZERO` variable with the result.
+Tests for [explicit\_bzero(3)](https://man.openbsd.org/explicit_bzero.3)
+in *string.h*, defining `HAVE_EXPLICIT_BZERO` variable with the result.
 
-If not found, provides a compatibility function.
-The compatibility layer will use
+```c
+#include <string.h> /* explicit_bzero */
+```
+
+If not found, provides a compatibility function.  The compatibility
+layer will use
 [memset\_s](http://en.cppreference.com/w/c/string/byte/memset), if
-found.
+found.  `HAVE_EXPLICIT_BZERO` shouldn't be directly used in most
+circumstances.
 
 ## getprogname(3)
 
-Tests for the [getprogname(3)](https://man.openbsd.org/getprogname.3)
-function, defining `HAVE_GETPROGNAME` with the result.  Provides a
+Tests for [getprogname(3)](https://man.openbsd.org/getprogname.3) in
+*stdlib.h*, defining `HAVE_GETPROGNAME` with the result.  Provides a
 compatibility function if not found.
 
 ```c
-#if HAVE_GETPROGNAME
-# include <stdlib.h>
-#endif
+#include <stdlib.h> /* getprogname */
 ```
-
-(This guard is rarely required since `<stdlib.h>` is mostly included
-anyway.)
 
 The compatibility function tries to use `__progname`,
 `program_invocation_short_name`, or `getexecname()`.  If none of these
-interfaces may be found, it will emit a compile-time error.  
+interfaces may be found, it will emit a compile-time error.
+`HAVE_GETPROGNAME` shouldn't be directly used in most circumstances.
 
 ## INFTIM
 
-Some systems (like OpenBSD) define INFTIM for use with
-[poll(2)](https://man.openbsd.org/poll.2).
-Others don't.
-This defines the `HAVE_INFTIM` variable with the results and, if not
-found, defines `INFTIM` to be the proper value.
+Tests for `INFTIM` in [poll(2)](https://man.openbsd.org/poll.2),
+defining `HAVE_INFTIM` with the result.  Provides a compatibility
+value if not found.
+
+```c
+#include <poll.h> /* INFTIM */
+```
+
+Since a compatibility function is provided, `HAVE_INFTIM` shouldn't be
+directly used in most circumstances.
 
 ## md5.h
 
@@ -263,7 +269,8 @@ C99 types for greater portability, e.g., `uint8_t` instead of
 `u_int8_t`.
 
 If using these functions, you'll want to guard an inclusion of the
-system-default:
+system-default.  Otherwise a partial *md5.h* may conflict with results,
+or a missing *md5.h* may terminate compilation.
 
 ```c
 #if HAVE_MD5
@@ -281,33 +288,29 @@ The `LDADD_MD5` value provided in *Makefile.configure* will be set to
 
 ## memmem(3)
 
-Tests for the [memmem(3)](https://man.openbsd.org/memmem.3)
-function, defining `HAVE_MEMMEM` with the result.
-Provides a compatibility function if not found.
+Tests for [memmem(3)](https://man.openbsd.org/memmem.3) in *string.h*,
+defining `HAVE_MEMMEM` with the result.  Provides a compatibility
+function if not found.
 
 ```c
-#if HAVE_MEMMEM
-# include <string.h>
-#endif
+#include <string.h> /* memmem */
 ```
 
-(This guard is rarely required since `<string.h>` is mostly included
-anyway.)
+Since a compatibility function is provided, `HAVE_MEMMEM` shouldn't be
+directly used in most circumstances.
 
 ## memrchr(3)
 
-Tests for the [memrchr(3)](https://man.openbsd.org/memrchr.3)
-function, defining `HAVE_MEMRCHR` with the result.
-Provides a compatibility function if not found.
+Tests for [memrchr(3)](https://man.openbsd.org/memrchr.3) in *string.h*,
+defining `HAVE_MEMRCHR` with the result.  Provides a compatibility
+function if not found.
 
 ```c
-#if HAVE_MEMRCHR
-# include <string.h>
-#endif
+#include <string.h> /* memrchr */
 ```
 
-(This guard is rarely required since `<string.h>` is mostly included
-anyway.)
+Since a compatibility function is provided, `HAVE_MEMRCHR` shouldn't be
+directly used in most circumstances.
 
 ## mkfifoat(2)
 
@@ -337,9 +340,16 @@ directory to what it was.
 
 ## PATH\_MAX
 
-Tests for the `PATH_MAX` variable, defining `HAVE_PATH_MAX` with the
-result.
-If not found, defines the `PATH_MAX` macro to be 4096.
+Tests for the `PATH_MAX` variable in *limits.h*, defining
+`HAVE_PATH_MAX` with the result.  If not found, defines the `PATH_MAX`
+macro to be 4096.
+
+```c
+#include <limits.h> /* PATH_MAX */
+```
+
+Since a compatibility value is provided, `HAVE_PATH_MAX` shouldn't be
+directly used in most circumstances.
 
 ## pledge(2)
 
@@ -347,13 +357,14 @@ Test for [OpenBSD](https://www.openbsd.org)'s
 [pledge(2)](https://man.openbsd.org/pledge.2) function,
 defining `HAVE_PLEDGE` with the result.
 Does not provide any compatibility.
-For example,
 
 ```c
 #if HAVE_PLEDGE
-# include <unistd.h> /* pledge(2) */
+# include <unistd.h> /* pledge */
 #endif
 ```
+
+The guard is required for systems not having this function.
 
 ## readpassphrase(3)
 

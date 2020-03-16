@@ -1,6 +1,6 @@
 #include "../config.h"
 
-#include <string.h>
+#include <string.h> /* explicit_bzero, strlcpy */
 
 int
 main(void)

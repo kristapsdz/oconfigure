@@ -1,9 +1,6 @@
 #include "../config.h"
 
-#if HAVE_GETPROGNAME
-# include <stdlib.h>
-#endif
-
+#include <stdlib.h> /* getprogname */
 #include <string.h> /* strcmp */
 
 int

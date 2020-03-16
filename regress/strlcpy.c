@@ -1,6 +1,6 @@
 #include "../config.h"
 
-#include <string.h>
+#include <string.h> /* strlcpy, strcmp */
 
 int
 main(void)

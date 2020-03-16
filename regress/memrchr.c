@@ -1,8 +1,6 @@
 #include "../config.h"
 
-#if HAVE_MEMRCHR
-# include <string.h>
-#endif
+#include <string.h> /* memrchr */
 
 int
 main(void)

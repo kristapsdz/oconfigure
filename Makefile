@@ -13,6 +13,8 @@ REGRESS_NODEP	= regress/capsicum \
 	  	  regress/INFTIM \
 	  	  regress/memmem \
 	  	  regress/memrchr \
+	  	  regress/PATH_MAX \
+	  	  regress/pledge \
 	  	  regress/strnlen \
 	  	  regress/strlcpy \
 	  	  regress/strlcat
