@@ -5,7 +5,8 @@ include Makefile.configure
 OBJS		= compats.o
 REGRESS_MD5	= regress/md5
 REGRESS_B64	= regress/b64_ntop
-REGRESS_NODEP	= regress/endian \
+REGRESS_NODEP	= regress/capsicum \
+		  regress/endian \
 	  	  regress/explicit_bzero \
 	  	  regress/strnlen \
 	  	  regress/strlcpy \
