@@ -223,8 +223,14 @@ found.
 ## getprogname(3)
 
 Tests for the [getprogname(3)](https://man.openbsd.org/getprogname.3)
-function, defining `HAVE_GETPROGNAME` with the result.
-Provides a compatibility function if not found.
+function, defining `HAVE_GETPROGNAME` with the result.  Provides a
+compatibility function if not found.
+
+```c
+#if HAVE_GETPROGNAME
+# include <stdlib.h>
+#endif
+```
 
 The compatibility function tries to use `__progname`,
 `program_invocation_short_name`, or `getexecname()`.  If none of these

@@ -7,7 +7,9 @@ REGRESS_MD5	= regress/md5
 REGRESS_B64	= regress/b64_ntop
 REGRESS_NODEP	= regress/capsicum \
 		  regress/endian \
+		  regress/err \
 	  	  regress/explicit_bzero \
+	  	  regress/getprogname \
 	  	  regress/strnlen \
 	  	  regress/strlcpy \
 	  	  regress/strlcat
@@ -43,7 +45,7 @@ regress: $(REGRESS)
 	do \
 		printf "%s... " "$$f" ; \
 		set +e ; \
-		./$$f ; \
+		./$$f 2>/dev/null ; \
 		if [ $$? -ne 0 ]; then \
 			echo "FAIL"; \
 			exit 1 ; \
