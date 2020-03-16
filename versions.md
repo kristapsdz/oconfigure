@@ -1,5 +1,12 @@
 This file describes version information of this project.
 
+## 0.2.1
+
+More portability for SunOS and IllumOS (OmniOS).  Also Linux/SunOS
+portability for the [minor(2)](https://man.openbsd.org/minor.2) family
+of functions.  Documentation throughout has improved considerably and
+all (most?) functions are handle in the regression suite.
+
 ## 0.2.0
 
 Extensive work for portability on SunOS, NetBSD, FreeBSD, and Linux.
