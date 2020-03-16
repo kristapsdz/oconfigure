@@ -232,6 +232,9 @@ compatibility function if not found.
 #endif
 ```
 
+(This guard is rarely required since `<stdlib.h>` is mostly included
+anyway.)
+
 The compatibility function tries to use `__progname`,
 `program_invocation_short_name`, or `getexecname()`.  If none of these
 interfaces may be found, it will emit a compile-time error.  
@@ -282,11 +285,29 @@ Tests for the [memmem(3)](https://man.openbsd.org/memmem.3)
 function, defining `HAVE_MEMMEM` with the result.
 Provides a compatibility function if not found.
 
+```c
+#if HAVE_MEMMEM
+# include <string.h>
+#endif
+```
+
+(This guard is rarely required since `<string.h>` is mostly included
+anyway.)
+
 ## memrchr(3)
 
 Tests for the [memrchr(3)](https://man.openbsd.org/memrchr.3)
 function, defining `HAVE_MEMRCHR` with the result.
 Provides a compatibility function if not found.
+
+```c
+#if HAVE_MEMRCHR
+# include <string.h>
+#endif
+```
+
+(This guard is rarely required since `<string.h>` is mostly included
+anyway.)
 
 ## mkfifoat(2)
 
