@@ -34,7 +34,7 @@ main(void)
 	rsrcsz = (size_t)c / 4 * 3;
 	if ((size_t)rsrcsz >= sizeof(rsrc) - 1) /* NUL terminator */
 		return 1;
-	c = b64_pton(dst, rsrc, rsrcsz);
+	c = b64_pton(dst, (unsigned char *)rsrc, rsrcsz);
 	if (c == -1)
 		return 1;
 	rsrc[(size_t)c] = '\0';
