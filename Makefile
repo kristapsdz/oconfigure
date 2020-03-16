@@ -2,34 +2,36 @@
 
 include Makefile.configure
 
-OBJS		= compats.o
-REGRESS_MD5	= regress/md5
-REGRESS_B64	= regress/b64_ntop
-REGRESS_NODEP	= regress/capsicum \
-		  regress/endian \
-		  regress/err \
-	  	  regress/explicit_bzero \
-	  	  regress/getprogname \
-	  	  regress/INFTIM \
-	  	  regress/memmem \
-	  	  regress/memrchr \
-	  	  regress/mkfifoat \
-	  	  regress/mknodat \
-	  	  regress/PATH_MAX \
-	  	  regress/pledge \
-	  	  regress/reallocarray \
-	  	  regress/recallocarray \
-	  	  regress/SOCK_NONBLOCK \
-	  	  regress/strndup \
-	  	  regress/strnlen \
-	  	  regress/strlcpy \
-	  	  regress/strlcat \
-	  	  regress/strtonum \
-	  	  regress/systrace \
-		  regress/unveil
-REGRESS		= $(REGRESS_B64) \
-		  $(REGRESS_MD5) \
-		  $(REGRESS_NODEP)
+OBJS			= compats.o
+REGRESS_MD5		= regress/md5
+REGRESS_B64		= regress/b64_ntop
+REGRESS_LIB_SOCKET	= regress/SOCK_NONBLOCK
+REGRESS_NODEP		= regress/capsicum \
+			  regress/endian \
+			  regress/err \
+			  regress/explicit_bzero \
+			  regress/getprogname \
+			  regress/INFTIM \
+			  regress/memmem \
+			  regress/memrchr \
+			  regress/mkfifoat \
+			  regress/mknodat \
+			  regress/PATH_MAX \
+			  regress/pledge \
+			  regress/reallocarray \
+			  regress/recallocarray \
+			  regress/SOCK_NONBLOCK \
+			  regress/strndup \
+			  regress/strnlen \
+			  regress/strlcpy \
+			  regress/strlcat \
+			  regress/strtonum \
+			  regress/systrace \
+			  regress/unveil
+REGRESS			= $(REGRESS_B64) \
+			  $(REGRESS_LIB_SOCKET) \
+			  $(REGRESS_MD5) \
+			  $(REGRESS_NODEP)
 
 all: $(REGRESS)
 
@@ -39,6 +41,11 @@ distcheck:
 .for r in $(REGRESS_NODEP)
 ${r}: ${r}.c compats.o config.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o
+.endfor
+
+.for r in $(REGRESS_LIB_SOCKET)
+${r}: ${r}.c compats.o config.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_LIB_SOCKET)
 .endfor
 
 .for r in $(REGRESS_MD5)

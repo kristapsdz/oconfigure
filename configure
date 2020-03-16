@@ -66,6 +66,7 @@ CFLAGS="${CFLAGS} -Wwrite-strings -Wno-unused-parameter"
 LDADD=
 LDADD_B64_NTOP=
 LDADD_MD5=
+LDADD_LIB_SOCKET=
 LDADD_ZLIB=
 CPPFLAGS=
 LDFLAGS=
@@ -337,6 +338,7 @@ runtest recallocarray	RECALLOCARRAY			  || true
 runtest sandbox_init	SANDBOX_INIT	"-Wno-deprecated" || true
 runtest seccomp-filter	SECCOMP_FILTER			  || true
 runtest SOCK_NONBLOCK	SOCK_NONBLOCK			  || true
+runtest lib_socket	LIB_SOCKET "" "" "-lsocket -lnsl" || true
 runtest strlcat		STRLCAT				  || true
 runtest strlcpy		STRLCPY				  || true
 runtest strndup		STRNDUP				  || true
@@ -2193,27 +2195,28 @@ exec > Makefile.configure
 [ -z "${INSTALL_DATA}"    ] && INSTALL_DATA="${INSTALL} -m 0444"
 
 cat << __HEREDOC__
-CC		= ${CC}
-CFLAGS		= ${CFLAGS}
-CPPFLAGS	= ${CPPFLAGS}
-LDADD		= ${LDADD}
-LDADD_B64_NTOP	= ${LDADD_B64_NTOP}
-LDADD_MD5	= ${LDADD_MD5}
-LDADD_ZLIB	= ${LDADD_ZLIB}
-LDFLAGS		= ${LDFLAGS}
-STATIC		= ${STATIC}
-PREFIX		= ${PREFIX}
-BINDIR		= ${BINDIR}
-SHAREDIR	= ${SHAREDIR}
-SBINDIR		= ${SBINDIR}
-INCLUDEDIR	= ${INCLUDEDIR}
-LIBDIR		= ${LIBDIR}
-MANDIR		= ${MANDIR}
-INSTALL		= ${INSTALL}
-INSTALL_PROGRAM	= ${INSTALL_PROGRAM}
-INSTALL_LIB	= ${INSTALL_LIB}
-INSTALL_MAN	= ${INSTALL_MAN}
-INSTALL_DATA	= ${INSTALL_DATA}
+CC		 = ${CC}
+CFLAGS		 = ${CFLAGS}
+CPPFLAGS	 = ${CPPFLAGS}
+LDADD		 = ${LDADD}
+LDADD_B64_NTOP	 = ${LDADD_B64_NTOP}
+LDADD_LIB_SOCKET = ${LDADD_LIB_SOCKET}
+LDADD_MD5	 = ${LDADD_MD5}
+LDADD_ZLIB	 = ${LDADD_ZLIB}
+LDFLAGS		 = ${LDFLAGS}
+STATIC		 = ${STATIC}
+PREFIX		 = ${PREFIX}
+BINDIR		 = ${BINDIR}
+SHAREDIR	 = ${SHAREDIR}
+SBINDIR		 = ${SBINDIR}
+INCLUDEDIR	 = ${INCLUDEDIR}
+LIBDIR		 = ${LIBDIR}
+MANDIR		 = ${MANDIR}
+INSTALL		 = ${INSTALL}
+INSTALL_PROGRAM	 = ${INSTALL_PROGRAM}
+INSTALL_LIB	 = ${INSTALL_LIB}
+INSTALL_MAN	 = ${INSTALL_MAN}
+INSTALL_DATA	 = ${INSTALL_DATA}
 __HEREDOC__
 
 echo "Makefile.configure: written" 1>&2
