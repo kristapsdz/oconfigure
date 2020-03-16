@@ -1,10 +1,7 @@
 #include "../config.h"
 
-#if HAVE_SYS_SYSMACROS_H
-# include <sys/sysmacros.h>
-#else
-# include <sys/types.h>
-#endif
+#include <sys/types.h>
+#include COMPAT_MAJOR_MINOR_H
 
 int
 main(void)
