@@ -523,8 +523,7 @@ main(void)
 int
 main(void)
 {
-
-	return 0;
+	return 1;
 }
 #endif /* TEST_SYSTRACE */
 #if TEST_UNVEIL

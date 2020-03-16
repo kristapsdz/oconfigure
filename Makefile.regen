@@ -53,7 +53,6 @@ TESTS	= test-__progname.c \
 	  test-sys_endian_h.c \
 	  test-sys_queue.c \
 	  test-sys_tree.c \
-	  test-systrace.c \
 	  test-unveil.c \
 	  test-zlib.c
 

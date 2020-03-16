@@ -191,7 +191,7 @@ HAVE_SYS_BYTEORDER_H=
 HAVE_SYS_ENDIAN_H=
 HAVE_SYS_QUEUE=
 HAVE_SYS_TREE=
-HAVE_SYSTRACE=
+HAVE_SYSTRACE=0
 HAVE_UNVEIL=
 HAVE_ZLIB=
 HAVE___PROGNAME=
@@ -349,7 +349,6 @@ runtest sys_byteorder_h	SYS_BYTEORDER_H			  || true
 runtest sys_endian_h	SYS_ENDIAN_H			  || true
 runtest sys_queue	SYS_QUEUE			  || true
 runtest sys_tree	SYS_TREE			  || true
-runtest systrace	SYSTRACE			  || true
 runtest unveil		UNVEIL				  || true
 runtest zlib		ZLIB		"" "-lz"	  || true
 runtest __progname	__PROGNAME			  || true
