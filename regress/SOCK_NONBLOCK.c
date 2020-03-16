@@ -17,9 +17,9 @@ main(void)
 #else
 	if (socketpair(AF_UNIX, SOCK_STREAM, 0, fds) == -1)
 		return 1;
-	if (fcntl(fd[0], F_SETFL, fcntl(fd[0], F_GETFL, 0)|O_NONBLOCK) == -1)
+	if (fcntl(fds[0], F_SETFL, fcntl(fds[0], F_GETFL, 0)|O_NONBLOCK) == -1)
 		return 1;
-	if (fcntl(fd[1], F_SETFL, fcntl(fd[1], F_GETFL, 0)|O_NONBLOCK) == -1)
+	if (fcntl(fds[1], F_SETFL, fcntl(fds[1], F_GETFL, 0)|O_NONBLOCK) == -1)
 		return 1;
 #endif
 
