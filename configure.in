@@ -188,6 +188,7 @@ HAVE_STRTONUM=
 HAVE_SYS_BYTEORDER_H=
 HAVE_SYS_ENDIAN_H=
 HAVE_SYS_QUEUE=
+HAVE_SYS_SYSMACROS=
 HAVE_SYS_TREE=
 HAVE_SYSTRACE=0
 HAVE_UNVEIL=
@@ -347,6 +348,7 @@ runtest strnlen		STRNLEN				  || true
 runtest strtonum	STRTONUM			  || true
 runtest sys_byteorder_h	SYS_BYTEORDER_H			  || true
 runtest sys_endian_h	SYS_ENDIAN_H			  || true
+runtest sys_sysmacros_h	SYS_SYSMACROS_H			  || true
 runtest sys_queue	SYS_QUEUE			  || true
 runtest sys_tree	SYS_TREE			  || true
 runtest unveil		UNVEIL				  || true
@@ -489,6 +491,7 @@ cat << __HEREDOC__
 #define HAVE_SYS_BYTEORDER_H ${HAVE_SYS_BYTEORDER_H}
 #define HAVE_SYS_ENDIAN_H ${HAVE_SYS_ENDIAN_H}
 #define HAVE_SYS_QUEUE ${HAVE_SYS_QUEUE}
+#define HAVE_SYS_SYSMACROS_H ${HAVE_SYS_SYSMACROS_H}
 #define HAVE_SYS_TREE ${HAVE_SYS_TREE}
 #define HAVE_SYSTRACE ${HAVE_SYSTRACE}
 #define HAVE_UNVEIL ${HAVE_UNVEIL}

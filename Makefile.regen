@@ -53,6 +53,7 @@ TESTS	= test-__progname.c \
 	  test-sys_byteorder_h.c \
 	  test-sys_endian_h.c \
 	  test-sys_queue.c \
+	  test-sys_sysmacros_h.c \
 	  test-sys_tree.c \
 	  test-unveil.c \
 	  test-WAIT_ANY.c \

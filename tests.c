@@ -487,6 +487,15 @@ main(void)
 	return 0;
 }
 #endif /* TEST_SYS_QUEUE */
+#if TEST_SYS_SYSMACROS_H
+#include <sys/sysmacros.h>
+
+int
+main(void)
+{
+	return !minor(0);
+}
+#endif /* TEST_SYS_SYSMACROS_H */
 #if TEST_SYS_TREE
 #include <sys/tree.h>
 #include <stdlib.h>
