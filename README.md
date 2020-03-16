@@ -357,12 +357,10 @@ Test for [pledge(2)](https://man.openbsd.org/pledge.2), defining `HAVE_PLEDGE`
 with the result.  Does not provide any compatibility.
 
 ```c
-#if HAVE_PLEDGE
-# include <unistd.h> /* pledge */
-#endif
+#include <unistd.h> /* pledge */
 ```
 
-The guard is not required except around the function invocation.
+The `HAVE_PLEDGE` guard is not required except around the function invocation.
 
 ## readpassphrase(3)
 
@@ -560,12 +558,10 @@ Test for [unveil(2)](https://man.openbsd.org/unveil.2), defining `HAVE_UNVEIL`
 with the result.  Does not provide any compatibility.
 
 ```c
-#if HAVE_UNVEIL
-# include <unistd.h> /* unveil */
-#endif
+#include <unistd.h> /* unveil */
 ```
 
-The guard is not required except around the function invocation.
+The `HAVE_UNVEIL` guard is not required except around the function invocation.
 
 ## zlib(3)
 

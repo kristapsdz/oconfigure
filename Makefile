@@ -13,6 +13,8 @@ REGRESS_NODEP	= regress/capsicum \
 	  	  regress/INFTIM \
 	  	  regress/memmem \
 	  	  regress/memrchr \
+	  	  regress/mkfifoat \
+	  	  regress/mknodat \
 	  	  regress/PATH_MAX \
 	  	  regress/pledge \
 	  	  regress/reallocarray \
@@ -29,7 +31,7 @@ REGRESS		= $(REGRESS_B64) \
 		  $(REGRESS_MD5) \
 		  $(REGRESS_NODEP)
 
-all: compats.o
+all: $(REGRESS)
 
 distcheck:
 	$(MAKE) -f Makefile.regen distcheck
