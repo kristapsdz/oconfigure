@@ -332,11 +332,11 @@ and
 all live in different places on different systems.
 
 ```c
-#if HAVE_SYS_SYSMACROS_H
-# include <sys/sysmacros.h> /* minor/major/makedev */
-#elif HAVE_SYS_MKDEV_H
+#if HAVE_SYS_MKDEV_H
 # include <sys/types.h> /* dev_t */
 # include <sys/mkdev.h> /* minor/major/makedev */
+#elif HAVE_SYS_SYSMACROS_H
+# include <sys/sysmacros.h> /* minor/major/makedev */
 #else
 # include <sys/types.h> /* minor/major/makedev */
 #endif
