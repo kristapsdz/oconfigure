@@ -100,8 +100,8 @@ respective sources.
 
 ## b64\_ntop
 
-This function, annoyingly, is sometimes declared but not defined.  The
-following will guard against that in your sources.
+This and its partner `b64_pton` are sometimes declared but not defined.
+The following will guard against that in your sources.
 
 ```c
 #if HAVE_B64_NTOP
@@ -110,15 +110,39 @@ following will guard against that in your sources.
 #endif
 ```
 
-On some systems (Linux in particular) with `HAVE_B64_NTOP`, you'll
-also need to add `-lresolv` when you compile your system, else it will
-fail with undefined references.
+Some systems (Linux in particular) with `HAVE_B64_NTOP` need `-lresolv`
+during linking.  If so, set `LDADD_B64_NTOP` in *Makefile.configure* to
+`-lresolv`.  Otherwise it is empty.
 
-The `LDADD_B64_NTOP` value provided in *Makefile.configure* will be set
-to `-lresolv` if required.  Otherwise it is empty.
+If the functions are not found, provides compatibility functions
+`b64_ntop` and `b64_pton`.
 
-If not found, provides compatibility functions `b64_ntop` and
-`b64_pton`.
+Since these functions are always poorly documented, the following
+demonstrates usage for `b64_ntop`, which translates `src` *into* an
+encoded NUL-terminated string `dst` and returns the string length or -1.
+The `dstsz` is the maximum size required for encoding.
+
+```c
+srcsz = strlen(src);
+dstsz = ((srcsz + 2) / 3 * 4) + 1;
+dst = malloc(dstsz);
+if (b64_ntop(src, srcsz, dst, dstsz) == -1)
+	goto bad_size;
+```
+
+`b64_pton` reverses this situation from an encoded NUL-terminated string
+`src` into the decoded and NUL-terminated string `dst` (it's common not
+to need the NUL-terminator for the decoded string, which is meant to be
+binary).  The `dstsz` is the maximum size required for decoding.
+
+```c
+srcsz = strlen(src);
+dstsz = srscsz / 4 * 3;
+dst = malloc(dstsz + 1); /* NUL terminator */
+if ((c = b64_pton(src, dst, dstsz)) == -1)
+	goto bad_data;
+dst[c] = '\0'; /* NUL termination */
+```
 
 ## Capsicum
 

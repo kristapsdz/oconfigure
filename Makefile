@@ -4,12 +4,14 @@ include Makefile.configure
 
 OBJS		= compats.o
 REGRESS_MD5	= regress/md5
+REGRESS_B64	= regress/b64_ntop
 REGRESS_NODEP	= regress/endian \
 	  	  regress/explicit_bzero \
 	  	  regress/strnlen \
 	  	  regress/strlcpy \
 	  	  regress/strlcat
-REGRESS		= $(REGRESS_MD5) \
+REGRESS		= $(REGRESS_B64) \
+		  $(REGRESS_MD5) \
 		  $(REGRESS_NODEP)
 
 all: compats.o
@@ -25,6 +27,11 @@ ${r}: ${r}.c compats.o config.h
 .for r in $(REGRESS_MD5)
 ${r}: ${r}.c compats.o config.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_MD5)
+.endfor
+
+.for r in $(REGRESS_B64)
+${r}: ${r}.c compats.o config.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_B64_NTOP)
 .endfor
 
 install:
