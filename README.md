@@ -323,6 +323,33 @@ function if not found.
 Since a compatibility function is provided, `HAVE_MEMRCHR` shouldn't be
 directly used in most circumstances.
 
+## minor(2)
+
+[major(2)](https://man.openbsd.org/major.2),
+[minor(2)](https://man.openbsd.org/minor.2),
+and
+[makedev(2)](https://man.openbsd.org/makedev.2)
+all live in different places on different systems.
+
+```c
+#if HAVE_SYS_SYSMACROS_H
+# include <sys/sysmacros.h> /* minor/major/makedev */
+#elif HAVE_SYS_MKDEV_H
+# include <sys/types.h> /* dev_t */
+# include <sys/mkdev.h> /* minor/major/makedev */
+#else
+# include <sys/types.h> /* minor/major/makedev */
+#endif
+```
+
+This can be made much easier as follows, where `COMPAT_MAJOR_MINOR_H` is
+set to one of the above.  *sys/types.h* may be included twice.
+
+```c
+#include <sys/types.h>
+#include COMPAT_MAJOR_MINOR_H
+```
+
 ## mkfifoat(2)
 
 Tests for the [mkfifoat(3)](https://man.openbsd.org/mkfifoat.3)

@@ -457,6 +457,16 @@ main(void)
 	return !htole32(23);
 }
 #endif /* TEST_SYS_ENDIAN_H */
+#if TEST_SYS_MKDEV_H
+#include <sys/types.h>
+#include <sys/mkdev.h>
+
+int
+main(void)
+{
+	return !minor(0);
+}
+#endif /* TEST_SYS_MKDEV_H */
 #if TEST_SYS_QUEUE
 #include <sys/queue.h>
 #include <stddef.h>
