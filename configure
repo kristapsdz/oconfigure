@@ -271,10 +271,10 @@ __HEREDOC__
 
 	if [ -n "${extralib}" ] 
 	then
-		eval LDADD_${2}="${5}"
+		eval "LDADD_${2}=\"${5}\""
 	elif [ -n "${4}" ]
 	then
-		eval LDADD_${2}="${4}"
+		eval "LDADD_${2}=\"${4}\""
 	fi
 
 	echo "${1}: yes ${extralib}" 1>&2
