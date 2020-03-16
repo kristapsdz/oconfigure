@@ -15,6 +15,8 @@ REGRESS_NODEP	= regress/capsicum \
 	  	  regress/memrchr \
 	  	  regress/PATH_MAX \
 	  	  regress/pledge \
+	  	  regress/reallocarray \
+	  	  regress/recallocarray \
 	  	  regress/SOCK_NONBLOCK \
 	  	  regress/strndup \
 	  	  regress/strnlen \

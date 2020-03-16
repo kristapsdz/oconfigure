@@ -385,15 +385,29 @@ buffer as described in
 
 ## reallocarray(3)
 
-Tests for the [reallocarray(3)](https://man.openbsd.org/reallocarray.3)
-function, defining `HAVE_REALLOCARRAY` with the result.
-Provides a compatibility function if not found.
+Tests for [reallocarray(3)](https://man.openbsd.org/reallocarray.3) in
+*stdlib.h*, defining `HAVE_REALLOCARRAY` with the result.  Provides a
+compatibility function if not found.
+
+```c
+#include <stdlib.h> /* reallocarray */
+```
+
+Since a compatibility function is provided, `HAVE_REALLOCARRAY` shouldn't be
+directly used in most circumstances.
 
 ## recallocarray(3)
 
-Tests for the [recallocarray(3)](https://man.openbsd.org/recallocarray.3)
-function, defining `HAVE_RECALLOCARRAY` with the result.
-Provides a compatibility function if not found.
+Tests for [recallocarray(3)](https://man.openbsd.org/recallocarray.3) in
+*stdlib.h*, defining `HAVE_RECALLOCARRAY` with the result.  Provides a
+compatibility function if not found.
+
+```c
+#include <stdlib.h> /* recallocarray */
+```
+
+Since a compatibility function is provided, `HAVE_RECALLOCARRAY` shouldn't be
+directly used in most circumstances.
 
 ## sandbox\_init(3)
 
