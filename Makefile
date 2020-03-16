@@ -14,6 +14,7 @@ REGRESS_NODEP		= regress/capsicum \
 			  regress/INFTIM \
 			  regress/memmem \
 			  regress/memrchr \
+			  regress/minor \
 			  regress/mkfifoat \
 			  regress/mknodat \
 			  regress/PATH_MAX \
