@@ -191,6 +191,7 @@ HAVE_SYS_QUEUE=
 HAVE_SYS_TREE=
 HAVE_SYSTRACE=0
 HAVE_UNVEIL=
+HAVE_WAIT_ANY=
 HAVE_ZLIB=
 HAVE___PROGNAME=
 
@@ -349,6 +350,7 @@ runtest sys_endian_h	SYS_ENDIAN_H			  || true
 runtest sys_queue	SYS_QUEUE			  || true
 runtest sys_tree	SYS_TREE			  || true
 runtest unveil		UNVEIL				  || true
+runtest WAIT_ANY	WAIT_ANY			  || true
 runtest zlib		ZLIB		"" "-lz"	  || true
 runtest __progname	__PROGNAME			  || true
 
@@ -436,9 +438,17 @@ then
 	echo
 fi
 
+if [ ${HAVE_WAIT_ANY} -eq 0 ]
+then
+	echo "#define WAIT_ANY (-1) /* sys/wait.h */"
+	echo "#define WAIT_MYPGRP 0"
+	echo
+fi
+
+
 if [ ${HAVE_INFTIM} -eq 0 ]
 then
-	echo "#define INFTIM (-1)"
+	echo "#define INFTIM (-1) /* poll.h */"
 	echo
 fi
 
@@ -482,6 +492,7 @@ cat << __HEREDOC__
 #define HAVE_SYS_TREE ${HAVE_SYS_TREE}
 #define HAVE_SYSTRACE ${HAVE_SYSTRACE}
 #define HAVE_UNVEIL ${HAVE_UNVEIL}
+#define HAVE_WAIT_ANY ${HAVE_WAIT_ANY}
 #define HAVE_ZLIB ${HAVE_ZLIB}
 #define HAVE___PROGNAME ${HAVE___PROGNAME}
 

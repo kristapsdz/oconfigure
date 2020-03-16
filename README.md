@@ -4,7 +4,7 @@ Its mission is to provide [OpenBSD](https://www.openbsd.org) portability
 functions and feature testing.
 
 It allows easy porting to Linux (glibc and musl), FreeBSD, NetBSD, Mac
-OS X, and SunOS.
+OS X, SunOS, and OmniOS (illumos).
 The continuity of this portability is maintained by BSD.lv's
 [continuous integration](https://kristaps.bsd.lv/cgi-bin/minci.cgi/index.html?project-name=oconfigure)
 system.  Other systems may also be supported: please let us know if they are.
@@ -252,6 +252,17 @@ value if not found.
 
 Since a compatibility function is provided, `HAVE_INFTIM` shouldn't be
 directly used in most circumstances.
+
+## libsocket
+
+On IllumOS-based distributions, all socket functions
+([bind(2)](https://man.openbsd.org/bind.2),
+[listen(2)](https://man.openbsd.org/listen.2),
+[socketpair(2)](https://man.openbsd.org/socketpair.2), etc.)
+require linking to the `-lsocket` and `-lnsl` libraries.
+
+If this is required, the `LDADD_LIB_SOCKET` variable in *Makefile.configure*
+will be set to the required libraries.
 
 ## md5.h
 
@@ -562,6 +573,19 @@ with the result.  Does not provide any compatibility.
 ```
 
 The `HAVE_UNVEIL` guard is not required except around the function invocation.
+
+## WAIT\_ANY
+
+Tests for `WAIT_ANY` in [waitpid(2)](https://man.openbsd.org/waitpid.2),
+defining `HAVE_WAIT_ANY` with the result.  Provides a compatibility
+value for both `WAIT_ANY` and `WAIT_MYPGRP` if not found.
+
+```c
+#include <sys/wait.h> /* WAIT_ANY, WAIT_MYPGRP */
+```
+
+Since a compatibility function is provided, `HAVE_WAIT_ANY` shouldn't be
+directly used in most circumstances.
 
 ## zlib(3)
 

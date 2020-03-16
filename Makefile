@@ -26,7 +26,8 @@ REGRESS_NODEP		= regress/capsicum \
 			  regress/strlcat \
 			  regress/strtonum \
 			  regress/systrace \
-			  regress/unveil
+			  regress/unveil \
+			  regress/WAIT_ANY
 REGRESS			= $(REGRESS_B64) \
 			  $(REGRESS_LIB_SOCKET) \
 			  $(REGRESS_MD5) \

@@ -536,6 +536,17 @@ main(void)
 	return -1 != unveil(NULL, NULL);
 }
 #endif /* TEST_UNVEIL */
+#if TEST_WAIT_ANY
+#include <sys/wait.h>
+
+int
+main(void)
+{
+	int st;
+
+	return waitpid(WAIT_ANY, &st, WNOHANG) != -1;
+}
+#endif /* TEST_WAIT_ANY */
 #if TEST_ZLIB
 #include <stddef.h>
 #include <zlib.h>
