@@ -1,5 +1,10 @@
 This file describes version information of this project.
 
+## 0.2.3
+
+Back out test for zlib.  This is better handled by
+[pkg-config(1)](https://man.openbsd.org/pkg-config.1).
+
 ## 0.2.2
 
 Fix regression in defining `_BSD_SOURCE` for Linux.

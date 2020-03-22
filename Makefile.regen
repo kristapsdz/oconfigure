@@ -24,7 +24,6 @@ TESTS	= test-__progname.c \
 	  test-capsicum.c \
 	  test-endian_h.c \
 	  test-err.c \
-	  test-expat.c \
 	  test-explicit_bzero.c \
 	  test-getexecname.c \
 	  test-getprogname.c \
@@ -59,8 +58,7 @@ TESTS	= test-__progname.c \
 	  test-sys_sysmacros_h.c \
 	  test-sys_tree.c \
 	  test-unveil.c \
-	  test-WAIT_ANY.c \
-	  test-zlib.c
+	  test-WAIT_ANY.c
 
 all: compats.c tests.c configure
 
