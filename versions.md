@@ -1,5 +1,9 @@
 This file describes version information of this project.
 
+## 0.2.2
+
+Fix regression in defining `_BSD_SOURCE` for Linux.
+
 ## 0.2.1
 
 More portability for SunOS and IllumOS (OmniOS).  Also Linux/SunOS
