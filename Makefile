@@ -3,6 +3,7 @@
 include Makefile.configure
 
 OBJS			= compats.o
+REGRESS_EXPAT		= regress/expat
 REGRESS_MD5		= regress/md5
 REGRESS_B64		= regress/b64_ntop
 REGRESS_LIB_SOCKET	= regress/SOCK_NONBLOCK
@@ -30,6 +31,7 @@ REGRESS_NODEP		= regress/capsicum \
 			  regress/unveil \
 			  regress/WAIT_ANY
 REGRESS			= $(REGRESS_B64) \
+			  $(REGRESS_EXPAT) \
 			  $(REGRESS_LIB_SOCKET) \
 			  $(REGRESS_MD5) \
 			  $(REGRESS_NODEP)
@@ -57,6 +59,11 @@ ${r}: ${r}.c compats.o config.h
 .for r in $(REGRESS_B64)
 ${r}: ${r}.c compats.o config.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_B64_NTOP)
+.endfor
+
+.for r in $(REGRESS_EXPAT)
+${r}: ${r}.c compats.o config.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_EXPAT)
 .endfor
 
 install:
