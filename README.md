@@ -210,6 +210,14 @@ compatibility functions `err`, `errx`, `warn`, `warnx`, `vwarn`,
 The *err.h* header needs to be guarded to prevent systems using the
 compatibility functions for failing, as the header does not exist.
 
+## expat(3)
+
+Tests for expat(3) compilation and linking.  Defines `HAVE_EXPAT` if
+found.  Does not provide any compatibility.
+
+The `LDADD_EXPAT` value provided in *Makefile.configure* will be set to
+`-lexpat` if found. Otherwise it is empty.
+
 ## explicit\_bzero(3)
 
 Tests for [explicit\_bzero(3)](https://man.openbsd.org/explicit_bzero.3)
