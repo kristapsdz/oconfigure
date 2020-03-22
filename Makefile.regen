@@ -24,6 +24,7 @@ TESTS	= test-__progname.c \
 	  test-capsicum.c \
 	  test-endian_h.c \
 	  test-err.c \
+	  test-expat.c \
 	  test-explicit_bzero.c \
 	  test-getexecname.c \
 	  test-getprogname.c \
