@@ -46,6 +46,7 @@ TESTS	= test-__progname.c \
 	  test-sandbox_init.c \
 	  test-seccomp_filter.c \
 	  test-SOCK_NONBLOCK.c \
+	  test-static.c \
 	  test-strlcat.c \
 	  test-strlcpy.c \
 	  test-strndup.c \
@@ -66,7 +67,7 @@ all: compats.c tests.c configure
 distcheck:
 	grep "^## $(VERSION)$$" versions.md >/dev/null
 
-configure: configure.in Makefile configure-sys_queue.h
+configure: configure.in Makefile.regen configure-sys_queue.h
 	rm -f $@
 	( sed -n '/^@CONFIGURE_SYS_QUEUE_H@$$/!p;//q' configure.in ; \
 	  sed -e 's!\\$$!\\\\!g' -e 's!\$$!\\$$!g' configure-sys_queue.h ; \
@@ -78,7 +79,7 @@ configure: configure.in Makefile configure-sys_queue.h
 	rm -f configure.1 configure.2
 	chmod 555 $@
 
-compats.c: $(COMPATS)
+compats.c: $(COMPATS) Makefile.regen
 	echo "#include \"config.h\"" >$@
 	for f in $(COMPATS) ; \
 	do \
@@ -89,7 +90,7 @@ compats.c: $(COMPATS)
 		echo "#endif /* !HAVE_$${up} */" ; \
 	done >>$@
 
-tests.c: $(TESTS)
+tests.c: $(TESTS) Makefile.regen
 	for f in $(TESTS) ; \
 	do \
 		ff="`echo $$f | sed -e 's!\.c$$!!' -e 's!^test-!!'`" ; \
