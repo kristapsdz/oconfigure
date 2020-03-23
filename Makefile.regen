@@ -13,6 +13,7 @@ COMPATS	= compat_err.c \
 	  compat_readpassphrase.c \
 	  compat_reallocarray.c \
 	  compat_recallocarray.c \
+	  compat_setresgid.c \
 	  compat_setresuid.c \
 	  compat_strlcat.c \
 	  compat_strlcpy.c \
