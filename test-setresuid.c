@@ -1,3 +1,4 @@
+#define _GNU_SOURCE /* linux */
 #include <sys/types.h>
 #include <unistd.h>
 
