@@ -419,6 +419,7 @@ if [ ${HAVE_MD5} -eq 0 -o \
      ${HAVE_READPASSPHRASE} -eq 0 -o \
      ${HAVE_REALLOCARRAY} -eq 0 -o \
      ${HAVE_RECALLOCARRAY} -eq 0 -o \
+     ${HAVE_SETRESUID} -eq 0 -o \
      ${HAVE_STRLCAT} -eq 0 -o \
      ${HAVE_STRLCPY} -eq 0 -o \
      ${HAVE_STRNDUP} -eq 0 -o \
@@ -797,6 +798,15 @@ __HEREDOC__
  * Compatibility for mknodat(2).
  */
 int mknodat(int, const char *, mode_t, dev_t);
+
+__HEREDOC__
+
+[ ${HAVE_SETRESUID} -eq 0 ] && \
+	cat << __HEREDOC__
+/*
+ * Compatibility for setresuid(2).
+ */
+int setresuid(uid_t ruid, uid_t euid, uid_t suid);
 
 __HEREDOC__
 

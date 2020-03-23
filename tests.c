@@ -335,7 +335,7 @@ main(void)
 }
 #endif /* TEST_SECCOMP_FILTER */
 #if TEST_SETRESUID
-#define _GNU_SOURCE
+#define _GNU_SOURCE /* linux */
 #include <sys/types.h>
 #include <unistd.h>
 
