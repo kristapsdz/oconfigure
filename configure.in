@@ -179,6 +179,7 @@ HAVE_REALLOCARRAY=
 HAVE_RECALLOCARRAY=
 HAVE_SANDBOX_INIT=
 HAVE_SECCOMP_FILTER=
+HAVE_SETRESUID=
 HAVE_SOCK_NONBLOCK=
 HAVE_STRLCAT=
 HAVE_STRLCPY=
@@ -324,6 +325,7 @@ runtest explicit_bzero	EXPLICIT_BZERO			  || true
 runtest getexecname	GETEXECNAME			  || true
 runtest getprogname	GETPROGNAME			  || true
 runtest INFTIM		INFTIM				  || true
+runtest lib_socket	LIB_SOCKET "" "" "-lsocket -lnsl" || true
 runtest md5		MD5 "" "" "-lmd"		  || true
 runtest memmem		MEMMEM			  	  || true
 runtest memrchr		MEMRCHR			  	  || true
@@ -339,8 +341,8 @@ runtest reallocarray	REALLOCARRAY			  || true
 runtest recallocarray	RECALLOCARRAY			  || true
 runtest sandbox_init	SANDBOX_INIT	"-Wno-deprecated" || true
 runtest seccomp-filter	SECCOMP_FILTER			  || true
+runtest setresuid	SETRESUID			  || true
 runtest SOCK_NONBLOCK	SOCK_NONBLOCK			  || true
-runtest lib_socket	LIB_SOCKET "" "" "-lsocket -lnsl" || true
 runtest static		STATIC "" "-static"		  || true
 runtest strlcat		STRLCAT				  || true
 runtest strlcpy		STRLCPY				  || true
@@ -489,6 +491,7 @@ cat << __HEREDOC__
 #define HAVE_RECALLOCARRAY ${HAVE_RECALLOCARRAY}
 #define HAVE_SANDBOX_INIT ${HAVE_SANDBOX_INIT}
 #define HAVE_SECCOMP_FILTER ${HAVE_SECCOMP_FILTER}
+#define HAVE_SETRESUID ${HAVE_SETRESUID}
 #define HAVE_SOCK_NONBLOCK ${HAVE_SOCK_NONBLOCK}
 #define HAVE_STRLCAT ${HAVE_STRLCAT}
 #define HAVE_STRLCPY ${HAVE_STRLCPY}

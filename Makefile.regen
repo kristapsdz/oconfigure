@@ -13,6 +13,7 @@ COMPATS	= compat_err.c \
 	  compat_readpassphrase.c \
 	  compat_reallocarray.c \
 	  compat_recallocarray.c \
+	  compat_setresuid.c \
 	  compat_strlcat.c \
 	  compat_strlcpy.c \
 	  compat_strndup.c \
@@ -44,6 +45,7 @@ TESTS	= test-__progname.c \
 	  test-recallocarray.c \
 	  test-sandbox_init.c \
 	  test-seccomp_filter.c \
+	  test-setresuid.c \
 	  test-SOCK_NONBLOCK.c \
 	  test-static.c \
 	  test-strlcat.c \

@@ -334,6 +334,16 @@ main(void)
 	return(EFAULT == errno ? 0 : 1);
 }
 #endif /* TEST_SECCOMP_FILTER */
+#if TEST_SETRESUID
+#include <sys/types.h>
+#include <unistd.h>
+
+int
+main(void)
+{
+	return setresuid(-1, -1, -1) == -1;
+}
+#endif /* TEST_SETRESUID */
 #if TEST_SOCK_NONBLOCK
 /*
  * Linux doesn't (always?) have this.
