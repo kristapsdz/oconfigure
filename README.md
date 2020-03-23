@@ -1,17 +1,20 @@
 This is a simple configuration script use for some
-[BSD.lv](https://www.bsd.lv) project sources.
-Its mission is to provide [OpenBSD](https://www.openbsd.org) portability
-functions and feature testing.
+[BSD.lv](https://www.bsd.lv) project sources.  Its mission is to provide
+[OpenBSD](https://www.openbsd.org) portability functions and feature
+testing.
 
-It allows easy porting to Linux (glibc 2.19 and greater and musl), FreeBSD, NetBSD, Mac
-OS X, SunOS (Solaris 11), and OmniOS (illumos).
+It's built for C programs using [make(1)](https://man.openbsd.org/make).
+
+It allows easy porting to Linux (glibc 2.19 and greater and musl),
+FreeBSD, NetBSD, Mac OS X, SunOS (Solaris 11), and OmniOS (illumos).
 The continuity of this portability is maintained by BSD.lv's
 [continuous integration](https://kristaps.bsd.lv/cgi-bin/minci.cgi/index.html?project-name=oconfigure)
-system.  Other systems may also be supported: please let us know if they are.
+system.  Other systems may also be supported: please let us know if they
+are.
 
 See [versions.md](versions.md) for version information.
 
-To use:
+To use (tl;dr edition):
 
 1. copy
 [configure](https://raw.githubusercontent.com/kristapsdz/oconfigure/master/configure),
@@ -21,11 +24,14 @@ and
 into your source tree
 2. have `include Makefile.configure` at the top of your Makefile
 3. have `#include "config.h"` as the first inclusion in your sources
-4. read over the documentation below in case you need to guard header inclusion
-5. compile compats.o and link with it
+4. read over the documentation below in case you need to guard header
+   inclusion
+5. compile compats.o with your sources and link with it
 
-Source users run `./configure` prior to running `make`.  The `configure`
-script will check for common features as noted in the test files, e.g.,
+# Source users
+
+Run `./configure` prior to running `make`.  The `configure` script will
+check for common features as noted in the test files, e.g.,
 [pledge(2)](https://man.openbsd.org/pledge.2), and also provide
 compatibility for other functions, e.g.,
 [strlcpy(3)](https://man.openbsd.org/strlcpy.3).
@@ -40,18 +46,21 @@ If you have Makefile flags you'd like to set, set them when you invoke
 ./configure PREFIX=/opt
 ```
 
-The following flags are recognised and accepted: `LDADD`, `LDFLAGS`,
+These are set in the generated `Makefile.configure`, which should be
+included by the source's `Makefile`.  The `LDADD`, `LDFLAGS`,
 `CPPFLAGS`, `DESTDIR`, `PREFIX`, `MANDIR`, `LIBDIR`, `BINDIR`,
-`SHAREDIR`, `SBINDIR`, and `INCLUDEDIR`.  Un-recognised flags are
-discarded and warned about.
+`SHAREDIR`, `SBINDIR`, and `INCLUDEDIR` variables are recognised.
+Anything else is discarded and warned about.
 
-If you want to use an alternative CC or CFLAGS, specify them as an
+If you want to use an alternative `CC` or `CFLAGS`, specify them as an
 environmental variable.  If the compiler is not found, **oconfigure**
 will try to locate `clang` and `gcc` before giving up.
 
 ```
 CC=musl-gcc ./configure
 ```
+
+# Source developers
 
 Using **oconfigure** requires some work within your sources to node
 compatibility areas, then some in your build environment:
@@ -79,24 +88,48 @@ And then...
 
 ```sh
 ./configure
-cc -o config.o -c config.c
+cc -o compats.o -c compats.c
 cc -o main.o -c main.c
-cc config.o main.o
+cc compats.o main.o
 ```
 
 It's better to build this into your Makefile, as the output
 *Makefile.configure* will set compiler, compiler flags, installation
 utilities, and so on.
 
+The following example also includes portable idioms for a depending
+library.  It uses BSD make style.  The *compats.c* is as given in
+**oconfigure**, and **Makefile.configure** and **config.h** are
+generated when running `configure`.
+
+```mk
+include Makefile.configure
+
+LDADD_PKG != pkg-config --libs zlib || echo "-lz"
+CFLAGS_PKG != pkg-config --cflags zlib || echo ""
+LDADD += $(LDADD_PKG)
+CFLAGS += $(CFLAGS_PKG)
+
+main: main.o compats.o
+	$(CC) -o $@ main.o compats.o $(LDFLAGS) $(LDADD)
+
+install:
+	mkdir -p $(DESTDIR)$(BINDIR)
+	$(INSTALL_PROGRAM) main $(DESTDIR)$(BINDIR)
+
+main.o compats.o: config.h
+
+clean:
+	rm -f main main.o compats.o
+```
+
 This framework was inspired by [mandoc](https://mandoc.bsd.lv)'s
 `configure` script written by Ingo Schwarze.
 
+# Features
+
 What follows is a description of the features and facilities provided by
 the package when included into your sources.
-
-The compatibility layer is generally provided by the excellent portable
-[OpenSSH](https://www.openssh.com/).  All copyrights are in their
-respective sources.
 
 ## b64\_ntop
 
@@ -209,14 +242,6 @@ compatibility functions `err`, `errx`, `warn`, `warnx`, `vwarn`,
 
 The *err.h* header needs to be guarded to prevent systems using the
 compatibility functions for failing, as the header does not exist.
-
-## expat(3)
-
-Tests for expat(3) compilation and linking.  Defines `HAVE_EXPAT` if
-found.  Does not provide any compatibility.
-
-The `LDADD_EXPAT` value provided in *Makefile.configure* will be set to
-`-lexpat` if found. Otherwise it is empty.
 
 ## explicit\_bzero(3)
 
@@ -621,11 +646,3 @@ value for both `WAIT_ANY` and `WAIT_MYPGRP` if not found.
 
 Since a compatibility function is provided, `HAVE_WAIT_ANY` shouldn't be
 directly used in most circumstances.
-
-## zlib(3)
-
-Tests for zlib(3) compilation and linking.  Defines `HAVE_ZLIB` if
-found.  Does not provide any compatibility.
-
-The `LDADD_ZLIB` value provided in *Makefile.configure* will be set to
-`-lz` if found. Otherwise it is empty.

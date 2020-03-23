@@ -4,6 +4,7 @@ This file describes version information of this project.
 
 Back out test for zlib.  This is better handled by
 [pkg-config(1)](https://man.openbsd.org/pkg-config.1).
+Add more documentation on usage.
 
 ## 0.2.2
 
