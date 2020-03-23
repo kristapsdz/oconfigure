@@ -45,6 +45,7 @@ TESTS	= test-__progname.c \
 	  test-recallocarray.c \
 	  test-sandbox_init.c \
 	  test-seccomp_filter.c \
+	  test-setresgid.c \
 	  test-setresuid.c \
 	  test-SOCK_NONBLOCK.c \
 	  test-static.c \

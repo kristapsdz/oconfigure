@@ -21,6 +21,7 @@ REGRESS_NODEP		= regress/capsicum \
 			  regress/pledge \
 			  regress/reallocarray \
 			  regress/recallocarray \
+			  regress/setresgid \
 			  regress/setresuid \
 			  regress/strndup \
 			  regress/strnlen \

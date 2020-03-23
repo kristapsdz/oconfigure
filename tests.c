@@ -334,6 +334,17 @@ main(void)
 	return(EFAULT == errno ? 0 : 1);
 }
 #endif /* TEST_SECCOMP_FILTER */
+#if TEST_SETRESGID
+#define _GNU_SOURCE /* linux */
+#include <sys/types.h>
+#include <unistd.h>
+
+int
+main(void)
+{
+	return setresgid(-1, -1, -1) == -1;
+}
+#endif /* TEST_SETRESGID */
 #if TEST_SETRESUID
 #define _GNU_SOURCE /* linux */
 #include <sys/types.h>

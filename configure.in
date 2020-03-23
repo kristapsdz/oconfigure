@@ -179,6 +179,7 @@ HAVE_REALLOCARRAY=
 HAVE_RECALLOCARRAY=
 HAVE_SANDBOX_INIT=
 HAVE_SECCOMP_FILTER=
+HAVE_SETRESGID=
 HAVE_SETRESUID=
 HAVE_SOCK_NONBLOCK=
 HAVE_STRLCAT=
@@ -341,6 +342,7 @@ runtest reallocarray	REALLOCARRAY			  || true
 runtest recallocarray	RECALLOCARRAY			  || true
 runtest sandbox_init	SANDBOX_INIT	"-Wno-deprecated" || true
 runtest seccomp-filter	SECCOMP_FILTER			  || true
+runtest setresgid	SETRESGID			  || true
 runtest setresuid	SETRESUID			  || true
 runtest SOCK_NONBLOCK	SOCK_NONBLOCK			  || true
 runtest static		STATIC "" "-static"		  || true
@@ -419,6 +421,7 @@ if [ ${HAVE_MD5} -eq 0 -o \
      ${HAVE_READPASSPHRASE} -eq 0 -o \
      ${HAVE_REALLOCARRAY} -eq 0 -o \
      ${HAVE_RECALLOCARRAY} -eq 0 -o \
+     ${HAVE_SETRESGID} -eq 0 -o \
      ${HAVE_SETRESUID} -eq 0 -o \
      ${HAVE_STRLCAT} -eq 0 -o \
      ${HAVE_STRLCPY} -eq 0 -o \
@@ -492,6 +495,7 @@ cat << __HEREDOC__
 #define HAVE_RECALLOCARRAY ${HAVE_RECALLOCARRAY}
 #define HAVE_SANDBOX_INIT ${HAVE_SANDBOX_INIT}
 #define HAVE_SECCOMP_FILTER ${HAVE_SECCOMP_FILTER}
+#define HAVE_SETRESGID ${HAVE_SETRESGID}
 #define HAVE_SETRESUID ${HAVE_SETRESUID}
 #define HAVE_SOCK_NONBLOCK ${HAVE_SOCK_NONBLOCK}
 #define HAVE_STRLCAT ${HAVE_STRLCAT}
@@ -798,6 +802,15 @@ __HEREDOC__
  * Compatibility for mknodat(2).
  */
 int mknodat(int, const char *, mode_t, dev_t);
+
+__HEREDOC__
+
+[ ${HAVE_SETRESGID} -eq 0 ] && \
+	cat << __HEREDOC__
+/*
+ * Compatibility for setresgid(2).
+ */
+int setresgid(gid_t rgid, gid_t egid, gid_t sgid);
 
 __HEREDOC__
 
