@@ -1,4 +1,6 @@
-#define _BSD_SOURCE
+#ifdef __linux__
+# define _DEFAULT_SOURCE
+#endif
 #include <endian.h>
 
 int
