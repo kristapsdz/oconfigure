@@ -193,6 +193,24 @@ Does not provide any compatibility.
 
 The guard is required for systems without these headers.
 
+## crypt(3)
+
+On OpenBSD, passwords are managed primarily through
+[crypt\_newhash(3)](https://man.openbsd.org/crypt_newhash.3) and friends.
+However, the old
+[crypt(3)](https://man.openbsd.org/crypt.3) function is still used in
+portable applications.  Even though it's not very portable.
+
+This tests for [crypt(3)](https://man.openbsd.org/crypt.3),
+defining `HAVE_CRYPT` with the result.
+
+On many systems with `HAVE_CRYPT`, you'll also need to add `-lcrypt`
+when you compile your system, else it will fail with undefined
+references.
+
+The `LDADD_CRYPT` value provided in *Makefile.configure* will be set to
+`-lcrypt` if it's required. Otherwise it is empty.
+
 ## endian.h
 
 On most operating systems (Linux, OpenBSD), *endian.h* provides the

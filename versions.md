@@ -1,5 +1,11 @@
 This file describes version information of this project.
 
+## 0.2.4
+
+Test for [crypt(3)](https://man.openbsd.org/crypt.3).
+Hopefully this will pave way for a future portable
+[crypt\_newhash(3)](https://man.openbsd.org/crypt_newhash.3).
+
 ## 0.2.3
 
 Back out test for zlib.  This is better handled by
