@@ -39,6 +39,18 @@ main(void)
 	return(0);
 }
 #endif /* TEST_CAPSICUM */
+#if TEST_CRYPT
+#include <stdlib.h>
+#include <unistd.h>
+
+int main(void)
+{
+	char	*v;
+
+	v = crypt("this_is_a_key", "123455");
+	return v == NULL;
+}
+#endif /* TEST_CRYPT */
 #if TEST_ENDIAN_H
 #ifdef __linux__
 # define _DEFAULT_SOURCE
