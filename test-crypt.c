@@ -1,5 +1,5 @@
-#define _XOPEN_SOURCE /* linux */
-#include <stdlib.h>
+#define _XOPEN_SOURCE /* old linux */
+#define _DEFAULT_SOURCE /* new linux */
 #include <unistd.h>
 
 int main(void)
