@@ -49,8 +49,10 @@ main(void)
 	/* Hash the password. */
 
 	hash = crypt("this_is_a_password", _gensalt_bcrypt());
-	if (hash == NULL)
+	if (hash == NULL) {
+		/* puts("falling back to traditional"); */
 		hash = crypt("this_is_a_password", _gensalt_trad());
+	}
 
 	/* Compare the hash and the password. */
 
