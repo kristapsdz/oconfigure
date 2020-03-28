@@ -40,7 +40,7 @@ main(void)
 }
 #endif /* TEST_CAPSICUM */
 #if TEST_CRYPT
-#define _XOPEN_SOURCE /* old linux */
+#define _GNU_SOURCE /* old linux */
 #define _DEFAULT_SOURCE /* new linux */
 #include <unistd.h>
 
