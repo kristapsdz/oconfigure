@@ -1,5 +1,16 @@
-#define _GNU_SOURCE /* old linux */
-#define _DEFAULT_SOURCE /* new linux */
+#if defined(__linux__)
+# define _GNU_SOURCE /* old glibc */
+# define _DEFAULT_SOURCE /* new glibc */
+#endif
+#if defined(__sun)
+# ifndef _XOPEN_SOURCE /* SunOS already defines */
+#  define _XOPEN_SOURCE /* XPGx */
+# endif
+# define _XOPEN_SOURCE_EXTENDED 1 /* XPG4v2 */
+# ifndef __EXTENSIONS__ /* SunOS already defines */
+#  define __EXTENSIONS__ /* reallocarray, etc. */
+# endif
+#endif
 #include <unistd.h>
 
 int main(void)
