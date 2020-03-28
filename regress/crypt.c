@@ -1,7 +1,10 @@
+#include "../config.h"
+
 #include <stdlib.h>
 #include <string.h> /* strcmp */
 #include <unistd.h>
 
+#if HAVE_CRYPT
 /*
  * This uses the bcrypt format found on OpenBSD (and others?).
  */
@@ -38,7 +41,8 @@ _gensalt_trad(void)
 	return salt;
 }
 
-int main(void)
+int 
+main(void)
 {
 	const char	*hash, *result;
 
@@ -53,3 +57,13 @@ int main(void)
 	result = crypt("this_is_a_pasword", hash);
 	return strcmp(result, hash) == 0 ? 0 : 1;
 }
+
+#else
+
+int 
+main(void)
+{
+	return 0;
+}
+
+#endif

@@ -1,3 +1,4 @@
+#define _XOPEN_SOURCE /* linux */
 #include <stdlib.h>
 #include <unistd.h>
 
