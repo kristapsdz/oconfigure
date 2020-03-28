@@ -44,12 +44,14 @@ _gensalt_trad(void)
 int 
 main(void)
 {
-	const char	*hash, *result;
+	const char	*hash, *result, *seed;
 
 	/* Hash the password. */
 
-	hash = crypt("this_is_a_password", _gensalt_bcrypt());
-	if (hash == NULL) {
+	seed = _gensalt_bcrypt();
+	hash = crypt("this_is_a_password", seed);
+	if (hash == NULL ||
+	    (strlen(hash) < 13 && strcmp(hash, seed))) {
 		/* puts("falling back to traditional"); */
 		hash = crypt("this_is_a_password", _gensalt_trad());
 	}
