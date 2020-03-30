@@ -40,7 +40,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "compat_fts.h"
 
 static FTSENT	*fts_alloc(FTS *, const char *, size_t);
 static FTSENT	*fts_build(FTS *);

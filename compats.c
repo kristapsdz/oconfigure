@@ -507,9 +507,6 @@ explicit_bzero(void *p, size_t n)
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "compat_fts.h"
-
-#define MAXIMUM(a, b)	(((a) > (b)) ? (a) : (b))
 
 static FTSENT	*fts_alloc(FTS *, const char *, size_t);
 static FTSENT	*fts_build(FTS *);
@@ -521,14 +518,20 @@ static int	 fts_palloc(FTS *, size_t);
 static FTSENT	*fts_sort(FTS *, FTSENT *, int);
 static unsigned short	 fts_stat(FTS *, FTSENT *);
 
-#define	ISDOT(a)	(a[0] == '.' && (!a[1] || (a[1] == '.' && !a[2])))
-#ifndef	O_CLOEXEC
-#define	O_CLOEXEC	0
-#endif
+/* oconfigure: I've prefixed all macros with "FTS_" for namespacing. */
 
-#define	CLR(opt)	(sp->fts_options &= ~(opt))
-#define	ISSET(opt)	(sp->fts_options & (opt))
-#define	SET(opt)	(sp->fts_options |= (opt))
+#define FTS_MAX(a, b)	(((a) > (b)) ? (a) : (b))
+#define	FTS_ISDOT(a)	(a[0] == '.' && (!a[1] || (a[1] == '.' && !a[2])))
+#define	FTS_ISSET(opt)	(sp->fts_options & (opt))
+#define	FTS_SET(opt)	(sp->fts_options |= (opt))
+
+/*
+ * Special case of "/" at the end of the path so that slashes aren't
+ * appended which would cause paths to be written as "....//foo".
+ */
+#define	FTS_NAPPEND(p)							\
+	(p->fts_path[p->fts_pathlen - 1] == '/'				\
+	    ? p->fts_pathlen - 1 : p->fts_pathlen)
 
 FTS *
 fts_open(char * const *argv, int options,
@@ -561,7 +564,7 @@ fts_open(char * const *argv, int options,
 	 * Start out with 1K of path space, and enough, in any case,
 	 * to hold the user's paths.
 	 */
-	if (fts_palloc(sp, MAXIMUM(fts_maxarglen(argv), PATH_MAX)))
+	if (fts_palloc(sp, FTS_MAX(fts_maxarglen(argv), PATH_MAX)))
 		goto mem1;
 
 	/* Allocate/initialize root's parent. */
@@ -676,14 +679,6 @@ fts_close(FTS *sp)
 	return (0);
 }
 
-/*
- * Special case of "/" at the end of the path so that slashes aren't
- * appended which would cause paths to be written as "....//foo".
- */
-#define	NAPPEND(p)							\
-	(p->fts_path[p->fts_pathlen - 1] == '/'				\
-	    ? p->fts_pathlen - 1 : p->fts_pathlen)
-
 FTSENT *
 fts_read(FTS *sp)
 {
@@ -692,7 +687,7 @@ fts_read(FTS *sp)
 	char *t;
 
 	/* If finished or unrecoverable error, return NULL. */
-	if (sp->fts_cur == NULL || ISSET(FTS_STOP))
+	if (sp->fts_cur == NULL || FTS_ISSET(FTS_STOP))
 		return (NULL);
 
 	/* Set current node pointer. */
@@ -706,7 +701,7 @@ fts_read(FTS *sp)
 	if (p->fts_info == FTS_D) {
 		/* If skipped or crossed mount point, do post-order visit. */
 		if (instr == FTS_SKIP ||
-		    (ISSET(FTS_XDEV) && p->fts_dev != sp->fts_dev)) {
+		    (FTS_ISSET(FTS_XDEV) && p->fts_dev != sp->fts_dev)) {
 			if (sp->fts_child) {
 				fts_lfree(sp->fts_child);
 				sp->fts_child = NULL;
@@ -722,7 +717,7 @@ fts_read(FTS *sp)
 		if (sp->fts_child) {
 			/* nothing */
 		} else if ((sp->fts_child = fts_build(sp)) == NULL) {
-			if (ISSET(FTS_STOP))
+			if (FTS_ISSET(FTS_STOP))
 				return (NULL);
 			return (p);
 		}
@@ -753,7 +748,7 @@ next:	tmp = p;
 		if (p->fts_instr == FTS_SKIP)
 			goto next;
 
-name:		t = sp->fts_path + NAPPEND(p->fts_parent);
+name:		t = sp->fts_path + FTS_NAPPEND(p->fts_parent);
 		*t++ = '/';
 		memmove(t, p->fts_name, p->fts_namelen + 1);
 		return (sp->fts_cur = p);
@@ -847,7 +842,7 @@ fts_build(FTS *sp)
 	 * If not changing directories set a pointer so that can just append
 	 * each new name into the path.
 	 */
-	len = NAPPEND(cur);
+	len = FTS_NAPPEND(cur);
 	cp = sp->fts_path + len;
 	*cp++ = '/';
 	len++;
@@ -864,10 +859,16 @@ fts_build(FTS *sp)
 	/* Read the directory, attaching each entry to the `link' pointer. */
 	doadjust = 0;
 	for (head = tail = NULL, nitems = 0; dirp && (dp = readdir(dirp));) {
-		if (ISDOT(dp->d_name))
+		if (FTS_ISDOT(dp->d_name))
 			continue;
 
-#if HAVE_DIRENT_NAMLEN
+		/* 
+		 * oconfigure: on musl (the only system we're portable to that
+		 * doesn't have fts), there's no d_namlen.
+		 * So there's no need to have a HAVE_DIRENT_NAMLEN.
+		 */
+
+#if 0
 		dlen = dp->d_namlen;
 #else
 		dlen = strlen(dp->d_name);
@@ -888,7 +889,7 @@ mem1:				saved_errno = errno;
 				fts_lfree(head);
 				(void)closedir(dirp);
 				cur->fts_info = FTS_ERR;
-				SET(FTS_STOP);
+				FTS_SET(FTS_STOP);
 				errno = saved_errno;
 				return (NULL);
 			}
@@ -913,7 +914,7 @@ mem1:				saved_errno = errno;
 			fts_lfree(head);
 			(void)closedir(dirp);
 			cur->fts_info = FTS_ERR;
-			SET(FTS_STOP);
+			FTS_SET(FTS_STOP);
 			errno = ENAMETOOLONG;
 			return (NULL);
 		}
@@ -993,7 +994,7 @@ fts_stat(FTS *sp, FTSENT *p)
 		ino = p->fts_ino = sbp->st_ino;
 		p->fts_nlink = sbp->st_nlink;
 
-		if (ISDOT(p->fts_name))
+		if (FTS_ISDOT(p->fts_name))
 			return (FTS_DOT);
 
 		/*
@@ -1128,7 +1129,7 @@ fts_padjust(FTS *sp, FTSENT *head)
 	FTSENT *p;
 	char *addr = sp->fts_path;
 
-#define	ADJUST(p) {							\
+#define	FTS_ADJUST(p) {							\
 	if ((p)->fts_accpath != (p)->fts_name) {			\
 		(p)->fts_accpath =					\
 		    (char *)addr + ((p)->fts_accpath - (p)->fts_path);	\
@@ -1137,11 +1138,11 @@ fts_padjust(FTS *sp, FTSENT *head)
 }
 	/* Adjust the current set of children. */
 	for (p = sp->fts_child; p; p = p->fts_link)
-		ADJUST(p);
+		FTS_ADJUST(p);
 
 	/* Adjust the rest of the tree, including the current level. */
 	for (p = head; p->fts_level >= FTS_ROOTLEVEL;) {
-		ADJUST(p);
+		FTS_ADJUST(p);
 		p = p->fts_link ? p->fts_link : p->fts_parent;
 	}
 }
