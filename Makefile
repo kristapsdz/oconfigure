@@ -11,6 +11,7 @@ REGRESS_NODEP		= regress/capsicum \
 			  regress/endian \
 			  regress/err \
 			  regress/explicit_bzero \
+			  regress/fts \
 			  regress/getprogname \
 			  regress/INFTIM \
 			  regress/memmem \
