@@ -1,5 +1,12 @@
 This file describes version information of this project.
 
+## 0.2.5
+
+Test for [fts\_open(3)](https://man.openbsd.org/fts_open.3) and provides
+compatibility functions if not found.  These use the latest OpenBSD
+source as a basis for the compatibility functions.  Required for
+compiling on musl systems.
+
 ## 0.2.4
 
 Test for [crypt(3)](https://man.openbsd.org/crypt.3).

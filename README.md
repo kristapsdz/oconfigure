@@ -264,7 +264,7 @@ compatibility functions for failing, as the header does not exist.
 ## explicit\_bzero(3)
 
 Tests for [explicit\_bzero(3)](https://man.openbsd.org/explicit_bzero.3)
-in *string.h*, defining `HAVE_EXPLICIT_BZERO` variable with the result.
+in *string.h*, defining `HAVE_EXPLICIT_BZERO` with the result.
 
 ```c
 #include <string.h> /* explicit_bzero */
@@ -275,6 +275,23 @@ layer will use
 [memset\_s](http://en.cppreference.com/w/c/string/byte/memset), if
 found.  `HAVE_EXPLICIT_BZERO` shouldn't be directly used in most
 circumstances.
+
+## fts(3)
+
+Tests for the
+[fts\_open(3)](https://man.openbsd.org/fts_open.3) family of functions
+in *fts.h*, defining `HAVE_FTS` with the result.  If not found, provides
+compatibility functions.
+
+```c
+#if HAVE_FTS
+# include <sys/types.h>
+# include <fts.h> /* fts_open(3) et al. */
+#endif
+```
+
+The *fts.h* header needs to be guarded to prevent systems using the
+compatibility functions for failing, as the header does not exist.
 
 ## getprogname(3)
 
