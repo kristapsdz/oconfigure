@@ -8,6 +8,7 @@
 #if HAVE_ERR
 # include <err.h>
 #endif
+#include <stddef.h> /* NULL */
 
 int
 main(void)
