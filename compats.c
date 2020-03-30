@@ -496,19 +496,23 @@ explicit_bzero(void *p, size_t n)
  * SUCH DAMAGE.
  */
 
-#include <sys/param.h>	/* ALIGN */
 #include <sys/stat.h>
+#include <sys/types.h>
 
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <fts.h>
 #include <limits.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-#define FTS_MAX(a, b)	(((a) > (b)) ? (a) : (b))
+/* 
+ * oconfigure: Adapted from sys/_types.h.
+ * oconfigure: Be conservative with ALIGNBYTES.
+ */
+#define	FTS_ALIGNBYTES		(sizeof(long) - 1)
+#define	FTS_ALIGN(p)		(((unsigned long)(p) + FTS_ALIGNBYTES) &~ FTS_ALIGNBYTES)
 
 static FTSENT	*fts_alloc(FTS *, char *, size_t);
 static FTSENT	*fts_build(FTS *, int);
@@ -521,14 +525,14 @@ static FTSENT	*fts_sort(FTS *, FTSENT *, int);
 static u_short	 fts_stat(FTS *, FTSENT *, int, int);
 static int	 fts_safe_changedir(FTS *, FTSENT *, int, char *);
 
-#define	FTS_ISDOT(a)		(a[0] == '.' && (!a[1] || (a[1] == '.' && !a[2])))
+/* oconfigure: Prefix with FTS_. */
 
+#define FTS_MAX(a, b)	(((a) > (b)) ? (a) : (b))
+#define	FTS_ISDOT(a)		(a[0] == '.' && (!a[1] || (a[1] == '.' && !a[2])))
 #define	FTS_CLR(opt)		(sp->fts_options &= ~(opt))
 #define	FTS_ISSET(opt)		(sp->fts_options & (opt))
 #define	FTS_SET(opt)		(sp->fts_options |= (opt))
-
 #define	FTS_FCHDIR(sp, fd)	(!FTS_ISSET(FTS_NOCHDIR) && fchdir(fd))
-
 /* fts_build flags */
 #define	FTS_BCHILD		1 /* fts_children */
 #define	FTS_BNAMES		2 /* fts_children, names only */
@@ -542,6 +546,7 @@ fts_open(char * const *argv, int options,
 	FTSENT *p, *root;
 	int nitems;
 	FTSENT *parent, *prev;
+	char empty[1] = { '\0' };
 
 	/* Options check. */
 	if (options & ~FTS_OPTIONMASK) {
@@ -573,7 +578,7 @@ fts_open(char * const *argv, int options,
 		goto mem1;
 
 	/* Allocate/initialize root's parent. */
-	if ((parent = fts_alloc(sp, "", 0)) == NULL)
+	if ((parent = fts_alloc(sp, empty, 0)) == NULL)
 		goto mem2;
 	parent->fts_level = FTS_ROOTPARENTLEVEL;
 
@@ -614,7 +619,7 @@ fts_open(char * const *argv, int options,
 	 * finished the node before the root(s); set p->fts_info to FTS_INIT
 	 * so that everything about the "current" node is ignored.
 	 */
-	if ((sp->fts_cur = fts_alloc(sp, "", 0)) == NULL)
+	if ((sp->fts_cur = fts_alloc(sp, empty, 0)) == NULL)
 		goto mem3;
 	sp->fts_cur->fts_link = root;
 	sp->fts_cur->fts_info = FTS_INIT;
@@ -641,7 +646,6 @@ mem2:	free(sp->fts_path);
 mem1:	free(sp);
 	return (NULL);
 }
-DEF_WEAK(fts_open);
 
 static void
 fts_load(FTS *sp, FTSENT *p)
@@ -708,7 +712,6 @@ fts_close(FTS *sp)
 
 	return (error);
 }
-DEF_WEAK(fts_close);
 
 /*
  * Special case of "/" at the end of the path so that slashes aren't
@@ -724,6 +727,7 @@ fts_read(FTS *sp)
 	FTSENT *p, *tmp;
 	int instr;
 	char *t;
+	char up[3] = { '.', '.', '\0' };
 	int saved_errno;
 
 	/* If finished or unrecoverable error, return NULL. */
@@ -898,7 +902,7 @@ name:		t = sp->fts_path + NAPPEND(p->fts_parent);
 		}
 		(void)close(p->fts_symfd);
 	} else if (!(p->fts_flags & FTS_DONTCHDIR) &&
-	    fts_safe_changedir(sp, p->fts_parent, -1, "..")) {
+	    fts_safe_changedir(sp, p->fts_parent, -1, up)) {
 		FTS_SET(FTS_STOP);
 		sp->fts_cur = p;
 		return (NULL);
@@ -906,7 +910,6 @@ name:		t = sp->fts_path + NAPPEND(p->fts_parent);
 	p->fts_info = p->fts_errno ? FTS_ERR : FTS_DP;
 	return (sp->fts_cur = p);
 }
-DEF_WEAK(fts_read);
 
 /*
  * Fts_set takes the stream as an argument although it's not used in this
@@ -925,7 +928,6 @@ fts_set(FTS *sp, FTSENT *p, int instr)
 	p->fts_instr = instr;
 	return (0);
 }
-DEF_WEAK(fts_set);
 
 FTSENT *
 fts_children(FTS *sp, int instr)
@@ -994,7 +996,6 @@ fts_children(FTS *sp, int instr)
 	(void)close(fd);
 	return (sp->fts_child);
 }
-DEF_WEAK(fts_children);
 
 /*
  * This is the tricky part -- do not casually change *anything* in here.  The
@@ -1018,10 +1019,11 @@ fts_build(FTS *sp, int type)
 	FTSENT *cur, *tail;
 	DIR *dirp;
 	void *oldaddr;
-	size_t len, maxlen;
+	size_t len, maxlen, namlen;
 	int nitems, cderrno, descend, level, nlinks, nostat, doadjust;
 	int saved_errno;
 	char *cp;
+	char up[3] = { '.', '.', '\0' };
 
 	/* Set current node pointer. */
 	cur = sp->fts_cur;
@@ -1120,11 +1122,13 @@ fts_build(FTS *sp, int type)
 		if (!FTS_ISSET(FTS_SEEDOT) && FTS_ISDOT(dp->d_name))
 			continue;
 
-		if (!(p = fts_alloc(sp, dp->d_name, dp->d_namlen)))
+		namlen = strlen(dp->d_name);
+
+		if (!(p = fts_alloc(sp, dp->d_name, namlen)))
 			goto mem1;
-		if (dp->d_namlen >= maxlen) {	/* include space for NUL */
+		if (namlen >= maxlen) {	/* include space for NUL */
 			oldaddr = sp->fts_path;
-			if (fts_palloc(sp, dp->d_namlen +len + 1)) {
+			if (fts_palloc(sp, namlen +len + 1)) {
 				/*
 				 * No more memory for path or structures.  Save
 				 * errno, free up the current structure and the
@@ -1150,7 +1154,7 @@ mem1:				saved_errno = errno;
 
 		p->fts_level = level;
 		p->fts_parent = sp->fts_cur;
-		p->fts_pathlen = len + dp->d_namlen;
+		p->fts_pathlen = len + namlen;
 		if (p->fts_pathlen < len) {
 			/*
 			 * If we wrap, free up the current structure and
@@ -1238,7 +1242,7 @@ mem1:				saved_errno = errno;
 	 */
 	if (descend && (type == FTS_BCHILD || !nitems) &&
 	    (cur->fts_level == FTS_ROOTLEVEL ? FTS_FCHDIR(sp, sp->fts_rfd) :
-	    fts_safe_changedir(sp, cur->fts_parent, -1, ".."))) {
+	    fts_safe_changedir(sp, cur->fts_parent, -1, up))) {
 		cur->fts_info = FTS_ERR;
 		FTS_SET(FTS_STOP);
 		return (NULL);
@@ -1384,7 +1388,7 @@ fts_alloc(FTS *sp, char *name, size_t namelen)
 	 */
 	len = sizeof(FTSENT) + namelen;
 	if (!FTS_ISSET(FTS_NOSTAT))
-		len += sizeof(struct stat) + ALIGNBYTES;
+		len += sizeof(struct stat) + FTS_ALIGNBYTES;
 	if ((p = calloc(1, len)) == NULL)
 		return (NULL);
 
@@ -1392,7 +1396,7 @@ fts_alloc(FTS *sp, char *name, size_t namelen)
 	p->fts_namelen = namelen;
 	p->fts_instr = FTS_NOINSTR;
 	if (!FTS_ISSET(FTS_NOSTAT))
-		p->fts_statp = (struct stat *)ALIGN(p->fts_name + namelen + 2);
+		p->fts_statp = (struct stat *)FTS_ALIGN(p->fts_name + namelen + 2);
 	memcpy(p->fts_name, name, namelen);
 
 	return (p);

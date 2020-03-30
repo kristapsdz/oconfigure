@@ -869,7 +869,7 @@ typedef struct {
 	int fts_rfd;			/* fd for root */
 	size_t fts_pathlen;		/* sizeof(path) */
 	int fts_nitems;			/* elements in the sort array */
-	int (*fts_compar)(const struct _ftsent **, const _ftsent **); /* compare function */
+	int (*fts_compar)(const struct _ftsent **, const struct _ftsent **); /* compare function */
 #define	FTS_COMFOLLOW	0x0001		/* follow command line symlinks */
 #define	FTS_LOGICAL	0x0002		/* logical walk */
 #define	FTS_NOCHDIR	0x0004		/* don't change directories */
