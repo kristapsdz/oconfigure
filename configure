@@ -2312,6 +2312,7 @@ FTSENT	*fts_read(FTS *);
 int	 fts_set(FTS *, FTSENT *, int);
 
 __HEREDOC__
+fi
 
 echo "config.h: written" 1>&2
 echo "config.h: written" 1>&3
