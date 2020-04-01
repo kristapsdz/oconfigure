@@ -16,6 +16,7 @@ COMPATS	= compat_err.c \
 	  compat_recallocarray.c \
 	  compat_setresgid.c \
 	  compat_setresuid.c \
+	  compat_sha2_h.c \
 	  compat_strlcat.c \
 	  compat_strlcpy.c \
 	  compat_strndup.c \
@@ -51,6 +52,7 @@ TESTS	= test-__progname.c \
 	  test-seccomp_filter.c \
 	  test-setresgid.c \
 	  test-setresuid.c \
+	  test-sha2_h.c \
 	  test-SOCK_NONBLOCK.c \
 	  test-static.c \
 	  test-strlcat.c \
