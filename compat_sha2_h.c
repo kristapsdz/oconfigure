@@ -875,3 +875,63 @@ SHA384Final(u_int8_t digest[SHA384_DIGEST_LENGTH], SHA2_CTX *context)
 	/* Zero out state data */
 	explicit_bzero(context, sizeof(*context));
 }
+
+char *
+SHA256End(SHA2_CTX *ctx, char *buf)
+{
+	int i;
+	u_int8_t digest[SHA256_DIGEST_LENGTH];
+	static const char hex[] = "0123456789abcdef";
+
+	if (buf == NULL && (buf = malloc(SHA256_DIGEST_STRING_LENGTH)) == NULL)
+		return (NULL);
+
+	SHA256Final(digest, ctx);
+	for (i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+		buf[i + i] = hex[digest[i] >> 4];
+		buf[i + i + 1] = hex[digest[i] & 0x0f];
+	}
+	buf[i + i] = '\0';
+	explicit_bzero(digest, sizeof(digest));
+	return (buf);
+}
+
+char *
+SHA384End(SHA2_CTX *ctx, char *buf)
+{
+	int i;
+	u_int8_t digest[SHA384_DIGEST_LENGTH];
+	static const char hex[] = "0123456789abcdef";
+
+	if (buf == NULL && (buf = malloc(SHA384_DIGEST_STRING_LENGTH)) == NULL)
+		return (NULL);
+
+	SHA384Final(digest, ctx);
+	for (i = 0; i < SHA384_DIGEST_LENGTH; i++) {
+		buf[i + i] = hex[digest[i] >> 4];
+		buf[i + i + 1] = hex[digest[i] & 0x0f];
+	}
+	buf[i + i] = '\0';
+	explicit_bzero(digest, sizeof(digest));
+	return (buf);
+}
+
+char *
+SHA512End(SHA2_CTX *ctx, char *buf)
+{
+	int i;
+	u_int8_t digest[SHA512_DIGEST_LENGTH];
+	static const char hex[] = "0123456789abcdef";
+
+	if (buf == NULL && (buf = malloc(SHA512_DIGEST_STRING_LENGTH)) == NULL)
+		return (NULL);
+
+	SHA512Final(digest, ctx);
+	for (i = 0; i < SHA512_DIGEST_LENGTH; i++) {
+		buf[i + i] = hex[digest[i] >> 4];
+		buf[i + i + 1] = hex[digest[i] & 0x0f];
+	}
+	buf[i + i] = '\0';
+	explicit_bzero(digest, sizeof(digest));
+	return (buf);
+}
