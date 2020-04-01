@@ -263,21 +263,6 @@ static const u_int64_t sha512_initial_hash_value[8] = {
 	0x5be0cd19137e2179ULL
 };
 
-#if !defined(SHA2_SMALL)
-#if 0
-/* Initial hash value H for SHA-224: */
-static const u_int32_t sha224_initial_hash_value[8] = {
-	0xc1059ed8UL,
-	0x367cd507UL,
-	0x3070dd17UL,
-	0xf70e5939UL,
-	0xffc00b31UL,
-	0x68581511UL,
-	0x64f98fa7UL,
-	0xbefa4fa4UL
-};
-#endif /* 0 */
-
 /* Initial hash value H for SHA-384 */
 static const u_int64_t sha384_initial_hash_value[8] = {
 	0xcbbb9d5dc1059ed8ULL,
@@ -289,56 +274,6 @@ static const u_int64_t sha384_initial_hash_value[8] = {
 	0xdb0c2e0d64f98fa7ULL,
 	0x47b5481dbefa4fa4ULL
 };
-
-#if 0
-/* Initial hash value H for SHA-512-256 */
-static const u_int64_t sha512_256_initial_hash_value[8] = {
-	0x22312194fc2bf72cULL,
-	0x9f555fa3c84c64c2ULL,
-	0x2393b86b6f53b151ULL,
-	0x963877195940eabdULL,
-	0x96283ee2a88effe3ULL,
-	0xbe5e1e2553863992ULL,
-	0x2b0199fc2c85b8aaULL,
-	0x0eb72ddc81c52ca2ULL
-};
-
-/*** SHA-224: *********************************************************/
-void
-SHA224Init(SHA2_CTX *context)
-{
-	memcpy(context->state.st32, sha224_initial_hash_value,
-	    sizeof(sha224_initial_hash_value));
-	memset(context->buffer, 0, sizeof(context->buffer));
-	context->bitcount[0] = 0;
-}
-DEF_WEAK(SHA224Init);
-
-MAKE_CLONE(SHA224Transform, SHA256Transform);
-MAKE_CLONE(SHA224Update, SHA256Update);
-MAKE_CLONE(SHA224Pad, SHA256Pad);
-DEF_WEAK(SHA224Transform);
-DEF_WEAK(SHA224Update);
-DEF_WEAK(SHA224Pad);
-
-void
-SHA224Final(u_int8_t digest[SHA224_DIGEST_LENGTH], SHA2_CTX *context)
-{
-	SHA224Pad(context);
-
-#if BYTE_ORDER == LITTLE_ENDIAN
-	int	i;
-
-	/* Convert TO host byte order */
-	for (i = 0; i < 7; i++)
-		BE_32_TO_8(digest + i * 4, context->state.st32[i]);
-#else
-	memcpy(digest, context->state.st32, SHA224_DIGEST_LENGTH);
-#endif
-	explicit_bzero(context, sizeof(*context));
-}
-#endif /* !defined(SHA2_SMALL) */
-#endif /* 0 */
 
 /*** SHA-256: *********************************************************/
 void
@@ -890,8 +825,6 @@ SHA512Final(u_int8_t digest[SHA512_DIGEST_LENGTH], SHA2_CTX *context)
 	explicit_bzero(context, sizeof(*context));
 }
 
-#if !defined(SHA2_SMALL)
-
 /*** SHA-384: *********************************************************/
 void
 SHA384Init(SHA2_CTX *context)
@@ -942,45 +875,3 @@ SHA384Final(u_int8_t digest[SHA384_DIGEST_LENGTH], SHA2_CTX *context)
 	/* Zero out state data */
 	explicit_bzero(context, sizeof(*context));
 }
-
-#if 0
-/*** SHA-512/256: *********************************************************/
-void
-SHA512_256Init(SHA2_CTX *context)
-{
-	memcpy(context->state.st64, sha512_256_initial_hash_value,
-	    sizeof(sha512_256_initial_hash_value));
-	memset(context->buffer, 0, sizeof(context->buffer));
-	context->bitcount[0] = context->bitcount[1] = 0;
-}
-DEF_WEAK(SHA512_256Init);
-
-MAKE_CLONE(SHA512_256Transform, SHA512Transform);
-MAKE_CLONE(SHA512_256Update, SHA512Update);
-MAKE_CLONE(SHA512_256Pad, SHA512Pad);
-DEF_WEAK(SHA512_256Transform);
-DEF_WEAK(SHA512_256Update);
-DEF_WEAK(SHA512_256Pad);
-
-void
-SHA512_256Final(u_int8_t digest[SHA512_256_DIGEST_LENGTH], SHA2_CTX *context)
-{
-	SHA512_256Pad(context);
-
-#if BYTE_ORDER == LITTLE_ENDIAN
-	int	i;
-
-	/* Convert TO host byte order */
-	for (i = 0; i < 4; i++)
-		BE_64_TO_8(digest + i * 8, context->state.st64[i]);
-#else
-	memcpy(digest, context->state.st64, SHA512_256_DIGEST_LENGTH);
-#endif
-	/* Zero out state data */
-	explicit_bzero(context, sizeof(*context));
-}
-DEF_WEAK(SHA512_256Final);
-#endif /* !defined(SHA2_SMALL) */
-#endif /* 0 */
-
-#endif /* HAVE_SHA{256,384,512}UPDATE */
