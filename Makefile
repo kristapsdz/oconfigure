@@ -25,6 +25,7 @@ REGRESS_NODEP		= regress/capsicum \
 			  regress/recallocarray \
 			  regress/setresgid \
 			  regress/setresuid \
+			  regress/sha2 \
 			  regress/strndup \
 			  regress/strnlen \
 			  regress/strlcpy \
