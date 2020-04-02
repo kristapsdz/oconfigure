@@ -2498,7 +2498,15 @@ setresuid(uid_t ruid, uid_t euid, uid_t suid)
 /* no-op out, similar to DEF_WEAK but only needed here */
 #define MAKE_CLONE(x, y)	void __ssh_compat_make_clone_##x_##y(void)
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include <errno.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #ifndef MINIMUM
 # define MINIMUM(a, b)	(((a) < (b)) ? (a) : (b))
