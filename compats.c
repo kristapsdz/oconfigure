@@ -2500,6 +2500,10 @@ setresuid(uid_t ruid, uid_t euid, uid_t suid)
 
 #include <string.h>
 
+#ifndef MINIMUM
+# define MINIMUM(a, b)	(((a) < (b)) ? (a) : (b))
+#endif
+
 #ifndef BYTE_ORDER
 # if defined(LITTLE_ENDIAN) || defined(BIG_ENDIAN)
 #  error Confusion in endian macros.
