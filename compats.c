@@ -1590,6 +1590,21 @@ getprogname(void)
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef BYTE_ORDER
+# if defined(LITTLE_ENDIAN) || defined(BIG_ENDIAN)
+#  error Confusion in endian macros.
+# endif
+# if !defined(__BYTE_ORDER__)
+#  error Byte order macro not found.
+# endif
+# if !defined(__ORDER_LITTLE_ENDIAN__) || !defined(__ORDER_BIG_ENDIAN__)
+#  error Little/big endian macros not found.
+# endif
+# define BYTE_ORDER __BYTE_ORDER__
+# define LITTLE_ENDIAN __ORDER_LITTLE_ENDIAN__
+# define BIG_ENDIAN __ORDER_BIG_ENDIAN__
+#endif /*!BYTE_ORDER*/
+
 #define PUT_64BIT_LE(cp, value) do {					\
 	(cp)[7] = (value) >> 56;					\
 	(cp)[6] = (value) >> 48;					\
@@ -2484,6 +2499,21 @@ setresuid(uid_t ruid, uid_t euid, uid_t suid)
 #define MAKE_CLONE(x, y)	void __ssh_compat_make_clone_##x_##y(void)
 
 #include <string.h>
+
+#ifndef BYTE_ORDER
+# if defined(LITTLE_ENDIAN) || defined(BIG_ENDIAN)
+#  error Confusion in endian macros.
+# endif
+# if !defined(__BYTE_ORDER__)
+#  error Byte order macro not found.
+# endif
+# if !defined(__ORDER_LITTLE_ENDIAN__) || !defined(__ORDER_BIG_ENDIAN__)
+#  error Little/big endian macros not found.
+# endif
+# define BYTE_ORDER __BYTE_ORDER__
+# define LITTLE_ENDIAN __ORDER_LITTLE_ENDIAN__
+# define BIG_ENDIAN __ORDER_BIG_ENDIAN__
+#endif /*!BYTE_ORDER*/
 
 /*
  * UNROLLED TRANSFORM LOOP NOTE:
