@@ -3409,6 +3409,177 @@ SHA512End(SHA2_CTX *ctx, char *buf)
 	explicit_bzero(digest, sizeof(digest));
 	return (buf);
 }
+
+char *
+SHA256FileChunk(const char *filename, char *buf, off_t off, off_t len)
+{
+	struct stat sb;
+	u_char buffer[BUFSIZ];
+	SHA2_CTX ctx;
+	int fd, save_errno;
+	ssize_t nr;
+
+	SHA256Init(&ctx);
+
+	if ((fd = open(filename, O_RDONLY)) == -1)
+		return (NULL);
+	if (len == 0) {
+		if (fstat(fd, &sb) == -1) {
+			save_errno = errno;
+			close(fd);
+			errno = save_errno;
+			return (NULL);
+		}
+		len = sb.st_size;
+	}
+	if (off > 0 && lseek(fd, off, SEEK_SET) == -1) {
+		save_errno = errno;
+		close(fd);
+		errno = save_errno;
+		return (NULL);
+	}
+
+	while ((nr = read(fd, buffer, MINIMUM(sizeof(buffer), len))) > 0) {
+		SHA256Update(&ctx, buffer, nr);
+		if (len > 0 && (len -= nr) == 0)
+			break;
+	}
+
+	save_errno = errno;
+	close(fd);
+	errno = save_errno;
+	return (nr == -1 ? NULL : SHA256End(&ctx, buf));
+}
+
+char *
+SHA256File(const char *filename, char *buf)
+{
+	return (SHA256FileChunk(filename, buf, 0, 0));
+}
+
+char *
+SHA384FileChunk(const char *filename, char *buf, off_t off, off_t len)
+{
+	struct stat sb;
+	u_char buffer[BUFSIZ];
+	SHA2_CTX ctx;
+	int fd, save_errno;
+	ssize_t nr;
+
+	SHA384Init(&ctx);
+
+	if ((fd = open(filename, O_RDONLY)) == -1)
+		return (NULL);
+	if (len == 0) {
+		if (fstat(fd, &sb) == -1) {
+			save_errno = errno;
+			close(fd);
+			errno = save_errno;
+			return (NULL);
+		}
+		len = sb.st_size;
+	}
+	if (off > 0 && lseek(fd, off, SEEK_SET) == -1) {
+		save_errno = errno;
+		close(fd);
+		errno = save_errno;
+		return (NULL);
+	}
+
+	while ((nr = read(fd, buffer, MINIMUM(sizeof(buffer), len))) > 0) {
+		SHA384Update(&ctx, buffer, nr);
+		if (len > 0 && (len -= nr) == 0)
+			break;
+	}
+
+	save_errno = errno;
+	close(fd);
+	errno = save_errno;
+	return (nr == -1 ? NULL : SHA384End(&ctx, buf));
+}
+
+char *
+SHA384File(const char *filename, char *buf)
+{
+	return (SHA384FileChunk(filename, buf, 0, 0));
+}
+
+char *
+SHA512FileChunk(const char *filename, char *buf, off_t off, off_t len)
+{
+	struct stat sb;
+	u_char buffer[BUFSIZ];
+	SHA2_CTX ctx;
+	int fd, save_errno;
+	ssize_t nr;
+
+	SHA512Init(&ctx);
+
+	if ((fd = open(filename, O_RDONLY)) == -1)
+		return (NULL);
+	if (len == 0) {
+		if (fstat(fd, &sb) == -1) {
+			save_errno = errno;
+			close(fd);
+			errno = save_errno;
+			return (NULL);
+		}
+		len = sb.st_size;
+	}
+	if (off > 0 && lseek(fd, off, SEEK_SET) == -1) {
+		save_errno = errno;
+		close(fd);
+		errno = save_errno;
+		return (NULL);
+	}
+
+	while ((nr = read(fd, buffer, MINIMUM(sizeof(buffer), len))) > 0) {
+		SHA512Update(&ctx, buffer, nr);
+		if (len > 0 && (len -= nr) == 0)
+			break;
+	}
+
+	save_errno = errno;
+	close(fd);
+	errno = save_errno;
+	return (nr == -1 ? NULL : SHA512End(&ctx, buf));
+}
+
+char *
+SHA512File(const char *filename, char *buf)
+{
+	return (SHA512FileChunk(filename, buf, 0, 0));
+}
+
+char *
+SHA256Data(const u_char *data, size_t len, char *buf)
+{
+	SHA2_CTX ctx;
+
+	SHA256Init(&ctx);
+	SHA256Update(&ctx, data, len);
+	return (SHA256End(&ctx, buf));
+}
+
+char *
+SHA384Data(const u_char *data, size_t len, char *buf)
+{
+	SHA2_CTX ctx;
+
+	SHA384Init(&ctx);
+	SHA384Update(&ctx, data, len);
+	return (SHA384End(&ctx, buf));
+}
+
+char *
+SHA512Data(const u_char *data, size_t len, char *buf)
+{
+	SHA2_CTX ctx;
+
+	SHA512Init(&ctx);
+	SHA512Update(&ctx, data, len);
+	return (SHA512End(&ctx, buf));
+}
 #endif /* !HAVE_SHA2_H */
 #if !HAVE_STRLCAT
 /*
