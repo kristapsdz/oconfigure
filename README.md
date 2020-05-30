@@ -533,6 +533,40 @@ Does not provide any compatibility.
 need to perform a run-time check for `prctl`'s return value in your
 sources.
 
+## sha2.h
+
+Tests for the standalone [sha2(3)](https://man.openbsd.org/sha2.3)
+functions, defining `HAVE_MD5` with the result.
+
+If not found, provides a full complement of standalone (i.e., not
+needing any crypto libraries) MD5 hashing functions.  These are
+`MD5Init`, `MD5Update`, `MD5Pad`, `MD5Transform`, `MD5End`, and
+`MD5Final`.  The preprocessor macros `MD5_BLOCK_LENGTH`,
+`MD5_DIGEST_LENGTH`, and `MD5_DIGEST_STRING_LENGTH` are also defined.  
+
+These differ ever-so-slightly from the OpenBSD versions in that they use
+C99 types for greater portability, e.g., `uint8_t` instead of
+`u_int8_t`.
+
+If using these functions, you'll want to guard an inclusion of the
+system-default.  Otherwise a partial *md5.h* may conflict with results,
+or a missing *md5.h* may terminate compilation.
+
+```c
+#if HAVE_MD5
+# include <sys/types.h>
+# include <md5.h>
+#endif
+```
+
+On some systems (FreeBSD in particular) with `HAVE_MD5`, you'll
+also need to add `-lmd` when you compile your system, else it will
+fail with undefined references.
+
+The `LDADD_MD5` value provided in *Makefile.configure* will be set to
+`-lmd` if it's required. Otherwise it is empty.
+
+
 ## SOCK\_NONBLOCK
 
 Tests for [socketpair(2)](https://man.openbsd.org/socketpair.2) in
