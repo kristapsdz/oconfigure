@@ -1,5 +1,10 @@
 This file describes version information of this project.
 
+## 0.2.6
+
+Documentation for SHA2 compatibility and also remove a warning when
+compiling on systems without OpenBSD-like SHA2 support.
+
 ## 0.2.5
 
 Test for [fts\_open(3)](https://man.openbsd.org/fts_open.3) and provides
