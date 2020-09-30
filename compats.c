@@ -44,6 +44,15 @@ vwarnx(const char *fmt, va_list ap)
 }
 
 void
+vwarnc(int code, const char *fmt, va_list ap)
+{
+	vwarnx(fmt, ap);
+	if (fmt != NULL)
+		fputs(": ", stderr);
+	fprintf(stderr, "%s\n", strerror(code));
+}
+
+void
 vwarn(const char *fmt, va_list ap)
 {
 	int sverrno;
@@ -67,6 +76,17 @@ err(int eval, const char *fmt, ...)
 }
 
 void
+errc(int eval, int code, const char *fmt, ...)
+{
+	va_list ap;
+
+	va_start(ap, fmt);
+	vwarnc(code, fmt, ap);
+	va_end(ap);
+	exit(eval);
+}
+
+void
 errx(int eval, const char *fmt, ...)
 {
 	va_list ap;
@@ -85,6 +105,16 @@ warn(const char *fmt, ...)
 
 	va_start(ap, fmt);
 	vwarn(fmt, ap);
+	va_end(ap);
+}
+
+void
+warnc(int code, const char *fmt, ...)
+{
+	va_list ap;
+
+	va_start(ap, fmt);
+	vwarnc(code, fmt, ap);
 	va_end(ap);
 }
 

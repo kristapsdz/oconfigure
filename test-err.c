@@ -15,11 +15,13 @@
  */
 
 #include <err.h>
+#include <errno.h>
 
 int
 main(void)
 {
 	warnx("%d. warnx", 1);
+	warnc(ENOENT, "%d. warn", ENOENT);
 	warn("%d. warn", 2);
 	err(0, "%d. err", 3);
 	/* NOTREACHED */
