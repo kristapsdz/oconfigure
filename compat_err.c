@@ -39,6 +39,18 @@ vwarnx(const char *fmt, va_list ap)
 	fprintf(stderr, "%s: ", getprogname());
 	if (fmt != NULL)
 		vfprintf(stderr, fmt, ap);
+	fprintf(stderr, "\n");
+}
+
+void
+vwarnc(int code, const char *fmt, va_list ap)
+{
+	fprintf(stderr, "%s: ", getprogname());
+	if (fmt != NULL) {
+		vfprintf(stderr, fmt, ap);
+		fprintf(stderr, ": ");
+	}
+	fprintf(stderr, "%s\n", strerror(code));
 }
 
 void
@@ -47,10 +59,49 @@ vwarn(const char *fmt, va_list ap)
 	int sverrno;
 
 	sverrno = errno;
-	vwarnx(fmt, ap);
-	if (fmt != NULL)
-		fputs(": ", stderr);
+	fprintf(stderr, "%s: ", getprogname());
+	if (fmt != NULL) {
+		vfprintf(stderr, fmt, ap);
+		fprintf(stderr, ": ");
+	}
 	fprintf(stderr, "%s\n", strerror(sverrno));
+}
+
+void
+verrc(int eval, int code, const char *fmt, va_list ap)
+{
+	fprintf(stderr, "%s: ", getprogname());
+	if (fmt != NULL) {
+		vfprintf(stderr, fmt, ap);
+		fprintf(stderr, ": ");
+	}
+	fprintf(stderr, "%s\n", strerror(code));
+	exit(eval);
+}
+
+void
+verrx(int eval, const char *fmt, va_list ap)
+{
+	fprintf(stderr, "%s: ", getprogname());
+	if (fmt != NULL)
+		vfprintf(stderr, fmt, ap);
+	fprintf(stderr, "\n");
+	exit(eval);
+}
+
+void
+verr(int eval, const char *fmt, va_list ap)
+{
+	int sverrno;
+
+	sverrno = errno;
+	fprintf(stderr, "%s: ", getprogname());
+	if (fmt != NULL) {
+		vfprintf(stderr, fmt, ap);
+		fprintf(stderr, ": ");
+	}
+	fprintf(stderr, "%s\n", strerror(sverrno));
+	exit(eval);
 }
 
 void
@@ -59,9 +110,18 @@ err(int eval, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	vwarn(fmt, ap);
+	verr(eval, fmt, ap);
 	va_end(ap);
-	exit(eval);
+}
+
+void
+errc(int eval, int code, const char *fmt, ...)
+{
+	va_list ap;
+
+	va_start(ap, fmt);
+	verrc(eval, code, fmt, ap);
+	va_end(ap);
 }
 
 void
@@ -70,10 +130,8 @@ errx(int eval, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	vwarnx(fmt, ap);
+	verrx(eval, fmt, ap);
 	va_end(ap);
-	fputc('\n', stderr);
-	exit(eval);
 }
 
 void
@@ -87,6 +145,16 @@ warn(const char *fmt, ...)
 }
 
 void
+warnc(int code, const char *fmt, ...)
+{
+	va_list ap;
+
+	va_start(ap, fmt);
+	vwarnc(code, fmt, ap);
+	va_end(ap);
+}
+
+void
 warnx(const char *fmt, ...)
 {
 	va_list ap;
@@ -94,5 +162,4 @@ warnx(const char *fmt, ...)
 	va_start(ap, fmt);
 	vwarnx(fmt, ap);
 	va_end(ap);
-	fputc('\n', stderr);
 }
