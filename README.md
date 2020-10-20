@@ -249,8 +249,8 @@ This will paste the appropriate location.
 
 Tests for the [err(3)](https://man.openbsd.org/err.3) functions,
 defining `HAVE_ERR` variable with the result.  If not found, provides
-compatibility functions `err`, `errx`, `warn`, `warnx`, `vwarn`,
-`vwarnx`.
+compatibility functions `err`, `errx`, `errc`, `warn`, `warnx`, `warnc`,
+and the variable-argument versions of each.
 
 ```c
 #if HAVE_ERR
@@ -260,6 +260,11 @@ compatibility functions `err`, `errx`, `warn`, `warnx`, `vwarn`,
 
 The *err.h* header needs to be guarded to prevent systems using the
 compatibility functions for failing, as the header does not exist.
+
+It's worth noting that 
+[glibc](https://www.gnu.org/software/libc/) defines many of these
+functions, but misses the `errc` and `warnc` variations.  **oconfigure**
+considers it all or nothing, so will not define `HAVE_ERR` in this case.
 
 ## explicit\_bzero(3)
 

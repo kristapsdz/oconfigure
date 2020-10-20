@@ -1,5 +1,11 @@
 This file describes version information of this project.
 
+## 0.2.7
+
+Check for `errc` and `warnc`, prompting some systems with partial
+support for [err(3)](https://man.openbsd.org/warn.3) to pull in
+compatibility to provide all functions.
+
 ## 0.2.6
 
 Documentation for SHA2 compatibility and also remove a warning when
