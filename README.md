@@ -60,6 +60,9 @@ will try to locate `clang` and `gcc` before giving up.
 CC=musl-gcc ./configure
 ```
 
+The `CC`, `LDFLAGS`, `CPPFLAGS`, and `CFLAGS` are used when running the
+configuration tests themselves.
+
 # Source developers
 
 Using **oconfigure** requires some work within your sources to node
