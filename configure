@@ -55,21 +55,16 @@ exec 3> config.log
 echo "config.log: writing..."
 
 MAKE_FLAGS=""
-MAKE_VERSION=`make --version 2>/dev/null` || MAKE_VERSION=""
 
-if [ -n "${MAKE_VERSION}" ]; then
-	GNUMAKE=`echo "${MAKE_VERSION}" | grep GNU` || GNUMAKE=""
-	if [ -n "${GNUMAKE}" ]; then
+if [ -n "${MAKELEVEL}" ]; then
+	if [ "${MAKELEVEL}" -gt 0 ] ; then
 		MAKE_FLAGS="--no-print-directory"
 	fi
 fi
 
 if [ -n "$MAKE_FLAGS" ]; then 
-	echo "GNUmake detected: using --no-print-directory" 1>&2
-	echo "GNUmake detected: using --no-print-directory" 1>&3
-else
-	echo "BSDmake detected: not using --no-print-directory" 1>&2
-	echo "BSDmake detected: not using --no-print-directory" 1>&3
+	echo "GNU submake detected: using --no-print-directory" 1>&2
+	echo "GNU submake detected: using --no-print-directory" 1>&3
 fi
 
 #----------------------------------------------------------------------
