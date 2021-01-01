@@ -420,7 +420,7 @@ main(void)
 	return setresuid(-1, -1, -1) == -1;
 }
 #endif /* TEST_SETRESUID */
-#if TEST_SHA2_H
+#if TEST_SHA2
 #include <sys/types.h>
 #include <sha2.h>
 
@@ -435,7 +435,7 @@ int main(void)
 
 	return 0;
 }
-#endif /* TEST_SHA2_H */
+#endif /* TEST_SHA2 */
 #if TEST_SOCK_NONBLOCK
 /*
  * Linux doesn't (always?) have this.

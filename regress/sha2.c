@@ -1,6 +1,6 @@
 #include "../config.h"
 
-#if HAVE_SHA2_H
+#if HAVE_SHA2
 # include <sys/types.h>
 # include <sha2.h>
 #endif

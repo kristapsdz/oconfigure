@@ -1,5 +1,12 @@
 This file describes version information of this project.
 
+## 0.3.0
+
+Fix the [sha2(3)](https://man.openbsd.org/man3/SHA256Init.3) support, which
+requires changing symbols from `HAVE_SHA2_H` to `HAVE_SHA2`, just like with
+`HAVE_MD5`.  While here, use the same logic of `HAVE_MD5` and *-lmd* with
+`HAVE_SHA2`.
+
 ## 0.2.7
 
 Check for `errc` and `warnc`, prompting some systems with partial
