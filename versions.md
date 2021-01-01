@@ -4,8 +4,8 @@ This file describes version information of this project.
 
 Fix the [sha2(3)](https://man.openbsd.org/man3/SHA256Init.3) support, which
 requires changing symbols from `HAVE_SHA2_H` to `HAVE_SHA2`, just like with
-`HAVE_MD5`.  While here, use the same logic of `HAVE_MD5` and *-lmd* with
-`HAVE_SHA2`.
+`HAVE_MD5`.  I'm bumping the minor version because of the change in symbols.
+The documentation is also now fixed for this.
 
 ## 0.2.7
 

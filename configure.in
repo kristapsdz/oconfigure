@@ -80,7 +80,6 @@ LDADD=
 LDADD_B64_NTOP=
 LDADD_CRYPT=
 LDADD_MD5=
-LDADD_SHA2=
 LDADD_LIB_SOCKET=
 LDADD_STATIC=
 CPPFLAGS=
@@ -365,7 +364,7 @@ runtest sandbox_init	SANDBOX_INIT	"-Wno-deprecated" || true
 runtest seccomp-filter	SECCOMP_FILTER			  || true
 runtest setresgid	SETRESGID			  || true
 runtest setresuid	SETRESUID			  || true
-runtest sha2		SHA2 "" "" "-lmd"		  || true
+runtest sha2		SHA2				  || true
 runtest SOCK_NONBLOCK	SOCK_NONBLOCK			  || true
 runtest static		STATIC "" "-static"		  || true
 runtest strlcat		STRLCAT				  || true
@@ -1061,7 +1060,6 @@ LDADD_B64_NTOP	 = ${LDADD_B64_NTOP}
 LDADD_CRYPT	 = ${LDADD_CRYPT}
 LDADD_LIB_SOCKET = ${LDADD_LIB_SOCKET}
 LDADD_MD5	 = ${LDADD_MD5}
-LDADD_SHA2	 = ${LDADD_SHA2}
 LDADD_STATIC	 = ${LDADD_STATIC}
 LDFLAGS		 = ${LDFLAGS}
 STATIC		 = ${STATIC}

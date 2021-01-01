@@ -15,7 +15,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-OCONFIGURE_VERSION="0.2.7"
+OCONFIGURE_VERSION="0.3.0"
 
 #
 # This script outputs two files: config.h and Makefile.configure.
@@ -80,7 +80,6 @@ LDADD=
 LDADD_B64_NTOP=
 LDADD_CRYPT=
 LDADD_MD5=
-LDADD_SHA2=
 LDADD_LIB_SOCKET=
 LDADD_STATIC=
 CPPFLAGS=
@@ -365,7 +364,7 @@ runtest sandbox_init	SANDBOX_INIT	"-Wno-deprecated" || true
 runtest seccomp-filter	SECCOMP_FILTER			  || true
 runtest setresgid	SETRESGID			  || true
 runtest setresuid	SETRESUID			  || true
-runtest sha2		SHA2 "" "" "-lmd"		  || true
+runtest sha2		SHA2				  || true
 runtest SOCK_NONBLOCK	SOCK_NONBLOCK			  || true
 runtest static		STATIC "" "-static"		  || true
 runtest strlcat		STRLCAT				  || true
@@ -2454,7 +2453,6 @@ LDADD_B64_NTOP	 = ${LDADD_B64_NTOP}
 LDADD_CRYPT	 = ${LDADD_CRYPT}
 LDADD_LIB_SOCKET = ${LDADD_LIB_SOCKET}
 LDADD_MD5	 = ${LDADD_MD5}
-LDADD_SHA2	 = ${LDADD_SHA2}
 LDADD_STATIC	 = ${LDADD_STATIC}
 LDFLAGS		 = ${LDFLAGS}
 STATIC		 = ${STATIC}
