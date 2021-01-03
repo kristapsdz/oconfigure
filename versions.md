@@ -1,5 +1,11 @@
 This file describes version information of this project.
 
+## 0.3.1
+
+Allow the SHA2 detection to pick up *-lmd*, so that external libraries
+such as [libmd](https://www.hadrons.org/software/libmd/) may be
+recognised.
+
 ## 0.3.0
 
 Fix the [sha2(3)](https://man.openbsd.org/man3/SHA256Init.3) support, which

@@ -1,3 +1,5 @@
+# Introduction
+
 This is a simple configuration script use for some
 [BSD.lv](https://www.bsd.lv) project sources.  Its mission is to provide
 [OpenBSD](https://www.openbsd.org) portability functions and feature
