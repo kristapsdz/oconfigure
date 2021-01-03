@@ -366,8 +366,9 @@ or a missing *md5.h* may terminate compilation.
 #endif
 ```
 
-On some systems (FreeBSD in particular) with `HAVE_MD5`, you'll
-also need to add `-lmd` when you compile your system, else it will
+On some systems (FreeBSD or those with [Guillem Jover's
+libmd](https://www.hadrons.org/software/libmd/)) with `HAVE_MD5`, 
+you'll also need to add `-lmd` when you compile your system, else it will
 fail with undefined references.
 
 The `LDADD_MD5` value provided in *Makefile.configure* will be set to
@@ -568,6 +569,14 @@ or a missing *sha2.h* may terminate compilation.
 # include <sha2.h>
 #endif
 ```
+
+On some systems (such as those with [Guillem Jover's
+libmd](https://www.hadrons.org/software/libmd/)) with `HAVE_SHA2`,
+you'll also need to add `-lmd` when you compile your system, else it
+will fail with undefined references.
+
+The `LDADD_SHA2` value provided in *Makefile.configure* will be set to
+`-lmd` if it's required. Otherwise it is empty.
 
 ## SOCK\_NONBLOCK
 
