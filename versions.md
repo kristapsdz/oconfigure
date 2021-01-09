@@ -1,5 +1,9 @@
 This file describes version information of this project.
 
+## 0.3.2
+
+Fix recursive-make detection on FreeBSD machines.
+
 ## 0.3.1
 
 Allow the SHA2 detection to pick up *-lmd*, so that external libraries
