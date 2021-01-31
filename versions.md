@@ -1,5 +1,10 @@
 This file describes version information of this project.
 
+## 0.3.3
+
+Use newest OpenBSD *sys/queue.h*, which evicts `CIRCLEQ`, adds
+`XSIMPLEQ`, and adds concatenation macros.
+
 ## 0.3.2
 
 Fix recursive-make detection on FreeBSD machines.
