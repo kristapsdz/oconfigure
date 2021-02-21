@@ -65,6 +65,15 @@ CC=musl-gcc ./configure
 The `CC`, `LDFLAGS`, `CPPFLAGS`, and `CFLAGS` are used when running the
 configuration tests themselves.
 
+For Linux users with
+[libbsd](https://libbsd.freedesktop.org) installed,
+**oconfigure** can be instructed to use libbsd exclusively as follows:
+
+```
+CFLAGS=$(pkg-config --cflags libbsd-overlay) \
+  ./configure LDFLAGS=$(pkg-config --libs libbsd-overlay)
+```
+
 # Source developers
 
 Using **oconfigure** requires some work within your sources to node
