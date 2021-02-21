@@ -109,15 +109,15 @@ INSTALL_DATA=
 # It does have gcc, so try that instead.
 # Prefer clang, though.
 
-which ${CC} 2>/dev/null 1>&2 || {
+command -v ${CC} 2>/dev/null 1>&2 || {
 	echo "${CC} not found: trying clang" 1>&2
 	echo "${CC} not found: trying clang" 1>&3
 	CC=clang
-	which ${CC} 2>/dev/null 1>&2 || {
+	command -v ${CC} 2>/dev/null 1>&2 || {
 		echo "${CC} not found: trying gcc" 1>&2
 		echo "${CC} not found: trying gcc" 1>&3
 		CC=gcc
-		which ${CC} 2>/dev/null 1>&2 || {
+		command -v ${CC} 2>/dev/null 1>&2 || {
 			echo "gcc not found: giving up" 1>&2
 			echo "gcc not found: giving up" 1>&3
 			exit 1
