@@ -31,6 +31,7 @@ REGRESS_NODEP		= regress/capsicum \
 			  regress/strlcpy \
 			  regress/strlcat \
 			  regress/strtonum \
+			  regress/sys_queue \
 			  regress/systrace \
 			  regress/unveil \
 			  regress/WAIT_ANY
