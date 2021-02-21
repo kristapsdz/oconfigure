@@ -1,5 +1,12 @@
 This file describes version information of this project.
 
+## 0.3.4
+
+Fix *sys/queue.h* so that it doesn't blow inclusion due to backticks.
+Add instructions for using [libbsd](https://libbsd.freedesktop.org).
+Use `command -v` instead of `which` for portability to systems that
+don't include `which` by default.
+
 ## 0.3.3
 
 Use newest OpenBSD *sys/queue.h*, which evicts `CIRCLEQ`, adds
