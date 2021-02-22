@@ -3,6 +3,7 @@
 #if HAVE_SYS_QUEUE
 # include <sys/queue.h>
 #endif
+#include <stddef.h> /* NULL */
 
 struct foo {
 	int bar;
