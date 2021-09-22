@@ -1,5 +1,13 @@
 This file describes version information of this project.
 
+## 0.3.5
+
+Have [explicit\_bzero(3)](https://man.openbsd.org/explicit_bzero.3) use
+[memset(3)](https://man.openbsd.org/memset.3) internally instead of
+[bzero(3)](https://man.openbsd.org/bzero.3), which is a macro on some
+systems (e.g., Android).
+
+
 ## 0.3.4
 
 Fix *sys/queue.h* so that it doesn't blow inclusion due to backticks.
