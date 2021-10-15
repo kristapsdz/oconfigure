@@ -1,5 +1,11 @@
 This file describes version information of this project.
 
+## 0.3.6
+
+Add a check for
+[crypt\_newhash(3)](https://man.openbsd.org/crypt_newhash.3).
+No compatibility yet.
+
 ## 0.3.5
 
 Have [explicit\_bzero(3)](https://man.openbsd.org/explicit_bzero.3) use

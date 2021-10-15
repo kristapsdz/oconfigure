@@ -228,6 +228,16 @@ references.
 The `LDADD_CRYPT` value provided in *Makefile.configure* will be set to
 `-lcrypt` if it's required. Otherwise it is empty.
 
+## crypt\_newhash(3)
+
+Many systems are moving from [crypt(3)](https://man.openbsd.org/crypt.3)
+to the [crypt\_newhash(3)](https://man.openbsd.org/crypt_newhash.3) and
+[crypt\_checkpass(3)](https://man.openbsd.org/crypt_newhash.3)
+functions.
+
+This tests for these new functions, defining `HAVE_CRYPT_NEWHASH` with
+the result.
+
 ## endian.h
 
 On most operating systems (Linux, OpenBSD), *endian.h* provides the

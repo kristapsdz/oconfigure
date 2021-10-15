@@ -63,6 +63,24 @@ int main(void)
 	return v == NULL;
 }
 #endif /* TEST_CRYPT */
+#if TEST_CRYPT_NEWHASH
+#include <pwd.h> /* _PASSWORD_LEN */
+#include <unistd.h>
+
+int
+main(void)
+{
+	const char	*v = "password";
+	char		 hash[_PASSWORD_LEN];
+
+	if (crypt_newhash(v, "bcrypt,a", hash, sizeof(hash)) == -1)
+		return 1;
+	if (crypt_checkpass(v, hash) == -1)
+		return 1;
+
+	return 0;
+}
+#endif /* TEST_CRYPT_NEWHASH */
 #if TEST_ENDIAN_H
 #ifdef __linux__
 # define _DEFAULT_SOURCE
