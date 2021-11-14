@@ -30,11 +30,13 @@ COMPATS_H = \
 	compat_explicit_bzero.h \
 	compat_fts.h \
 	compat_getprogname.h \
+	compat_INFTIM.h \
 	compat_md5.h \
 	compat_memmem.h \
 	compat_memrchr.h \
 	compat_mkfifoat.h \
 	compat_mknodat.h \
+	compat_PATH_MAX.h \
 	compat_readpassphrase.h \
 	compat_reallocarray.h \
 	compat_recallocarray.h \
@@ -48,7 +50,8 @@ COMPATS_H = \
 	compat_strnlen.h \
 	compat_strtonum.h \
 	compat_sys_queue.h \
-	compat_sys_tree.h
+	compat_sys_tree.h \
+	compat_WAIT_ANY.h
 TESTS = \
 	test-__progname.c \
 	test-arc4random.c \

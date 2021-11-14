@@ -118,6 +118,9 @@ int	 fts_set(FTS *, FTSENT *, int);
  */
 extern const char *getprogname(void);
 #endif /* !HAVE_GETPROGNAME */
+#if !HAVE_INFTIM
+#define INFTIM (-1) /* poll.h */
+#endif /* !HAVE_INFTIM */
 #if !HAVE_MD5
 #include <sys/types.h> /* size_t, mode_t, dev_t */
 #include <stdint.h> /* C99 [u]int[nn]_t types */
@@ -174,6 +177,9 @@ int mkfifoat(int, const char *, mode_t);
  */
 int mknodat(int, const char *, mode_t, dev_t);
 #endif /* !HAVE_MKNODAT */
+#if !HAVE_PATH_MAX
+#define PATH_MAX 4096
+#endif /* !HAVE_PATH_MAX */
 #if !HAVE_READPASSPHRASE
 #include <sys/types.h> /* size_t, mode_t, dev_t */
 
@@ -1701,3 +1707,7 @@ name##_RB_MINMAX(struct name *head, int val)				\
 	    ((x) != NULL) && ((y) = name##_RB_PREV(x), 1);		\
 	     (x) = (y))
 #endif /* !HAVE_SYS_TREE */
+#if !HAVE_WAIT_ANY
+#define WAIT_ANY (-1) /* sys/wait.h */
+#define WAIT_MYPGRP 0
+#endif /* !HAVE_WAIT_ANY */

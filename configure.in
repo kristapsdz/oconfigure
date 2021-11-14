@@ -483,32 +483,6 @@ cat << __HEREDOC__
 # define __END_DECLS
 #endif
 
-__HEREDOC__
-
-# Now we handle our HAVE_xxxx values.
-# Most will just be defined as 0 or 1.
-
-if [ ${HAVE_PATH_MAX} -eq 0 ]
-then
-	echo "#define PATH_MAX 4096"
-	echo
-fi
-
-if [ ${HAVE_WAIT_ANY} -eq 0 ]
-then
-	echo "#define WAIT_ANY (-1) /* sys/wait.h */"
-	echo "#define WAIT_MYPGRP 0"
-	echo
-fi
-
-
-if [ ${HAVE_INFTIM} -eq 0 ]
-then
-	echo "#define INFTIM (-1) /* poll.h */"
-	echo
-fi
-
-cat << __HEREDOC__
 /*
  * Results of configuration feature-testing.
  */
