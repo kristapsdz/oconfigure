@@ -1,4 +1,6 @@
 #if !HAVE_ERR
+#include <stdarg.h>
+
 /*
  * Compatibility functions for err(3).
  */
@@ -29,6 +31,8 @@ extern int b64_pton(char const *, unsigned char *, size_t);
 extern void explicit_bzero(void *, size_t);
 #endif /* !HAVE_EXPLICIT_BZERO */
 #if !HAVE_FTS
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for fts(3) functions.
  */
@@ -115,6 +119,9 @@ int	 fts_set(FTS *, FTSENT *, int);
 extern const char *getprogname(void);
 #endif /* !HAVE_GETPROGNAME */
 #if !HAVE_MD5
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+#include <stdint.h> /* C99 [u]int[nn]_t types */
+
 /*
  * Compatibility for md4(3).
  */
@@ -136,30 +143,40 @@ extern char *MD5End(MD5_CTX *, char *);
 extern void MD5Final(uint8_t [MD5_DIGEST_LENGTH], MD5_CTX *);
 #endif /* !HAVE_MD5 */
 #if !HAVE_MEMMEM
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for memmem(3).
  */
 void *memmem(const void *, size_t, const void *, size_t);
 #endif /* !HAVE_MEMMEM */
 #if !HAVE_MEMRCHR
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for memrchr(3).
  */
 void *memrchr(const void *b, int, size_t);
 #endif /* !HAVE_MEMRCHR */
 #if !HAVE_MKFIFOAT
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for mkfifoat(2).
  */
 int mkfifoat(int, const char *, mode_t);
 #endif /* !HAVE_MKFIFOAT */
 #if !HAVE_MKNODAT
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for mknodat(2).
  */
 int mknodat(int, const char *, mode_t, dev_t);
 #endif /* !HAVE_MKNODAT */
 #if !HAVE_READPASSPHRASE
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Macros and function required for readpassphrase(3).
  */
@@ -173,12 +190,16 @@ int mknodat(int, const char *, mode_t, dev_t);
 char *readpassphrase(const char *, char *, size_t, int);
 #endif /* !HAVE_READPASSPHRASE */
 #if !HAVE_REALLOCARRAY
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for reallocarray(3).
  */
 extern void *reallocarray(void *, size_t, size_t);
 #endif /* !HAVE_REALLOCARRAY */
 #if !HAVE_RECALLOCARRAY
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for recallocarray(3).
  */
@@ -193,18 +214,25 @@ int	fmt_scaled(long long, char *);
 int	scan_scaled(char *, long long *);
 #endif /* !HAVE_SCAN_SCALED */
 #if !HAVE_SETRESGID
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for setresgid(2).
  */
 int setresgid(gid_t rgid, gid_t egid, gid_t sgid);
 #endif /* !HAVE_SETRESGID */
 #if !HAVE_SETRESUID
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for setresuid(2).
  */
 int setresuid(uid_t ruid, uid_t euid, uid_t suid);
 #endif /* !HAVE_SETRESUID */
 #if !HAVE_SHA2
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+#include <stdint.h> /* C99 [u]int[nn]_t types */
+
 /*
  * Compatibility for sha2(3).
  */
@@ -264,24 +292,32 @@ char *SHA512FileChunk(const char *, char *, off_t, off_t);
 char *SHA512Data(const uint8_t *, size_t, char *);
 #endif /* !HAVE_SHA2 */
 #if !HAVE_STRLCAT
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for strlcat(3).
  */
 extern size_t strlcat(char *, const char *, size_t);
 #endif /* !HAVE_STRLCAT */
 #if !HAVE_STRLCPY
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for strlcpy(3).
  */
 extern size_t strlcpy(char *, const char *, size_t);
 #endif /* !HAVE_STRLCPY */
 #if !HAVE_STRNDUP
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for strndup(3).
  */
 extern char *strndup(const char *, size_t);
 #endif /* !HAVE_STRNDUP */
 #if !HAVE_STRNLEN
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for strnlen(3).
  */

@@ -1,3 +1,6 @@
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+#include <stdint.h> /* C99 [u]int[nn]_t types */
+
 /*
  * Compatibility for md4(3).
  */

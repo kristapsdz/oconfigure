@@ -1,3 +1,5 @@
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Macros and function required for readpassphrase(3).
  */

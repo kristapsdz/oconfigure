@@ -1,3 +1,5 @@
+#include <stdarg.h>
+
 /*
  * Compatibility functions for err(3).
  */
