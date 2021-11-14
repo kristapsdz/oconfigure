@@ -1,4 +1,8 @@
 /*
+ * A compatible version of OpenBSD <sys/queue.h>.
+ */
+
+/*
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  *

@@ -717,26 +717,6 @@ if [ ${HAVE_SECCOMP_FILTER} -eq 1 ]; then
 	echo
 fi
 
-if [ ${HAVE_SYS_QUEUE} -eq 0 ]; then
-	cat << __HEREDOC__
-/*
- * A compatible version of OpenBSD <sys/queue.h>.
- */
-@CONFIGURE_SYS_QUEUE_H@
-
-__HEREDOC__
-fi
-
-if [ ${HAVE_SYS_TREE} -eq 0 ]; then
-	cat << __HEREDOC__
-/*
- * A compatible version of OpenBSD <sys/tree.h>.
- */
-@CONFIGURE_SYS_TREE_H@
-
-__HEREDOC__
-fi
-
 cat << __HEREDOC__
 #endif /*!OCONFIGURE_CONFIG_H*/
 __HEREDOC__
