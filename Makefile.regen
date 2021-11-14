@@ -24,6 +24,29 @@ COMPATS = \
 	compat_strndup.c \
 	compat_strnlen.c \
 	compat_strtonum.c
+COMPATS_H = \
+	compat_err.h \
+	compat_b64_ntop.h \
+	compat_explicit_bzero.h \
+	compat_fts.h \
+	compat_getprogname.h \
+	compat_md5.h \
+	compat_memmem.h \
+	compat_memrchr.h \
+	compat_mkfifoat.h \
+	compat_mknodat.h \
+	compat_readpassphrase.h \
+	compat_reallocarray.h \
+	compat_recallocarray.h \
+	compat_scan_scaled.h \
+	compat_setresgid.h \
+	compat_setresuid.h \
+	compat_sha2.h \
+	compat_strlcat.h \
+	compat_strlcpy.h \
+	compat_strndup.h \
+	compat_strnlen.h \
+	compat_strtonum.h
 TESTS = \
 	test-__progname.c \
 	test-arc4random.c \
@@ -76,7 +99,7 @@ TESTS = \
 	test-unveil.c \
 	test-WAIT_ANY.c
 
-all: compats.c tests.c configure
+all: compats.c compats.h tests.c configure
 
 distcheck:
 	grep "^## $(VERSION)$$" versions.md >/dev/null
@@ -104,6 +127,17 @@ compats.c: $(COMPATS) Makefile.regen
 		echo "#endif /* !HAVE_$${up} */" ; \
 	done >>$@
 
+compats.h: $(COMPATS_H) Makefile.regen
+	echo -n >$@
+	for f in $(COMPATS_H) ; \
+	do \
+		ff="`echo $$f | sed -e 's!\.h$$!!' -e 's!^compat_!!'`" ; \
+		up="`echo $$ff | tr '[:lower:]' '[:upper:]'`" ; \
+		echo "#if !HAVE_$${up}" ; \
+		cat "$$f" ; \
+		echo "#endif /* !HAVE_$${up} */" ; \
+	done >>$@
+
 tests.c: $(TESTS) Makefile.regen
 	for f in $(TESTS) ; \
 	do \
@@ -115,4 +149,4 @@ tests.c: $(TESTS) Makefile.regen
 	done >$@
 
 clean:
-	rm -f configure compats.c tests.c
+	rm -f configure compats.c compats.h tests.c
