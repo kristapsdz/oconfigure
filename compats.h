@@ -18,6 +18,8 @@ extern void vwarnc(int, const char *, va_list);
 extern void vwarnx(const char *, va_list);
 #endif /* !HAVE_ERR */
 #if !HAVE_B64_NTOP
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for b64_ntop(3).
  */
@@ -43,6 +45,8 @@ extern int b64_pton(char const *, unsigned char *, size_t);
 #endif
 #endif /* !HAVE_ENDIAN */
 #if !HAVE_EXPLICIT_BZERO
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
 /*
  * Compatibility for explicit_bzero(3).
  */
