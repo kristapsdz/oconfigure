@@ -24,6 +24,24 @@ extern void vwarnx(const char *, va_list);
 extern int b64_ntop(unsigned char const *, size_t, char *, size_t);
 extern int b64_pton(char const *, unsigned char *, size_t);
 #endif /* !HAVE_B64_NTOP */
+#if !HAVE_ENDIAN
+/*
+ * Make it easier to include endian.h forms.
+ */
+#if HAVE_ENDIAN_H
+# define COMPAT_ENDIAN_H <endian.h>
+#elif HAVE_SYS_ENDIAN_H
+# define COMPAT_ENDIAN_H <sys/endian.h>
+#elif HAVE_OSBYTEORDER_H
+# define COMPAT_ENDIAN_H <libkern/OSByteOrder.h>
+#elif HAVE_SYS_BYTEORDER_H
+# define COMPAT_ENDIAN_H <sys/byteorder.h>
+#else
+# warning No suitable endian.h could be found.
+# warning Please e-mail the maintainers with your OS.
+# define COMPAT_ENDIAN_H <endian.h>
+#endif
+#endif /* !HAVE_ENDIAN */
 #if !HAVE_EXPLICIT_BZERO
 /*
  * Compatibility for explicit_bzero(3).
@@ -121,6 +139,20 @@ extern const char *getprogname(void);
 #if !HAVE_INFTIM
 #define INFTIM (-1) /* poll.h */
 #endif /* !HAVE_INFTIM */
+#if !HAVE_MAJOR_MINOR
+/*
+ * Handle the various major()/minor() header files.
+ * Use sys/mkdev.h before sys/sysmacros.h because SunOS
+ * has both, where only the former works properly.
+ */
+#if HAVE_SYS_MKDEV_H
+# define COMPAT_MAJOR_MINOR_H <sys/mkdev.h>
+#elif HAVE_SYS_SYSMACROS_H
+# define COMPAT_MAJOR_MINOR_H <sys/sysmacros.h>
+#else
+# define COMPAT_MAJOR_MINOR_H <sys/types.h>
+#endif
+#endif /* !HAVE_MAJOR_MINOR */
 #if !HAVE_MD5
 #include <sys/types.h> /* size_t, mode_t, dev_t */
 #include <stdint.h> /* C99 [u]int[nn]_t types */
@@ -177,6 +209,25 @@ int mkfifoat(int, const char *, mode_t);
  */
 int mknodat(int, const char *, mode_t, dev_t);
 #endif /* !HAVE_MKNODAT */
+#if !HAVE_OSBYTEORDER
+/*
+ * endian.h compatibility with libkern/OSByteOrder.h.
+ */
+#if HAVE_OSBYTEORDER_H && !HAVE_ENDIAN_H && !HAVE_SYS_BYTEORDER_H && !HAVE_SYS_ENDIAN_H
+#define htobe16(x) OSSwapHostToBigInt16(x)
+#define htole16(x) OSSwapHostToLittleInt16(x)
+#define be16toh(x) OSSwapBigToHostInt16(x)
+#define le16toh(x) OSSwapLittleToHostInt16(x)
+#define htobe32(x) OSSwapHostToBigInt32(x)
+#define htole32(x) OSSwapHostToLittleInt32(x)
+#define be32toh(x) OSSwapBigToHostInt32(x)
+#define le32toh(x) OSSwapLittleToHostInt32(x)
+#define htobe64(x) OSSwapHostToBigInt64(x)
+#define htole64(x) OSSwapHostToLittleInt64(x)
+#define be64toh(x) OSSwapBigToHostInt64(x)
+#define le64toh(x) OSSwapLittleToHostInt64(x)
+#endif /* HAVE_OSBYTEORDER_H && !HAVE_ENDIAN_H && !HAVE_SYS_BYTEORDER_H && !HAVE_SYS_ENDIAN_H */
+#endif /* !HAVE_OSBYTEORDER */
 #if !HAVE_PATH_MAX
 #define PATH_MAX 4096
 #endif /* !HAVE_PATH_MAX */
@@ -335,6 +386,25 @@ extern size_t strnlen(const char *, size_t);
  */
 extern long long strtonum(const char *, long long, long long, const char **);
 #endif /* !HAVE_STRTONUM */
+#if !HAVE_SYS_BYTEORDER
+/*
+ * endian.h compatibility with sys/byteorder.h.
+ */
+#if HAVE_SYS_BYTEORDER_H && !HAVE_ENDIAN_H && !HAVE_OSBYTEORDER_H && !HAVE_SYS_ENDIAN_H
+#define htobe16(x) BE_16(x)
+#define htole16(x) LE_16(x)
+#define be16toh(x) BE_16(x)
+#define le16toh(x) LE_16(x)
+#define htobe32(x) BE_32(x)
+#define htole32(x) LE_32(x)
+#define be32toh(x) BE_32(x)
+#define le32toh(x) LE_32(x)
+#define htobe64(x) BE_64(x)
+#define htole64(x) LE_64(x)
+#define be64toh(x) BE_64(x)
+#define le64toh(x) LE_64(x)
+#endif /* HAVE_SYS_BYTEORDER_H && !HAVE_ENDIAN_H && !HAVE_OSBYTEORDER_H && !HAVE_SYS_ENDIAN_H */
+#endif /* !HAVE_SYS_BYTEORDER */
 #if !HAVE_SYS_QUEUE
 /*
  * A compatible version of OpenBSD <sys/queue.h>.
