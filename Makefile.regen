@@ -35,6 +35,7 @@ TESTS	= test-__progname.c \
 	  test-getexecname.c \
 	  test-getprogname.c \
 	  test-INFTIM.c \
+	  test-landlock.c \
 	  test-lib_socket.c \
 	  test-md5.c \
 	  test-memmem.c \
