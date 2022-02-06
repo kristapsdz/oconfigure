@@ -353,6 +353,16 @@ value if not found.
 Since a compatibility function is provided, `HAVE_INFTIM` shouldn't be
 directly used in most circumstances.
 
+## landlock
+
+Tests for Linux's [landlock)](https://landlock.io/) LSM.  Defines
+`HAVE_LANDLOCK` if found.  Does not provide any compatibility.
+
+*This test does not mean that the module is enabled.* You'll need to perform a
+run-time check for `landlock_restrict_self`'s return value in your sources.
+
+To actually use Landlock, you'll need to modify your system's LSM at boot time.
+
 ## libsocket
 
 On IllumOS-based distributions, all socket functions
@@ -562,7 +572,7 @@ which is the gateway for
 Defines `HAVE_SECCOMP_FILTER` if found.
 Does not provide any compatibility.
 
-*Note: this test does not mean that the sandboxing is enabled.* You'll
+*This test does not mean that the sandboxing is enabled.* You'll
 need to perform a run-time check for `prctl`'s return value in your
 sources.
 

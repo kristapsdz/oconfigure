@@ -1,5 +1,9 @@
 This file describes version information of this project.
 
+## 0.3.7
+
+Add a test for Linux's [landlock](https://landlock.io).
+
 ## 0.3.6
 
 Add a check for
