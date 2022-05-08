@@ -8,6 +8,7 @@ REGRESS_SHA2		= regress/sha2
 REGRESS_CRYPT		= regress/crypt
 REGRESS_B64		= regress/b64_ntop
 REGRESS_LIB_SOCKET	= regress/SOCK_NONBLOCK
+REGRESS_SCAN_SCALED	= regress/scan_scaled
 REGRESS_NODEP		= regress/capsicum \
 			  regress/endian \
 			  regress/err \
@@ -39,8 +40,9 @@ REGRESS			= $(REGRESS_B64) \
 			  $(REGRESS_CRYPT) \
 			  $(REGRESS_LIB_SOCKET) \
 			  $(REGRESS_MD5) \
-			  $(REGRESS_SHA2) \
-			  $(REGRESS_NODEP)
+			  $(REGRESS_NODEP) \
+			  $(REGRESS_SCAN_SCALED) \
+			  $(REGRESS_SHA2)
 
 all: $(REGRESS)
 
@@ -65,6 +67,11 @@ ${r}: ${r}.c compats.o config.h
 .for r in $(REGRESS_SHA2)
 ${r}: ${r}.c compats.o config.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_SHA2)
+.endfor
+
+.for r in $(REGRESS_SCAN_SCALED)
+${r}: ${r}.c compats.o config.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_SCAN_SCALED)
 .endfor
 
 .for r in $(REGRESS_B64)
