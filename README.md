@@ -563,6 +563,23 @@ Tests for
 defining `HAVE_SANDBOX_INIT` with the result.
 Does not provide any compatibility.
 
+## scan\_scaled(3), fmt\_scaled(3)
+
+Tests for OpenBSD's [scan\_scaled(3)](https://man.openbsd.org/scan_scaled.3),
+defining `HAVE_SCAN_SCALED` if it was found.  Provides a compatibility function
+if not found.  If the function is not found, fmt\_scaled(3) is also part of the
+compatibility package.
+
+```c
+#if HAVE_SCAN_SCALED
+# include <util.h>
+#endif
+```
+
+If this is required, the `LDADD_SCAN_SCALED` variable in *Makefile.configure*
+will be set to the required library (**-lutil**).
+
+
 ## seccomp-filter(3)
 
 Tests for Linux's

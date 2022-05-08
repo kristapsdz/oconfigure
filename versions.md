@@ -1,5 +1,9 @@
 This file describes version information of this project.
 
+## 0.3.8
+
+Add test and compatibility for [scan\_scaled(3)](https://man.openbsd.org/scan_scaled.3).
+
 ## 0.3.7
 
 Add a test for Linux's [landlock](https://landlock.io).
