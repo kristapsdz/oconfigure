@@ -442,6 +442,17 @@ main(void)
 	return(-1 == rc);
 }
 #endif /* TEST_SANDBOX_INIT */
+#if TEST_SCAN_SCALED
+#include <util.h>
+
+int
+main(void)
+{
+	char *cinput = (char *)"1.5K", buf[FMT_SCALED_STRSIZE];
+	long long ninput = 10483892, result;
+	return scan_scaled(cinput, &result) == 0;
+}
+#endif /* TEST_SCAN_SCALED */
 #if TEST_SECCOMP_FILTER
 #include <sys/prctl.h>
 #include <linux/seccomp.h>

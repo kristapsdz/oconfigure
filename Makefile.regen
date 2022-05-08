@@ -14,6 +14,7 @@ COMPATS	= compat_err.c \
 	  compat_readpassphrase.c \
 	  compat_reallocarray.c \
 	  compat_recallocarray.c \
+	  compat_scan_scaled.c \
 	  compat_setresgid.c \
 	  compat_setresuid.c \
 	  compat_sha2.c \
@@ -51,6 +52,7 @@ TESTS	= test-__progname.c \
 	  test-reallocarray.c \
 	  test-recallocarray.c \
 	  test-sandbox_init.c \
+	  test-scan_scaled.c \
 	  test-seccomp_filter.c \
 	  test-setresgid.c \
 	  test-setresuid.c \
