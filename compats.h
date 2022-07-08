@@ -1,3 +1,6 @@
+#ifndef OCONFIGURE_COMPAT_H
+#define OCONFIGURE_COMPAT_H
+
 #ifdef __cplusplus
 # error "Do not use C++: this is a C application."
 #endif
@@ -1828,3 +1831,4 @@ name##_RB_MINMAX(struct name *head, int val)				\
 #define WAIT_ANY (-1) /* sys/wait.h */
 #define WAIT_MYPGRP 0
 #endif /* !HAVE_WAIT_ANY */
+#endif /* OCONFIGURE_COMPAT_H */

@@ -132,6 +132,9 @@ compats.c: $(COMPATS) Makefile.regen
 
 compats.h: $(COMPATS_H) Makefile.regen
 	echo -n >$@
+	echo "#ifndef OCONFIGURE_COMPAT_H" >>$@
+	echo "#define OCONFIGURE_COMPAT_H" >>$@
+	echo >>$@
 	cat compat-preamble.h >>$@
 	for f in $(COMPATS_H) ; \
 	do \
@@ -141,6 +144,7 @@ compats.h: $(COMPATS_H) Makefile.regen
 		cat "$$f" ; \
 		echo "#endif /* !HAVE_$${up} */" ; \
 	done >>$@
+	echo "#endif /* OCONFIGURE_COMPAT_H */" >>$@
 
 tests.c: $(TESTS) Makefile.regen
 	for f in $(TESTS) ; \
