@@ -132,6 +132,7 @@ compats.c: $(COMPATS) Makefile.regen
 
 compats.h: $(COMPATS_H) Makefile.regen
 	echo -n >$@
+	cat compat-preamble.h >>$@
 	for f in $(COMPATS_H) ; \
 	do \
 		ff="`echo $$f | sed -e 's!\.h$$!!' -e 's!^compat_!!'`" ; \
