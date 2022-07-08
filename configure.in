@@ -543,28 +543,6 @@ cat << __HEREDOC__
 /* include function declarations for missing functions */
 #include "compats.h"
 
-__HEREDOC__
-
-if [ ${HAVE_SECCOMP_FILTER} -eq 1 ]; then
-	arch=$(uname -m 2>/dev/null || echo unknown)
-	case "$arch" in
-		x86_64)
-			echo "#define SECCOMP_AUDIT_ARCH AUDIT_ARCH_X86_64"
-			;;
-		i*86)
-			echo "#define SECCOMP_AUDIT_ARCH AUDIT_ARCH_I386"
-			;;
-		arm*)
-			echo "#define SECCOMP_AUDIT_ARCH AUDIT_ARCH_ARM"
-			;;
-		aarch64)
-			echo "#define SECCOMP_AUDIT_ARCH AUDIT_ARCH_AARCH64"
-			;;
-	esac
-	echo
-fi
-
-cat << __HEREDOC__
 #endif /*!OCONFIGURE_CONFIG_H*/
 __HEREDOC__
 

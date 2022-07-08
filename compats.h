@@ -274,6 +274,20 @@ extern void *recallocarray(void *, size_t, size_t, size_t);
 int	fmt_scaled(long long, char *);
 int	scan_scaled(char *, long long *);
 #endif /* !HAVE_SCAN_SCALED */
+#if !HAVE_SECCOMP_FILTER
+/*
+ * Define SECCOMP_AUDIT_ARCH based on the architecture.
+ */
+#if defined(__x86_64__)
+#  define SECCOMP_AUDIT_ARCH AUDIT_ARCH_X86_64
+#elif defined(__i386__)
+#  define SECCOMP_AUDIT_ARCH AUDIT_ARCH_I386
+#elif defined(__arm__)
+#  define SECCOMP_AUDIT_ARCH AUDIT_ARCH_ARM
+#elif defined(__aarch64__)
+#  define SECCOMP_AUDIT_ARCH AUDIT_ARCH_AARCH64
+#endif
+#endif /* !HAVE_SECCOMP_FILTER */
 #if !HAVE_SETRESGID
 #include <sys/types.h> /* size_t, mode_t, dev_t */
 

@@ -44,6 +44,7 @@ COMPATS_H = \
 	compat_reallocarray.h \
 	compat_recallocarray.h \
 	compat_scan_scaled.h \
+	compat_seccomp_filter.h \
 	compat_setresgid.h \
 	compat_setresuid.h \
 	compat_sha2.h \
