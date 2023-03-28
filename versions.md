@@ -1,5 +1,11 @@
 This file describes version information of this project.
 
+## 0.3.9
+
+Determine command line option for shared library generation.  On Mac OS
+X, this is **-install_name**, otherwise it's **-soname**.  Put the
+result as `LINKER_SONAME` in the generated *Makefile.configure*.
+
 ## 0.3.8
 
 Add test and compatibility for [scan\_scaled(3)](https://man.openbsd.org/scan_scaled.3).

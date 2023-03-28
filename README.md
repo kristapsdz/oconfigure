@@ -51,8 +51,8 @@ If you have Makefile flags you'd like to set, set them when you invoke
 These are set in the generated `Makefile.configure`, which should be
 included by the source's `Makefile`.  The `LDADD`, `LDFLAGS`,
 `CPPFLAGS`, `DESTDIR`, `PREFIX`, `MANDIR`, `LIBDIR`, `BINDIR`,
-`SHAREDIR`, `SBINDIR`, and `INCLUDEDIR` variables are recognised.
-Anything else is discarded and warned about.
+`SHAREDIR`, `SBINDIR`, `LINKER_SONAME`, and `INCLUDEDIR` variables are
+recognised.  Anything else is discarded and warned about.
 
 If you want to use an alternative `CC` or `CFLAGS`, specify them as an
 environmental variable.  If the compiler is not found, **oconfigure**
@@ -76,6 +76,18 @@ CFLAGS=$(pkg-config --cflags libbsd-overlay) \
 
 For new versions of libbsd, this will pull in the library for all
 compatibility replacements instead of those within *compats.c*.
+
+For shared library generation, a `LINKER_SONAME` variable (which may be
+overridden) is set in the generated Makefile.configure to assist in Mac
+OS X portability.  Generating a shared library *lib.so.0* from *lib.c* might
+look like:
+
+```
+cc -fPIC -o lib.o -c lib.c
+cc -shared -o lib.so.0 -Wl,${LINKER_SONAME},lib.so.0 lib.o
+```
+
+The choice of **-fPIC** or **-fpic** is left for the user.
 
 # Source developers
 

@@ -92,6 +92,7 @@ LDADD_SCAN_SCALED=
 LDADD_STATIC=
 CPPFLAGS=
 LDFLAGS=
+LINKER_SONAME=
 DESTDIR=
 PREFIX="/usr/local"
 BINDIR=
@@ -144,6 +145,8 @@ do
 		LDADD="$val" ;;
 	LDFLAGS)
 		LDFLAGS="$val" ;;
+	LINKER_SONAME)
+		LINKER_SONAME="$val" ;;
 	CPPFLAGS)
 		CPPFLAGS="$val" ;;
 	DESTDIR)
@@ -168,6 +171,38 @@ do
 	esac
 done
 
+#----------------------------------------------------------------------
+# If the user doesn't specify whether we want "-soname" or
+# "-install_name" for the linker option to generate shared libraries,
+# try to figure it out here.  If we can't figure it out, just set it to
+# -soname and let the user figure it out.
+
+if [ -z "$LINKER_SONAME" ]
+then
+	test_soname="`mktemp`" || {
+		echo "mktemp: failed" 1>&2
+		echo "mktemp: failed" 1>&3
+		exit 1
+	}
+	echo "int foo(void) { return 1; }" > "${test_soname}.c"
+	${CC} -fPIC -o ${test_soname}.o -c ${test_soname}.c || {
+		echo "${CC} -fPIC -o ${test_soname}.o -c ${test_soname}.c: failed" 1>&2
+		echo "${CC} -fPIC -o ${test_soname}.o -c ${test_soname}.c: failed" 1>&3
+	}
+	LINKER_SONAME="-soname"
+	echo "LINKER_SONAME: testing -soname" 1>&3
+	${CC} -shared -o ${test_soname}.so.0 ${test_soname}.o -Wl,${LINKER_SONAME},${test_soname}.so.0 || {
+		LINKER_SONAME="-install_name"
+		echo "LINKER_SONAME: testing -install_name" 1>&3
+		${CC} -shared -o ${test_soname}.so.0 ${test_soname}.o -Wl,-install_name,${test_soname}.so.0 || {
+			echo "LINKER_SONAME: cannot determine: default to -soname" 1>&2
+			echo "LINKER_SONAME: cannot determine: default to -soname" 1>&3
+			LINKER_SONAME="-soname"
+		}
+	}
+	echo "LINKER_SONAME: $LINKER_SONAME" 1>&3
+	rm -f "$test_soname" "${test_soname}.*"
+fi
 
 #----------------------------------------------------------------------
 # These are the values that will be pushed into config.h after we test
@@ -1088,6 +1123,7 @@ LDADD_SHA2	 = ${LDADD_SHA2}
 LDADD_SCAN_SCALED= ${LDADD_SCAN_SCALED}
 LDADD_STATIC	 = ${LDADD_STATIC}
 LDFLAGS		 = ${LDFLAGS}
+LINKER_SONAME	 = ${LINKER_SONAME}
 STATIC		 = ${STATIC}
 PREFIX		 = ${PREFIX}
 BINDIR		 = ${BINDIR}
