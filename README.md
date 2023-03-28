@@ -767,6 +767,13 @@ found.  Does not provide any compatibility.
 
 This function is never "found".
 
+## termios(4)
+
+Tests for whether [termios(4)](https://man.openbsd.org/termios.4) exists,
+defining `HAVE_TERMIOS` with the result, specifically with the use case of
+testing terminal widths via [ioctl(2)](https://man.openbsd.org/ioctl.2) and
+`TIOCGWINSZ` (which must also exist).  Does not provide any compaibility.
+
 ## unveil(2)
 
 Test for [unveil(2)](https://man.openbsd.org/unveil.2), defining `HAVE_UNVEIL`

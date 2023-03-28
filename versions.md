@@ -1,5 +1,11 @@
 This file describes version information of this project.
 
+## 0.3.11
+
+Test for [termios(4)](https://man.openbsd.org/termios.4), specifically
+for the use case of testing terminal widths.  This is known not to exist
+in WASM targets.
+
 ## 0.3.10
 
 Allow overriding `AR` just like `CC` and friends.

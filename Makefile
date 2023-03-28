@@ -34,6 +34,7 @@ REGRESS_NODEP		= regress/capsicum \
 			  regress/strtonum \
 			  regress/sys_queue \
 			  regress/systrace \
+			  regress/termios \
 			  regress/unveil \
 			  regress/WAIT_ANY
 REGRESS			= $(REGRESS_B64) \
