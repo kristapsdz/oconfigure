@@ -1,5 +1,9 @@
 This file describes version information of this project.
 
+## 0.3.10
+
+Allow overriding `AR` just like `CC` and friends.
+
 ## 0.3.9
 
 Determine command line option for shared library generation.  On Mac OS

@@ -15,7 +15,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-OCONFIGURE_VERSION="0.3.8"
+OCONFIGURE_VERSION="0.3.10"
 
 #
 # This script outputs two files: config.h and Makefile.configure.
@@ -74,8 +74,9 @@ if [ -n "$MAKE_FLAGS" ]; then
 fi
 
 #----------------------------------------------------------------------
-# Initialize all variables here such that nothing can leak in from the
-# environment except for AR, CC and CFLAGS, which we might have passed in.
+# Initialise all variables here such that nothing can leak in from the
+# environment except for AR, CC and CFLAGS, which we might have passed
+# in.
 #----------------------------------------------------------------------
 
 AR=`printf "all:\\n\\t@echo \\\$(AR)\\n" | make ${MAKE_FLAGS} -sf -`

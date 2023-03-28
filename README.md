@@ -48,22 +48,23 @@ If you have Makefile flags you'd like to set, set them when you invoke
 ./configure PREFIX=/opt
 ```
 
-These are set in the generated `Makefile.configure`, which should be
+These are set in the generated *Makefile.configure*, which should be
 included by the source's `Makefile`.  The `LDADD`, `LDFLAGS`,
 `CPPFLAGS`, `DESTDIR`, `PREFIX`, `MANDIR`, `LIBDIR`, `BINDIR`,
 `SHAREDIR`, `SBINDIR`, `LINKER_SONAME`, and `INCLUDEDIR` variables are
 recognised.  Anything else is discarded and warned about.
 
-If you want to use an alternative `CC` or `CFLAGS`, specify them as an
-environmental variable.  If the compiler is not found, **oconfigure**
-will try to locate `clang` and `gcc` before giving up.
+If you want to use override the default `AR`, `CC`, or `CFLAGS`
+variables, specify them as environmental variables.  (The results will
+be set either way in *Makefile.configure*.)  For example:
 
 ```
 CC=musl-gcc ./configure
 ```
 
 The `CC`, `LDFLAGS`, `CPPFLAGS`, and `CFLAGS` are used when running the
-configuration tests themselves.
+configuration tests themselves.  If a default `cc` compiler is not found,
+**oconfigure** will test for `clang` and `gcc` before giving up.
 
 For Linux users with
 [libbsd](https://libbsd.freedesktop.org) installed,
@@ -78,9 +79,9 @@ For new versions of libbsd, this will pull in the library for all
 compatibility replacements instead of those within *compats.c*.
 
 For shared library generation, a `LINKER_SONAME` variable (which may be
-overridden) is set in the generated Makefile.configure to assist in Mac
-OS X portability.  Generating a shared library *lib.so.0* from *lib.c* might
-look like:
+overridden) is set in the generated *Makefile.configure* to assist in
+Mac OS X portability.  Generating a shared library *lib.so.0* from
+*lib.c* might look like:
 
 ```
 cc -fPIC -o lib.o -c lib.c
@@ -128,8 +129,8 @@ utilities, and so on.
 
 The following example also includes portable idioms for a depending
 library.  It uses BSD make style.  The *compats.c* is as given in
-**oconfigure**, and **Makefile.configure** and **config.h** are
-generated when running `configure`.
+**oconfigure**, and *Makefile.configure* and *config.h* are generated
+when running `configure`.
 
 ```mk
 include Makefile.configure
