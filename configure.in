@@ -1003,10 +1003,6 @@ if [ ${HAVE_SYS_TREE} -eq 0 ]; then
 __HEREDOC__
 fi
 
-cat << __HEREDOC__
-#endif /*!OCONFIGURE_CONFIG_H*/
-__HEREDOC__
-
 if [ ${HAVE_FTS} -eq 0 ]; then
 	cat << __HEREDOC__
 /*
@@ -1090,6 +1086,10 @@ int	 fts_set(FTS *, FTSENT *, int);
 
 __HEREDOC__
 fi
+
+cat << __HEREDOC__
+#endif /*!OCONFIGURE_CONFIG_H*/
+__HEREDOC__
 
 echo "config.h: written" 1>&2
 echo "config.h: written" 1>&3
