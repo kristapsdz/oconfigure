@@ -3,7 +3,7 @@ This file describes version information of this project.
 ## 0.3.12
 
 Add `LDLIBS` support.  Fix [fts(3)](https://man.openbsd.org/fts.3)
-header inclusion.
+header inclusion.  Add skeleton WASI target support.
 
 ## 0.3.11
 
