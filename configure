@@ -84,6 +84,7 @@ CC=`printf "all:\\n\\t@echo \\\$(CC)\\n" | make ${MAKE_FLAGS} -sf -`
 CFLAGS=`printf "all:\\n\\t@echo \\\$(CFLAGS)\\n" | make ${MAKE_FLAGS} -sf -`
 CFLAGS="${CFLAGS} -g -W -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes"
 CFLAGS="${CFLAGS} -Wwrite-strings -Wno-unused-parameter"
+LDLIBS=
 LDADD=
 LDADD_B64_NTOP=
 LDADD_CRYPT=
@@ -145,6 +146,8 @@ do
 	case "$key" in
 	LDADD)
 		LDADD="$val" ;;
+	LDLIBS)
+		LDLIBS="$val" ;;
 	LDFLAGS)
 		LDFLAGS="$val" ;;
 	LINKER_SONAME)
@@ -2478,6 +2481,7 @@ AR		 = ${AR}
 CC		 = ${CC}
 CFLAGS		 = ${CFLAGS}
 CPPFLAGS	 = ${CPPFLAGS}
+LDLIBS		 = ${LDLIBS}
 LDADD		 = ${LDADD}
 LDADD_B64_NTOP	 = ${LDADD_B64_NTOP}
 LDADD_CRYPT	 = ${LDADD_CRYPT}

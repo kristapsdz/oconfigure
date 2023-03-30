@@ -49,10 +49,30 @@ If you have Makefile flags you'd like to set, set them when you invoke
 ```
 
 These are set in the generated *Makefile.configure*, which should be
-included by the source's `Makefile`.  The `LDADD`, `LDFLAGS`,
-`CPPFLAGS`, `DESTDIR`, `PREFIX`, `MANDIR`, `LIBDIR`, `BINDIR`,
-`SHAREDIR`, `SBINDIR`, `LINKER_SONAME`, and `INCLUDEDIR` variables are
-recognised.  Anything else is discarded and warned about.
+included by the source's `Makefile`.  The following are recognised:
+
+- `LDADD`: **-l** libraries and flags usually used for linking binaries
+- `LDLIBS`: **-l** libraries and flags usually used for linking shared
+  libraries (`LIBADD` is sometimes used for this)
+- `LDFLAGS`: **-L** linker flags used for linking
+- `CPPFLAGS`: C preprocessor flags used for compiling objects
+- `DESTDIR`: prefixed to all install directories during installation,
+  but not otherwise affecting install directories
+- `PREFIX`: directory for default install directories (defaults to
+  */usr/local*)
+- `MANDIR`: install directory for manpages (defaults to *PREFIX/man*)
+- `LIBDIR`: install directory for libraries (defaults to *PREFIX/lib*)
+- `BINDIR`: install directory for binaries (defaults to *PREFIX/bin*)
+- `SHAREDIR`: install directory for shared files (defaults to
+  *PREFIX/share*)
+- `SBINDIR`: install directory for system binaries (defaults to
+  *PREFIX/sbin*)
+- `INCLUDEDIR`: install directory for header files (defaults to
+  *PREFIX/include*)
+- `LINKER_SONAME`: linker command used to create shared libraries
+  (defaults to **-soname** or **-install_name**)
+
+Anything else is discarded and warned about.
 
 If you want to use override the default `AR`, `CC`, or `CFLAGS`
 variables, specify them as environmental variables.  (The results will
