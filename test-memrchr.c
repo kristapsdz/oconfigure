@@ -1,4 +1,4 @@
-#if defined(__linux__) || defined(__MINT__)
+#if defined(__linux__) || defined(__MINT__) || defined(__wasi__)
 #define _GNU_SOURCE	/* See test-*.c what needs this. */
 #endif
 #include <string.h>
