@@ -1,94 +1,122 @@
 .PHONY: distcheck
 
-VERSION	= 0.3.12
-COMPATS	= compat_err.c \
-	  compat_b64_ntop.c \
-	  compat_explicit_bzero.c \
-	  compat_fts.c \
-	  compat_getprogname.c \
-	  compat_md5.c \
-	  compat_memmem.c \
-	  compat_memrchr.c \
-	  compat_mkfifoat.c \
-	  compat_mknodat.c \
-	  compat_readpassphrase.c \
-	  compat_reallocarray.c \
-	  compat_recallocarray.c \
-	  compat_scan_scaled.c \
-	  compat_setresgid.c \
-	  compat_setresuid.c \
-	  compat_sha2.c \
-	  compat_strlcat.c \
-	  compat_strlcpy.c \
-	  compat_strndup.c \
-	  compat_strnlen.c \
-	  compat_strtonum.c
-TESTS	= test-__progname.c \
-	  test-arc4random.c \
-	  test-b64_ntop.c \
-	  test-capsicum.c \
-	  test-crypt.c \
-	  test-crypt_newhash.c \
-	  test-endian_h.c \
-	  test-err.c \
-	  test-explicit_bzero.c \
-	  test-fts.c \
-	  test-getexecname.c \
-	  test-getprogname.c \
-	  test-INFTIM.c \
-	  test-landlock.c \
-	  test-lib_socket.c \
-	  test-md5.c \
-	  test-memmem.c \
-	  test-memrchr.c \
-	  test-memset_s.c \
-	  test-mkfifoat.c \
-	  test-mknodat.c \
-	  test-osbyteorder_h.c \
-	  test-PATH_MAX.c \
-	  test-pledge.c \
-	  test-program_invocation_short_name.c \
-	  test-readpassphrase.c \
-	  test-reallocarray.c \
-	  test-recallocarray.c \
-	  test-sandbox_init.c \
-	  test-scan_scaled.c \
-	  test-seccomp_filter.c \
-	  test-setresgid.c \
-	  test-setresuid.c \
-	  test-sha2.c \
-	  test-SOCK_NONBLOCK.c \
-	  test-static.c \
-	  test-strlcat.c \
-	  test-strlcpy.c \
-	  test-strndup.c \
-	  test-strnlen.c \
-	  test-strtonum.c \
-	  test-sys_byteorder_h.c \
-	  test-sys_endian_h.c \
-	  test-sys_mkdev_h.c \
-	  test-sys_queue.c \
-	  test-sys_sysmacros_h.c \
-	  test-sys_tree.c \
-	  test-termios.c \
-	  test-unveil.c \
-	  test-WAIT_ANY.c
+VERSION = 0.3.12
+COMPATS = \
+	compat_err.c \
+	compat_b64_ntop.c \
+	compat_explicit_bzero.c \
+	compat_fts.c \
+	compat_getprogname.c \
+	compat_md5.c \
+	compat_memmem.c \
+	compat_memrchr.c \
+	compat_mkfifoat.c \
+	compat_mknodat.c \
+	compat_readpassphrase.c \
+	compat_reallocarray.c \
+	compat_recallocarray.c \
+	compat_scan_scaled.c \
+	compat_setresgid.c \
+	compat_setresuid.c \
+	compat_sha2.c \
+	compat_strlcat.c \
+	compat_strlcpy.c \
+	compat_strndup.c \
+	compat_strnlen.c \
+	compat_strtonum.c
+COMPATS_H = \
+	compat_err.h \
+	compat_b64_ntop.h \
+	compat_endian.h \
+	compat_explicit_bzero.h \
+	compat_fts.h \
+	compat_getprogname.h \
+	compat_INFTIM.h \
+	compat_major_minor.h \
+	compat_md5.h \
+	compat_memmem.h \
+	compat_memrchr.h \
+	compat_mkfifoat.h \
+	compat_mknodat.h \
+	compat_osbyteorder.h \
+	compat_PATH_MAX.h \
+	compat_readpassphrase.h \
+	compat_reallocarray.h \
+	compat_recallocarray.h \
+	compat_scan_scaled.h \
+	compat_seccomp_filter.h \
+	compat_setresgid.h \
+	compat_setresuid.h \
+	compat_sha2.h \
+	compat_strlcat.h \
+	compat_strlcpy.h \
+	compat_strndup.h \
+	compat_strnlen.h \
+	compat_strtonum.h \
+	compat_sys_byteorder.h \
+	compat_sys_queue.h \
+	compat_sys_tree.h \
+	compat_WAIT_ANY.h
+TESTS = \
+	test-__progname.c \
+	test-arc4random.c \
+	test-b64_ntop.c \
+	test-capsicum.c \
+	test-crypt.c \
+	test-crypt_newhash.c \
+	test-endian_h.c \
+	test-err.c \
+	test-explicit_bzero.c \
+	test-fts.c \
+	test-getexecname.c \
+	test-getprogname.c \
+	test-INFTIM.c \
+	test-landlock.c \
+	test-lib_socket.c \
+	test-md5.c \
+	test-memmem.c \
+	test-memrchr.c \
+	test-memset_s.c \
+	test-mkfifoat.c \
+	test-mknodat.c \
+	test-osbyteorder_h.c \
+	test-PATH_MAX.c \
+	test-pledge.c \
+	test-program_invocation_short_name.c \
+	test-readpassphrase.c \
+	test-reallocarray.c \
+	test-recallocarray.c \
+	test-sandbox_init.c \
+	test-scan_scaled.c \
+	test-seccomp_filter.c \
+	test-setresgid.c \
+	test-setresuid.c \
+	test-sha2.c \
+	test-SOCK_NONBLOCK.c \
+	test-static.c \
+	test-strlcat.c \
+	test-strlcpy.c \
+	test-strndup.c \
+	test-strnlen.c \
+	test-strtonum.c \
+	test-sys_byteorder_h.c \
+	test-sys_endian_h.c \
+	test-sys_mkdev_h.c \
+	test-sys_queue.c \
+	test-sys_sysmacros_h.c \
+	test-sys_tree.c \
+	test-termios.c \
+	test-unveil.c \
+	test-WAIT_ANY.c
 
-all: compats.c tests.c configure
+all: compats.c compats.h tests.c configure
 
 distcheck:
 	grep "^## $(VERSION)$$" versions.md >/dev/null
 
-configure: configure.in Makefile.regen configure-sys_queue.h
+configure: configure.in Makefile.regen
 	rm -f $@
-	( sed -n '/^@CONFIGURE_SYS_QUEUE_H@$$/!p;//q' configure.in ; \
-	  sed -e 's!\\$$!\\\\!g' -e 's!\$$!\\$$!g' configure-sys_queue.h ; \
-	  sed '1,/^@CONFIGURE_SYS_QUEUE_H@$$/d' configure.in ; ) > configure.1
-	( sed -n '/^@CONFIGURE_SYS_TREE_H@$$/!p;//q' configure.1 ; \
-	  sed -e 's!\\$$!\\\\!g' -e 's!\$$!\\$$!g' configure-sys_tree.h ; \
-	  sed '1,/^@CONFIGURE_SYS_TREE_H@$$/d' configure.1 ; ) > configure.2
-	sed "s!@VERSION@!$(VERSION)!g" configure.2 >$@
-	rm -f configure.1 configure.2
+	sed "s!@VERSION@!$(VERSION)!g" configure.in >$@
 	chmod 555 $@
 
 compats.c: $(COMPATS) Makefile.regen
@@ -102,6 +130,22 @@ compats.c: $(COMPATS) Makefile.regen
 		echo "#endif /* !HAVE_$${up} */" ; \
 	done >>$@
 
+compats.h: $(COMPATS_H) Makefile.regen
+	echo -n >$@
+	echo "#ifndef OCONFIGURE_COMPAT_H" >>$@
+	echo "#define OCONFIGURE_COMPAT_H" >>$@
+	echo >>$@
+	cat compat-preamble.h >>$@
+	for f in $(COMPATS_H) ; \
+	do \
+		ff="`echo $$f | sed -e 's!\.h$$!!' -e 's!^compat_!!'`" ; \
+		up="`echo $$ff | tr '[:lower:]' '[:upper:]'`" ; \
+		echo "#if !HAVE_$${up}" ; \
+		cat "$$f" ; \
+		echo "#endif /* !HAVE_$${up} */" ; \
+	done >>$@
+	echo "#endif /* OCONFIGURE_COMPAT_H */" >>$@
+
 tests.c: $(TESTS) Makefile.regen
 	for f in $(TESTS) ; \
 	do \
@@ -113,4 +157,4 @@ tests.c: $(TESTS) Makefile.regen
 	done >$@
 
 clean:
-	rm -f configure compats.c tests.c
+	rm -f configure compats.c compats.h tests.c

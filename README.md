@@ -21,6 +21,7 @@ To use (tl;dr edition):
 1. copy
 [configure](https://raw.githubusercontent.com/kristapsdz/oconfigure/master/configure),
 [compats.c](https://raw.githubusercontent.com/kristapsdz/oconfigure/master/compats.c),
+[compats.h](https://raw.githubusercontent.com/kristapsdz/oconfigure/master/compats.h),
 and
 [tests.c](https://raw.githubusercontent.com/kristapsdz/oconfigure/master/tests.c)
 into your source tree

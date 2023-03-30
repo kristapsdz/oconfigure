@@ -1,0 +1,6 @@
+#include <sys/types.h> /* size_t, mode_t, dev_t */
+
+/*
+ * Compatibility for setresgid(2).
+ */
+int setresgid(gid_t rgid, gid_t egid, gid_t sgid);
