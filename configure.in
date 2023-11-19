@@ -711,6 +711,7 @@ extern void warnc(int, const char *, ...);
 extern void vwarn(const char *, va_list);
 extern void vwarnc(int, const char *, va_list);
 extern void vwarnx(const char *, va_list);
+
 __HEREDOC__
 
 [ ${HAVE_MD5} -eq 0 ] && \
