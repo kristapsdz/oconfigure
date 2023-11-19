@@ -1,19 +1,9 @@
 # Introduction
 
-This is a simple configuration script use for some
-[BSD.lv](https://www.bsd.lv) project sources.  Its mission is to provide
-[OpenBSD](https://www.openbsd.org) portability functions and feature
-testing.
+This is a straightforward configuration system for writing portable C systems
+with [OpenBSD](https://www.openbsd.org)-compatible features and functions.
 
-It's built for C programs using [make(1)](https://man.openbsd.org/make).
-
-It allows easy porting to Linux (glibc and musl), FreeBSD, NetBSD, Mac
-OS X, SunOS (Solaris 11), and OmniOS (illumos).  Other systems may also
-be supported: please let us know if they are.
-
-See [versions.md](versions.md) for version information.
-
-To use (tl;dr edition):
+To use:
 
 1. copy
 [configure](https://raw.githubusercontent.com/kristapsdz/oconfigure/master/configure),
@@ -27,7 +17,16 @@ into your source tree
    inclusion
 5. compile compats.o with your sources and link with it
 
-# Source users
+It allows easy porting to Linux (glibc and musl), FreeBSD, NetBSD, Mac
+OS X, SunOS (Solaris 11), and OmniOS (illumos).  Other systems may also
+be supported: please let us know if they are.
+
+See [versions.md](versions.md) for version information.
+
+This framework was inspired by [mandoc](https://mandoc.bsd.lv)'s
+`configure` script written by Ingo Schwarze.
+
+## Users and maintainers
 
 Run `./configure` prior to running `make`.  The `configure` script will
 check for common features as noted in the test files, e.g.,
@@ -107,7 +106,7 @@ cc -shared -o lib.so.0 -Wl,${LINKER_SONAME},lib.so.0 lib.o
 
 The choice of **-fPIC** or **-fpic** is left for the user.
 
-# Source developers
+## Developers
 
 Using **oconfigure** requires some work within your sources to node
 compatibility areas, then some in your build environment:
@@ -124,7 +123,7 @@ compatibility areas, then some in your build environment:
 int main(void) {
 #if HAVE_PLEDGE /* do we have pledge? */
 	if (pledge("stdio", NULL) == -1)
-		err(EXIT_FAILURE, NULL);
+		err(1, NULL);
 #endif
 	warnx("hello, world!"); /* compat provides this */
 	return 0;
@@ -169,9 +168,6 @@ main.o compats.o: config.h
 clean:
 	rm -f main main.o compats.o
 ```
-
-This framework was inspired by [mandoc](https://mandoc.bsd.lv)'s
-`configure` script written by Ingo Schwarze.
 
 # Features
 
