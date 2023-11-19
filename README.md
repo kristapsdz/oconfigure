@@ -9,10 +9,7 @@ It's built for C programs using [make(1)](https://man.openbsd.org/make).
 
 It allows easy porting to Linux (glibc 2.19 and greater and musl),
 FreeBSD, NetBSD, Mac OS X, SunOS (Solaris 11), and OmniOS (illumos).
-The continuity of this portability is maintained by BSD.lv's
-[continuous integration](https://kristaps.bsd.lv/cgi-bin/minci.cgi/index.html?project-name=oconfigure)
-system.  Other systems may also be supported: please let us know if they
-are.
+Other systems may also be supported: please let us know if they are.
 
 See [versions.md](versions.md) for version information.
 
