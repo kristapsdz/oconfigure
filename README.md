@@ -619,7 +619,18 @@ Tests for Linux's
 [prctl(2)](http://man7.org/linux/man-pages/man2/prctl.2.html) function,
 which is the gateway for
 [seccomp(2)](http://man7.org/linux/man-pages/man2/seccomp.2.html).
-Defines `HAVE_SECCOMP_FILTER` if found.
+This defines several variables:
+
+- `HAVE_SECCOMP_HEADER`: Compile-time support exists for seccomp.
+- `SECCOMP_AUDIT_ARCH`: If `HAVE_SECCOMP_HEADER` is set, this is set to
+  the architecture used for seccomp operations (e.g., `AUDIT_ARCH_ARM`).
+  If this is not set and `HAVE_SECCOMP_HEADER` is set, seccomp is
+  enabled in the kernel but the hardware architecture is not known by
+  oconfigure.  Please create an issue or pull request with your
+  `uname -m` and hardware profile.
+- `HAVE_SECCOMP_FILTER`: Set if both `HAVE_SECCOMP_HEADER` and
+  `SECCOMP_AUDIT_ARCH` are set.
+
 Does not provide any compatibility.
 
 *This test does not mean that the sandboxing is enabled.* You'll
