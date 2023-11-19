@@ -7,9 +7,9 @@ testing.
 
 It's built for C programs using [make(1)](https://man.openbsd.org/make).
 
-It allows easy porting to Linux (glibc 2.19 and greater and musl),
-FreeBSD, NetBSD, Mac OS X, SunOS (Solaris 11), and OmniOS (illumos).
-Other systems may also be supported: please let us know if they are.
+It allows easy porting to Linux (glibc and musl), FreeBSD, NetBSD, Mac
+OS X, SunOS (Solaris 11), and OmniOS (illumos).  Other systems may also
+be supported: please let us know if they are.
 
 See [versions.md](versions.md) for version information.
 

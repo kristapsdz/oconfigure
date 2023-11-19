@@ -1,5 +1,23 @@
 This file describes version information of this project.
 
+## 0.3.13
+
+Fix regression testing on Linux (termios would fail).  Add
+[GitHub Actions](https://github.com/kristapsdz/oconfigure/actions)
+for quality continuity.
+
+Update seccomp testing in two ways:
+
+1. First, test for whether the header and entry function exist and mark
+   them in a new variable, `HAVE_SECCOMP_HEADER`.
+2. If found, check to make sure that the architecture is recognised for
+   passing in with the filter.  Set this in `SECCOMP_AUDIT_ARCH`.
+3. If an arch is found and the header exists, set `HAVE_SECCOMP_FILTER`
+   to one.  If an arch was not found and the header exists, or the
+   header does not exist, set `HAVE_SECCOMP_FILTER` to zero.
+
+Update the list of supported architectures, while here.
+
 ## 0.3.12
 
 Add `LDLIBS` support.  Fix [fts(3)](https://man.openbsd.org/fts.3)
