@@ -43,9 +43,47 @@ jobs:
       uses: vmactions/freebsd-vm@v1
       with:
         usesh: true
-        prepare: |
-          pkg install -y curl
+        prepare: pkg install -y curl
         run: |
           freebsd-version
+          ./configure
+          make regress
+  netbsd:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Test in NetBSD
+      uses: vmactions/netbsd-vm@v1
+      with:
+        usesh: true
+        prepare: /usr/sbin/pkg_add curl
+        run: |
+          uname -a
+          ./configure
+          make regress
+  solaris:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Test in Solaris
+      uses: vmactions/solaris-vm@v0
+      with:
+        usesh: true
+        prepare: pkgutil -y -i socat
+        run: |
+          cat /etc/release
+          ./configure
+          make regress
+  dragonflybsd:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Test in DragonflyBSD
+      uses: vmactions/dragonflybsd-vm@v0
+      with:
+        usesh: true
+        prepare: pkg install -y curl
+        run: |
+          uname -a
           ./configure
           make regress
