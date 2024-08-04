@@ -9,7 +9,8 @@ REGRESS_CRYPT		= regress/crypt
 REGRESS_B64		= regress/b64_ntop
 REGRESS_LIB_SOCKET	= regress/SOCK_NONBLOCK
 REGRESS_SCAN_SCALED	= regress/scan_scaled
-REGRESS_NODEP		= regress/capsicum \
+REGRESS_NODEP		= regress/blowfish \
+			  regress/capsicum \
 			  regress/endian \
 			  regress/err \
 			  regress/explicit_bzero \
