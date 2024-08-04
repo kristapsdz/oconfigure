@@ -491,7 +491,8 @@ __HEREDOC__
 # someting that pulls in support for size_t.
 # Our function declarations are standalone, so specify them here.
 
-if [ ${HAVE_FTS} -eq 0 -o \
+if [ ${HAVE_BLOWFISH} -eq 0 -o \
+     ${HAVE_FTS} -eq 0 -o \
      ${HAVE_MD5} -eq 0 -o \
      ${HAVE_MEMMEM} -eq 0 -o \
      ${HAVE_MEMRCHR} -eq 0 -o \

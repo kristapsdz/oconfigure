@@ -1,7 +1,7 @@
 #include "../config.h"
 
-#include <sys/types.h>
 #if HAVE_BLOWFISH
+# include <sys/types.h>
 # include <blf.h>
 #endif
 #include <string.h>
