@@ -6,6 +6,7 @@
 
 /* $OpenBSD$ */
 
+#include <stddef.h>
 #include <stdint.h>
 
 #define KEYSTREAM_ONLY
@@ -253,10 +254,6 @@ chacha_encrypt_bytes(chacha_ctx *x,const u8 *m,u8 *c,u32 bytes)
  * Made fully portable and thread-safe by Sudhi Herle.
  */
 
-#if defined(__linux__) || defined(__wasi__)
-# define _DEFAULT_SOURCE /* new glibc for getentropy() */
-#endif
-
 #include <fcntl.h>
 #include <limits.h>
 #include <signal.h>
@@ -422,7 +419,7 @@ static volatile uint32_t Rforked = 0;
  * Fork handler to reset my context
  */
 static void
-atfork()
+atfork(void)
 {
     // the pthread_atfork() callbacks called once per process.
     // We set it to be called by the child process.
@@ -434,7 +431,7 @@ atfork()
  * create the thread-specific key.
  */
 static void
-screate()
+screate(void)
 {
     pthread_key_create(&Rkey, 0);
     pthread_atfork(0, 0, atfork);
@@ -445,7 +442,7 @@ screate()
  * Get the per-thread rand state. Initialize if needed.
  */
 static rand_state*
-sget()
+sget(void)
 {
     pthread_once(&Ronce, screate);
 
@@ -479,7 +476,7 @@ sget()
  */
 static __thread rand_state st = { .rs_count = 0, .rs_pid = -1, .rs_have = 0 };
 static inline rand_state*
-sget()
+sget(void)
 {
     rand_state* s = &st;
 
@@ -505,7 +502,7 @@ __rand32(rand_state *z)
 }
 
 uint32_t
-arc4random()
+arc4random(void)
 {
     rand_state* z = sget();
     return __rand32(z);
