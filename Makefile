@@ -9,7 +9,8 @@ REGRESS_CRYPT		= regress/crypt
 REGRESS_B64		= regress/b64_ntop
 REGRESS_LIB_SOCKET	= regress/SOCK_NONBLOCK
 REGRESS_SCAN_SCALED	= regress/scan_scaled
-REGRESS_NODEP		= regress/blowfish \
+REGRESS_NODEP		= regress/arc4random \
+			  regress/blowfish \
 			  regress/capsicum \
 			  regress/crypt_newhash \
 			  regress/endian \

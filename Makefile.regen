@@ -1,7 +1,8 @@
 .PHONY: distcheck
 
 VERSION	= 0.3.13
-COMPATS	= compat_blowfish.c \
+COMPATS	= compat_arc4random.c \
+	  compat_blowfish.c \
 	  compat_crypt_newhash.c \
 	  compat_err.c \
 	  compat_b64_ntop.c \
