@@ -86,8 +86,8 @@ main(void)
 #endif /* TEST_CAPSICUM */
 #if TEST_CRYPT
 #if defined(__linux__) || defined(__wasi__)
-# define _GNU_SOURCE /* old glibc */
 # define _DEFAULT_SOURCE /* new glibc */
+# define _XOPEN_SOURCE /* old glibc */
 #endif
 #if defined(__sun)
 # ifndef _XOPEN_SOURCE /* SunOS already defines */
@@ -109,14 +109,13 @@ int main(void)
 }
 #endif /* TEST_CRYPT */
 #if TEST_CRYPT_NEWHASH
-#include <pwd.h> /* _PASSWORD_LEN */
 #include <unistd.h>
 
 int
 main(void)
 {
 	const char	*v = "password";
-	char		 hash[_PASSWORD_LEN];
+	char		 hash[128];
 
 	if (crypt_newhash(v, "bcrypt,a", hash, sizeof(hash)) == -1)
 		return 1;
@@ -389,6 +388,21 @@ main(void)
 	return !OSSwapHostToLittleInt32(23);
 }
 #endif /* TEST_OSBYTEORDER_H */
+#if TEST_PASSWORD_LEN
+/*
+ * Linux doesn't  have this.
+ */
+
+#include <pwd.h>
+#include <stdio.h>
+
+int
+main(void)
+{
+	printf("_PASSWORD_LEN is defined to be %ld\n", (long)_PASSWORD_LEN);
+	return 0;
+}
+#endif /* TEST_PASSWORD_LEN */
 #if TEST_PATH_MAX
 /*
  * POSIX allows PATH_MAX to not be defined, see
@@ -792,6 +806,20 @@ main(void)
 	return size.ws_col;
 }
 #endif /* TEST_TERMIOS */
+#if TEST_TIMINGSAFE_BCMP
+#include <string.h>
+
+int main(void)
+{
+	const char *a = "foo", *b = "bar";
+
+	if (timingsafe_bcmp(a, b, 2) &&
+	    timingsafe_memcmp(a, b, 2))
+		return 1;
+
+	return 0;
+}
+#endif /* TEST_TIMINGSAFE_BCMP */
 #if TEST_UNVEIL
 #include <unistd.h>
 

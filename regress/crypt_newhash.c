@@ -1,6 +1,8 @@
 #include "../config.h"
 
-#include <pwd.h> /* _PASSWORD_LEN */
+#if HAVE_PASSWORD_LEN
+# include <pwd.h> /* _PASSWORD_LEN */
+#endif
 #include <unistd.h>
 
 int

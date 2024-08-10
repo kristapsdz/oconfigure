@@ -23,6 +23,7 @@ REGRESS_NODEP		= regress/blowfish \
 			  regress/minor \
 			  regress/mkfifoat \
 			  regress/mknodat \
+			  regress/PASSWORD_LEN \
 			  regress/PATH_MAX \
 			  regress/pledge \
 			  regress/reallocarray \
@@ -37,6 +38,7 @@ REGRESS_NODEP		= regress/blowfish \
 			  regress/sys_queue \
 			  regress/systrace \
 			  regress/termios \
+			  regress/timingsafe_bcmp \
 			  regress/unveil \
 			  regress/WAIT_ANY
 REGRESS			= $(REGRESS_B64) \

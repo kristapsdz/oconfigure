@@ -237,6 +237,7 @@ HAVE_MEMSET_S=
 HAVE_MKFIFOAT=
 HAVE_MKNODAT=
 HAVE_OSBYTEORDER_H=
+HAVE_PASSWORD_LEN=
 HAVE_PATH_MAX=
 HAVE_PLEDGE=
 HAVE_PROGRAM_INVOCATION_SHORT_NAME=
@@ -264,6 +265,7 @@ HAVE_SYS_SYSMACROS=
 HAVE_SYS_TREE=
 HAVE_SYSTRACE=0
 HAVE_TERMIOS=
+HAVE_TIMINGSAFE_BCMP=
 HAVE_UNVEIL=
 HAVE_WAIT_ANY=
 HAVE___PROGNAME=
@@ -409,6 +411,7 @@ runtest memset_s	MEMSET_S			  || true
 runtest mkfifoat	MKFIFOAT			  || true
 runtest mknodat		MKNODAT				  || true
 runtest osbyteorder_h	OSBYTEORDER_H			  || true
+runtest PASSWORD_LEN	PASSWORD_LEN			  || true
 runtest PATH_MAX	PATH_MAX			  || true
 runtest pledge		PLEDGE				  || true
 runtest program_invocation_short_name	PROGRAM_INVOCATION_SHORT_NAME || true
@@ -435,6 +438,7 @@ runtest sys_sysmacros_h	SYS_SYSMACROS_H			  || true
 runtest sys_queue	SYS_QUEUE			  || true
 runtest sys_tree	SYS_TREE			  || true
 runtest termios		TERMIOS				  || true
+runtest timingsafe_bcmp	TIMINGSAFE_BCMP			  || true
 runtest unveil		UNVEIL				  || true
 runtest WAIT_ANY	WAIT_ANY			  || true
 runtest __progname	__PROGNAME			  || true
@@ -542,6 +546,11 @@ then
 	echo
 fi
 
+if [ ${HAVE_PASSWORD_LEN} -eq 0 ]
+then
+	echo "#define _PASSWORD_LEN (128) /* pwd.h */"
+	echo
+fi
 
 if [ ${HAVE_INFTIM} -eq 0 ]
 then
@@ -574,6 +583,7 @@ cat << __HEREDOC__
 #define HAVE_MKFIFOAT ${HAVE_MKFIFOAT}
 #define HAVE_MKNODAT ${HAVE_MKNODAT}
 #define HAVE_OSBYTEORDER_H ${HAVE_OSBYTEORDER_H}
+#define HAVE_PASSWORD_LEN ${HAVE_PASSWORD_LEN}
 #define HAVE_PATH_MAX ${HAVE_PATH_MAX}
 #define HAVE_PLEDGE ${HAVE_PLEDGE}
 #define HAVE_PROGRAM_INVOCATION_SHORT_NAME ${HAVE_PROGRAM_INVOCATION_SHORT_NAME}
@@ -602,6 +612,7 @@ cat << __HEREDOC__
 #define HAVE_SYSTRACE ${HAVE_SYSTRACE}
 #define HAVE_UNVEIL ${HAVE_UNVEIL}
 #define HAVE_TERMIOS ${HAVE_TERMIOS}
+#define HAVE_TIMINGSAFE_BCMP ${HAVE_TIMINGSAFE_BCMP}
 #define HAVE_WAIT_ANY ${HAVE_WAIT_ANY}
 #define HAVE___PROGNAME ${HAVE___PROGNAME}
 
@@ -1179,6 +1190,14 @@ void blf_ecb_encrypt(blf_ctx *, u_int8_t *, u_int32_t);
 void blf_ecb_decrypt(blf_ctx *, u_int8_t *, u_int32_t);
 void blf_cbc_encrypt(blf_ctx *, u_int8_t *, u_int8_t *, u_int32_t);
 void blf_cbc_decrypt(blf_ctx *, u_int8_t *, u_int8_t *, u_int32_t);
+
+__HEREDOC__
+fi
+
+if [ ${HAVE_TIMINGSAFE_BCMP} -eq 0 ]; then
+	cat << __HEREDOC__
+int timingsafe_bcmp(const void *, const void *, size_t);
+int timingsafe_memcmp(const void *, const void *, size_t);
 
 __HEREDOC__
 fi

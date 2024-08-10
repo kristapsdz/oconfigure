@@ -1,11 +1,10 @@
-#include <pwd.h> /* _PASSWORD_LEN */
 #include <unistd.h>
 
 int
 main(void)
 {
 	const char	*v = "password";
-	char		 hash[_PASSWORD_LEN];
+	char		 hash[128];
 
 	if (crypt_newhash(v, "bcrypt,a", hash, sizeof(hash)) == -1)
 		return 1;

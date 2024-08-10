@@ -24,7 +24,8 @@ COMPATS	= compat_blowfish.c \
 	  compat_strlcpy.c \
 	  compat_strndup.c \
 	  compat_strnlen.c \
-	  compat_strtonum.c
+	  compat_strtonum.c \
+	  compat_timingsafe_bcmp.c
 TESTS	= test-__progname.c \
 	  test-arc4random.c \
 	  test-blowfish.c \
@@ -48,6 +49,7 @@ TESTS	= test-__progname.c \
 	  test-mkfifoat.c \
 	  test-mknodat.c \
 	  test-osbyteorder_h.c \
+	  test-PASSWORD_LEN.c \
 	  test-PATH_MAX.c \
 	  test-pledge.c \
 	  test-program_invocation_short_name.c \
@@ -74,6 +76,7 @@ TESTS	= test-__progname.c \
 	  test-sys_sysmacros_h.c \
 	  test-sys_tree.c \
 	  test-termios.c \
+	  test-timingsafe_bcmp.c \
 	  test-unveil.c \
 	  test-WAIT_ANY.c
 

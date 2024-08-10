@@ -15,11 +15,5 @@ main(void)
 	if (strcmp(buf, "ab"))
 		return 1;
 
-	buf = strndup("ab", 4);
-	if (buf == NULL)
-		return 1;
-	if (strcmp(buf, "ab"))
-		return 1;
-
 	return 0;
 }

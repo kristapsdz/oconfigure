@@ -670,6 +670,7 @@ blf_cbc_decrypt(blf_ctx *c, u_int8_t *iva, u_int8_t *data, u_int32_t len)
 #include <errno.h>
 #include <pwd.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -694,7 +695,7 @@ static int decode_base64(u_int8_t *, size_t, const char *);
  * Generates a salt for this version of crypt.
  */
 static int
-bcrypt_initsalt(int log_rounds, uint8_t *salt, size_t saltbuflen)
+bcrypt_initsalt(int log_rounds, char *salt, size_t saltbuflen)
 {
 	uint8_t csalt[BCRYPT_MAXSALT];
 
@@ -833,7 +834,7 @@ inval:
 /*
  * user friendly functions
  */
-int
+static int
 bcrypt_newhash(const char *pass, int log_rounds, char *hash, size_t hashlen)
 {
 	char salt[BCRYPT_SALTSPACE];
@@ -929,7 +930,7 @@ static int
 decode_base64(u_int8_t *buffer, size_t len, const char *b64data)
 {
 	u_int8_t *bp = buffer;
-	const u_int8_t *p = b64data;
+	const u_int8_t *p = (const u_int8_t *)b64data;
 	u_int8_t c1, c2, c3, c4;
 
 	while (bp < buffer + len) {
@@ -971,7 +972,7 @@ decode_base64(u_int8_t *buffer, size_t len, const char *b64data)
 static int
 encode_base64(char *b64buffer, const u_int8_t *data, size_t len)
 {
-	u_int8_t *bp = b64buffer;
+	u_int8_t *bp = (u_int8_t *)b64buffer;
 	const u_int8_t *p = data;
 	u_int8_t c1, c2;
 
@@ -998,30 +999,6 @@ encode_base64(char *b64buffer, const u_int8_t *data, size_t len)
 	}
 	*bp = '\0';
 	return 0;
-}
-
-/*
- * classic interface
- */
-static char *
-bcrypt_gensalt(u_int8_t log_rounds)
-{
-	static char    gsalt[BCRYPT_SALTSPACE];
-
-	bcrypt_initsalt(log_rounds, gsalt, sizeof(gsalt));
-
-	return gsalt;
-}
-
-static char *
-bcrypt(const char *pass, const char *salt)
-{
-	static char    gencrypted[BCRYPT_HASHSPACE];
-
-	if (bcrypt_hashpass(pass, salt, gencrypted, sizeof(gencrypted)) != 0)
-		return NULL;
-
-	return gencrypted;
 }
 
 int
@@ -1060,7 +1037,7 @@ crypt_newhash(const char *pass, const char *pref, char *hash, size_t hashlen)
 	const char *errstr;
 	const char *choices[] = { "blowfish", "bcrypt" };
 	size_t maxchoice = sizeof(choices) / sizeof(choices[0]);
-	int i;
+	size_t i;
 	int rounds;
 
 	if (pref == NULL)
@@ -5280,3 +5257,79 @@ strtonum(const char *numstr, long long minval, long long maxval,
 	return (ll);
 }
 #endif /* !HAVE_STRTONUM */
+#if !HAVE_TIMINGSAFE_BCMP
+
+/*	$OpenBSD: timingsafe_bcmp.c,v 1.3 2015/08/31 02:53:57 guenther Exp $	*/
+/*
+ * Copyright (c) 2010 Damien Miller.  All rights reserved.
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+int
+timingsafe_bcmp(const void *b1, const void *b2, size_t n)
+{
+	const unsigned char *p1 = b1, *p2 = b2;
+	int ret = 0;
+
+	for (; n > 0; n--)
+		ret |= *p1++ ^ *p2++;
+	return (ret != 0);
+}
+
+/*	$OpenBSD: timingsafe_memcmp.c,v 1.2 2015/08/31 02:53:57 guenther Exp $	*/
+/*
+ * Copyright (c) 2014 Google Inc.
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+#include <limits.h>
+
+int
+timingsafe_memcmp(const void *b1, const void *b2, size_t len)
+{
+        const unsigned char *p1 = b1, *p2 = b2;
+        size_t i;
+        int res = 0, done = 0;
+
+        for (i = 0; i < len; i++) {
+                /* lt is -1 if p1[i] < p2[i]; else 0. */
+                int lt = (p1[i] - p2[i]) >> CHAR_BIT;
+
+                /* gt is -1 if p1[i] > p2[i]; else 0. */
+                int gt = (p2[i] - p1[i]) >> CHAR_BIT;
+
+                /* cmp is 1 if p1[i] > p2[i]; -1 if p1[i] < p2[i]; else 0. */
+                int cmp = lt - gt;
+
+                /* set res = cmp if !done. */
+                res |= cmp & ~done;
+
+                /* set done if p1[i] != p2[i]. */
+                done |= lt | gt;
+        }
+
+        return (res);
+}
+#endif /* !HAVE_TIMINGSAFE_BCMP */

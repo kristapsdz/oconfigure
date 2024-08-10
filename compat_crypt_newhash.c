@@ -39,6 +39,7 @@
 #include <errno.h>
 #include <pwd.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -63,7 +64,7 @@ static int decode_base64(u_int8_t *, size_t, const char *);
  * Generates a salt for this version of crypt.
  */
 static int
-bcrypt_initsalt(int log_rounds, uint8_t *salt, size_t saltbuflen)
+bcrypt_initsalt(int log_rounds, char *salt, size_t saltbuflen)
 {
 	uint8_t csalt[BCRYPT_MAXSALT];
 
@@ -202,7 +203,7 @@ inval:
 /*
  * user friendly functions
  */
-int
+static int
 bcrypt_newhash(const char *pass, int log_rounds, char *hash, size_t hashlen)
 {
 	char salt[BCRYPT_SALTSPACE];
@@ -298,7 +299,7 @@ static int
 decode_base64(u_int8_t *buffer, size_t len, const char *b64data)
 {
 	u_int8_t *bp = buffer;
-	const u_int8_t *p = b64data;
+	const u_int8_t *p = (const u_int8_t *)b64data;
 	u_int8_t c1, c2, c3, c4;
 
 	while (bp < buffer + len) {
@@ -340,7 +341,7 @@ decode_base64(u_int8_t *buffer, size_t len, const char *b64data)
 static int
 encode_base64(char *b64buffer, const u_int8_t *data, size_t len)
 {
-	u_int8_t *bp = b64buffer;
+	u_int8_t *bp = (u_int8_t *)b64buffer;
 	const u_int8_t *p = data;
 	u_int8_t c1, c2;
 
@@ -367,30 +368,6 @@ encode_base64(char *b64buffer, const u_int8_t *data, size_t len)
 	}
 	*bp = '\0';
 	return 0;
-}
-
-/*
- * classic interface
- */
-static char *
-bcrypt_gensalt(u_int8_t log_rounds)
-{
-	static char    gsalt[BCRYPT_SALTSPACE];
-
-	bcrypt_initsalt(log_rounds, gsalt, sizeof(gsalt));
-
-	return gsalt;
-}
-
-static char *
-bcrypt(const char *pass, const char *salt)
-{
-	static char    gencrypted[BCRYPT_HASHSPACE];
-
-	if (bcrypt_hashpass(pass, salt, gencrypted, sizeof(gencrypted)) != 0)
-		return NULL;
-
-	return gencrypted;
 }
 
 int
@@ -429,7 +406,7 @@ crypt_newhash(const char *pass, const char *pref, char *hash, size_t hashlen)
 	const char *errstr;
 	const char *choices[] = { "blowfish", "bcrypt" };
 	size_t maxchoice = sizeof(choices) / sizeof(choices[0]);
-	int i;
+	size_t i;
 	int rounds;
 
 	if (pref == NULL)

@@ -1,6 +1,6 @@
 #if defined(__linux__) || defined(__wasi__)
-# define _GNU_SOURCE /* old glibc */
 # define _DEFAULT_SOURCE /* new glibc */
+# define _XOPEN_SOURCE /* old glibc */
 #endif
 #if defined(__sun)
 # ifndef _XOPEN_SOURCE /* SunOS already defines */
