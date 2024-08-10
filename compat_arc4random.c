@@ -285,6 +285,10 @@ struct rand_state
 };
 typedef struct rand_state rand_state;
 
+/* declaration required for mac os x */
+/* kernel entropy */
+extern int getentropy(void* buf, size_t n);
+
 #define minimum(a, b) ((a) < (b) ? (a) : (b))
 
 static inline void
