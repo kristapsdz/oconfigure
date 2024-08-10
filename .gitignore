@@ -6,3 +6,4 @@ config.log.old
 compats.o
 regress/*
 !regress/*.c
+configure.local
