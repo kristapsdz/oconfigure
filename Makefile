@@ -11,6 +11,7 @@ REGRESS_LIB_SOCKET	= regress/SOCK_NONBLOCK
 REGRESS_SCAN_SCALED	= regress/scan_scaled
 REGRESS_NODEP		= regress/blowfish \
 			  regress/capsicum \
+			  regress/crypt_newhash \
 			  regress/endian \
 			  regress/err \
 			  regress/explicit_bzero \

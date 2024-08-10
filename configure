@@ -2504,6 +2504,14 @@ int	 fts_set(FTS *, FTSENT *, int);
 __HEREDOC__
 fi
 
+if [ ${HAVE_CRYPT_NEWHASH} -eq 0 ]; then
+	cat << __HEREDOC__
+int crypt_newhash(const char *, const char *, char *, size_t);
+int crypt_checkpass(const char *, const char *);
+
+__HEREDOC__
+fi
+
 if [ ${HAVE_BLOWFISH} -eq 0 ]; then
 	cat << __HEREDOC__
 #define BLF_N	16
