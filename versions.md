@@ -1,6 +1,6 @@
 This file describes version information of this project.
 
-## 0.3.14
+## 0.3.15
 
 Add lots of new compatibility:
 [arc4random(3)](https://man.openbsd.org/arc4random.3),
