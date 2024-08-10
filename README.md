@@ -174,6 +174,36 @@ clean:
 What follows is a description of the features and facilities provided by
 the package when included into your sources.
 
+## arc4random
+
+Tests for the [arc4random(3)](https://man.openbsd.org/arc4random.3)
+functions in *stdlib.h*, defining `HAVE_ARC4RANDOM` with the
+result.
+
+```c
+#if HAVE_ARC4RANDOM
+# include <stdlib.h> /* arc4random, arc4random_buf... */
+#endif
+```
+
+If not found, provides compatibility functions.  The compatibility
+functions provide the same quality (via the same source) as OpenBSD,
+using the host's `getentropy` function for seed.
+
+## blf, blowfish
+
+Tests for the original [blf\_enc(3)](https://man.openbsd.org/blf_enc.3)
+cipher functions including the raw block functions (not documented on
+OpenBSD, but still in the public API.
+
+```c
+#if HAVE_BLOWFISH
+# include <blf.h> /* blf_enc ... */
+#endif
+```
+
+If not found, provides compatibility functions.
+
 ## b64\_ntop
 
 This and its partner `b64_pton` are sometimes declared but not defined.
@@ -256,13 +286,14 @@ The `LDADD_CRYPT` value provided in *Makefile.configure* will be set to
 
 ## crypt\_newhash(3)
 
-Many systems are moving from [crypt(3)](https://man.openbsd.org/crypt.3)
-to the [crypt\_newhash(3)](https://man.openbsd.org/crypt_newhash.3) and
+This tests for the [crypt(3)](https://man.openbsd.org/crypt.3)-replacing
+functions [crypt\_newhash(3)](https://man.openbsd.org/crypt_newhash.3) and
 [crypt\_checkpass(3)](https://man.openbsd.org/crypt_newhash.3)
-functions.
+functions, defining `HAVE_CRYPT_NEWHASH` with the result.  Provides
+compatibility functions if not found.
 
-This tests for these new functions, defining `HAVE_CRYPT_NEWHASH` with
-the result.
+Just as document, the portability functions only provide `bcrypt`
+functionality.
 
 ## endian.h
 
@@ -797,6 +828,21 @@ Tests for whether [termios(4)](https://man.openbsd.org/termios.4) exists,
 defining `HAVE_TERMIOS` with the result, specifically with the use case of
 testing terminal widths via [ioctl(2)](https://man.openbsd.org/ioctl.2) and
 `TIOCGWINSZ` (which must also exist).  Does not provide any compaibility.
+
+## timingsafe\_bcmp
+
+Tests for the
+[timingsafe\_bcmp(3)](https://man.openbsd.org/timingsafe_bcmp.3)
+functions in *string.h*, defining `HAVE_TIMINGSAFE_BCMP` with the
+result.
+
+```c
+#if HAVE_TIMINGSAFE_BCMP
+# include <string.h> /* timingsafe_bcmp... */
+#endif
+```
+
+If not found, provides compatibility functions.
 
 ## unveil(2)
 
