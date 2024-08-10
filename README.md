@@ -174,7 +174,7 @@ clean:
 What follows is a description of the features and facilities provided by
 the package when included into your sources.
 
-## arc4random
+## arc4random(3)
 
 Tests for the [arc4random(3)](https://man.openbsd.org/arc4random.3)
 functions in *stdlib.h*, defining `HAVE_ARC4RANDOM` with the
@@ -190,7 +190,7 @@ If not found, provides compatibility functions.  The compatibility
 functions provide the same quality (via the same source) as OpenBSD,
 using the host's `getentropy` function for seed.
 
-## blf, blowfish
+## blowfish(3)
 
 Tests for the original [blf\_enc(3)](https://man.openbsd.org/blf_enc.3)
 cipher functions including the raw block functions (not documented on
@@ -829,7 +829,7 @@ defining `HAVE_TERMIOS` with the result, specifically with the use case of
 testing terminal widths via [ioctl(2)](https://man.openbsd.org/ioctl.2) and
 `TIOCGWINSZ` (which must also exist).  Does not provide any compaibility.
 
-## timingsafe\_bcmp
+## timingsafe\_bcmp(3)
 
 Tests for the
 [timingsafe\_bcmp(3)](https://man.openbsd.org/timingsafe_bcmp.3)

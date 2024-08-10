@@ -1,5 +1,15 @@
 This file describes version information of this project.
 
+## 0.3.14
+
+Add lots of new compatibility:
+[arc4random(3)](https://man.openbsd.org/arc4random.3),
+[timingsafe\_bcmp(3)](https://man.openbsd.org/timingsafe_bcmp.3),
+[blf\_enc(3)](https://man.openbsd.org/blf_enc.3), and
+[crypt\_newhash(3)](https://man.openbsd.org/crypt_newhash.3), and
+
+Fixes that `crypt` wasn't being picked up on older Linux machines.
+
 ## 0.3.13
 
 Fix regression testing on Linux (termios would fail).  Add
