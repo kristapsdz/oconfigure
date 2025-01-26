@@ -49,46 +49,32 @@ REGRESS			= $(REGRESS_B64) \
 			  $(REGRESS_NODEP) \
 			  $(REGRESS_SCAN_SCALED) \
 			  $(REGRESS_SHA2)
+SRCS		       != for f in $(REGRESS) ; do echo $$f.c ; done
 
 all: $(REGRESS)
 
-distcheck:
-	$(MAKE) -f Makefile.regen distcheck
+$(REGRESS): compats.o config.h $(SRCS)
 
-.for r in $(REGRESS_NODEP)
-${r}: ${r}.c compats.o config.h
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDFLAGS)
-.endfor
+$(REGRESS_NODEP):
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $@.c compats.o $(LDFLAGS)
 
-.for r in $(REGRESS_LIB_SOCKET)
-${r}: ${r}.c compats.o config.h
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_LIB_SOCKET) $(LDFLAGS)
-.endfor
+$(REGRESS_LIB_SOCKET):
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $@.c compats.o $(LDADD_LIB_SOCKET) $(LDFLAGS)
 
-.for r in $(REGRESS_MD5)
-${r}: ${r}.c compats.o config.h
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_MD5) $(LDFLAGS)
-.endfor
+$(REGRESS_MD5):
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $@.c compats.o $(LDADD_MD5) $(LDFLAGS)
 
-.for r in $(REGRESS_SHA2)
-${r}: ${r}.c compats.o config.h
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_SHA2) $(LDFLAGS)
-.endfor
+$(REGRESS_SHA2):
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $@.c compats.o $(LDADD_SHA2) $(LDFLAGS)
 
-.for r in $(REGRESS_SCAN_SCALED)
-${r}: ${r}.c compats.o config.h
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_SCAN_SCALED) $(LDFLAGS)
-.endfor
+$(REGRESS_SCAN_SCALED):
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $@.c compats.o $(LDADD_SCAN_SCALED) $(LDFLAGS)
 
-.for r in $(REGRESS_B64)
-${r}: ${r}.c compats.o config.h
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_B64_NTOP) $(LDFLAGS)
-.endfor
+$(REGRESS_B64):
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $@.c compats.o $(LDADD_B64_NTOP) $(LDFLAGS)
 
-.for r in $(REGRESS_CRYPT)
-${r}: ${r}.c compats.o config.h
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${r}.c compats.o $(LDADD_CRYPT) $(LDFLAGS)
-.endfor
+$(REGRESS_CRYPT):
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $@.c compats.o $(LDADD_CRYPT) $(LDFLAGS)
 
 install:
 	# Do nothing.
