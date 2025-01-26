@@ -71,7 +71,7 @@ jobs:
         usesh: true
         copyback: false
         prepare: |
-            pkg install developer/build/make developer/gcc14 system/header
+            pkg install build-essential
         run: |
           uname -a
           ./configure
