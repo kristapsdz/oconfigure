@@ -1,5 +1,3 @@
-.PHONY: distcheck
-
 VERSION	= 0.3.14
 COMPATS	= compat_arc4random.c \
 	  compat_blowfish.c \
@@ -82,9 +80,6 @@ TESTS	= test-__progname.c \
 	  test-WAIT_ANY.c
 
 all: compats.c tests.c configure
-
-distcheck:
-	grep "^## $(VERSION)$$" versions.md >/dev/null
 
 configure: configure.in Makefile.regen configure-sys_queue.h
 	rm -f $@
