@@ -5,36 +5,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Install dependencies
-      run: sudo apt-get install -y bmake
     - name: Configure
       run: |
         cat /etc/os-release
         ./configure
     - name: Build and test
-      run: bmake regress
+      run: make regress
   linux_libbsd:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
     - name: Install dependencies
-      run: sudo apt-get install -y bmake pkg-config libbsd-dev
+      run: sudo apt-get install -y pkg-config libbsd-dev
     - name: Configure
       run: |
         cat /etc/os-release
         CFLAGS=$(pkg-config --cflags libbsd-overlay) ./configure CPPFLAGS="-DENABLE_SECCOMP_FILTER=1" LDFLAGS=$(pkg-config --libs libbsd-overlay)
     - name: Build and test
-      run: bmake regress
+      run: make regress
   macos:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@master
-    - name: Install dependencies
-      run: brew install bmake
     - name: Configure
       run: ./configure
     - name: Build and test
-      run: bmake regress
+      run: make regress
   freebsd:
     runs-on: ubuntu-latest
     steps:
