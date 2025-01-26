@@ -75,4 +75,4 @@ jobs:
         run: |
           uname -a
           ./configure
-          bmake regress
+          make regress
