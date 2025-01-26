@@ -49,7 +49,45 @@ REGRESS			= $(REGRESS_B64) \
 			  $(REGRESS_NODEP) \
 			  $(REGRESS_SCAN_SCALED) \
 			  $(REGRESS_SHA2)
-SRCS		       != for f in $(REGRESS) ; do echo $$f.c ; done
+SRCS			= regress/md5.c \
+			  regress/sha2.c \
+			  regress/crypt.c \
+			  regress/b64_ntop.c \
+			  regress/SOCK_NONBLOCK.c \
+			  regress/scan_scaled.c \
+			  regress/arc4random.c \
+			  regress/blowfish.c \
+			  regress/capsicum.c \
+			  regress/crypt_newhash.c \
+			  regress/endian.c \
+			  regress/err.c \
+			  regress/explicit_bzero.c \
+			  regress/fts.c \
+			  regress/getprogname.c \
+			  regress/INFTIM.c \
+			  regress/memmem.c \
+			  regress/memrchr.c \
+			  regress/minor.c \
+			  regress/mkfifoat.c \
+			  regress/mknodat.c \
+			  regress/PASSWORD_LEN.c \
+			  regress/PATH_MAX.c \
+			  regress/pledge.c \
+			  regress/reallocarray.c \
+			  regress/recallocarray.c \
+			  regress/setresgid.c \
+			  regress/setresuid.c \
+			  regress/strndup.c \
+			  regress/strnlen.c \
+			  regress/strlcpy.c \
+			  regress/strlcat.c \
+			  regress/strtonum.c \
+			  regress/sys_queue.c \
+			  regress/systrace.c \
+			  regress/termios.c \
+			  regress/timingsafe_bcmp.c \
+			  regress/unveil.c \
+			  regress/WAIT_ANY.c
 
 all: $(REGRESS)
 
