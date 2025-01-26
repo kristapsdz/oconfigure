@@ -71,8 +71,8 @@ jobs:
         usesh: true
         copyback: false,
         prepare: |
-            pkg install build-essential
+            pkg install build-essential bmake
         run: |
           uname -a
           ./configure
-          make regress
+          bmake regress
