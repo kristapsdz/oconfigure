@@ -69,9 +69,9 @@ jobs:
       uses: vmactions/omnios-vm@v1
       with:
         usesh: true
-        copyback: false,
+        copyback: false
         prepare: |
-            pkg install build-essential development/bmake
+            pkg install developer/build/make developer/gcc14 system/header
         run: |
           uname -a
           ./configure
