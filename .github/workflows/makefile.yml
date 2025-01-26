@@ -71,7 +71,7 @@ jobs:
         usesh: true
         copyback: false,
         prepare: |
-            pkg install build-essential bmake
+            pkg install build-essential development/bmake
         run: |
           uname -a
           ./configure
