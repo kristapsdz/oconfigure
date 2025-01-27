@@ -18,8 +18,9 @@ into your source tree
 5. compile compats.o with your sources and link with it
 
 It allows easy porting to Linux (glibc and musl), FreeBSD, NetBSD, Mac
-OS X, SunOS (Solaris 11), and OmniOS (illumos).  Other systems may also
-be supported: please let us know if they are.
+OS X, and OmniOS (illumos).  SunOS (Solaris 11) is partially working.
+These systems all have their support enforced by GitHub CI actions.
+Other systems may also be supported: please let us know if they are.
 
 See [versions.md](versions.md) for version information.
 

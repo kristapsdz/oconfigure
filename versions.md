@@ -1,5 +1,15 @@
 This file describes version information of this project.
 
+## 0.4.0
+
+Move to using standard `uint32_t` style for fixed-width integers instead
+of `u_int32_t`, which would fail building on OmniOS.  While here, stop
+depending on BSD-style `make` for running regressions and add OmniOS to
+the list of CI-enforced systems.
+
+Sun (Solaris 11) is supported, but currently fails.  This is under
+review.
+
 ## 0.3.14
 
 Add lots of new compatibility:

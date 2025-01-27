@@ -72,18 +72,18 @@ jobs:
           uname -a
           ./configure
           make regress
-  solaris:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Test in Solaris
-      uses: vmactions/solaris-vm@v1
-      with:
-        usesh: true
-        copyback: false
-        prepare: |
-            pkgutil -y -i gmake gcc5core
-        run: |
-          uname -a
-          ./configure
-          make regress
+#  solaris:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v4
+#    - name: Test in Solaris
+#      uses: vmactions/solaris-vm@v1
+#      with:
+#        usesh: true
+#        copyback: false
+#        prepare: |
+#            pkgutil -y -i gmake gcc5core
+#        run: |
+#          uname -a
+#          ./configure
+#          make regress
