@@ -22,7 +22,8 @@ OS X, and OmniOS (illumos).  SunOS (Solaris 11) is partially working.
 These systems all have their support enforced by GitHub CI actions.
 Other systems may also be supported: please let us know if they are.
 
-See [versions.md](versions.md) for version information.
+See [versions.md](versions.md) for version information.  Versions are
+consistent with [semver](https://semver.org) directives.
 
 This framework was inspired by [mandoc](https://mandoc.bsd.lv)'s
 `configure` script written by Ingo Schwarze.
@@ -74,8 +75,6 @@ included by the source's `Makefile`.  The following are recognised:
 - `SHAREDIR`: install directory for shared files (defaults to
   *PREFIX/share*)
 
-Anything else is discarded and warned about.
-
 Any variables by these names passed in from the environment are
 discarded except for `AR`, `CC`, and `CFLAGS`.
 
@@ -86,6 +85,9 @@ If not set in the environment or passed as arguments, `AR`, `CC`, and
 
 Note that the `CC`, `LDFLAGS`, `CPPFLAGS`, and `CFLAGS` are used when
 running the configuration tests themselves.
+
+Any extra key-value assignment pairs are passed unchanged and unquoted,
+one per line, to the generated *Makefile.configure*.
 
 If a default `cc` compiler is not found, **oconfigure** will test for
 `clang` and `gcc` before giving up.

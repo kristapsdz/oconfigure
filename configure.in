@@ -146,6 +146,10 @@ INSTALL_LIB=
 INSTALL_MAN=
 INSTALL_DATA=
 
+# Additional unrecognised variables.
+
+EXTRA_VARS=
+
 # SunOS sets "cc", but this doesn't exist.
 # It does have gcc, so try that instead.
 # Prefer clang, though.
@@ -209,8 +213,7 @@ do
 	INCLUDEDIR)
 		INCLUDEDIR="$val" ;;
 	*)
-		echo "$0: invalid key: $key" 1>&2
-		exit 1
+		EXTRA_VARS="$EXTRA_VARS\n$key = $val" ;;
 	esac
 done
 
@@ -1213,6 +1216,13 @@ INSTALL_LIB	 = ${INSTALL_LIB}
 INSTALL_MAN	 = ${INSTALL_MAN}
 INSTALL_DATA	 = ${INSTALL_DATA}
 __HEREDOC__
+
+# Optionally output extra variables.
+
+if [ -n "$EXTRA_VARS" ]
+then
+	echo "$EXTRA_VARS"
+fi
 
 echo "Makefile.configure: written" 1>&2
 echo "Makefile.configure: written" 1>&3
