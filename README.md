@@ -48,48 +48,55 @@ If you have Makefile flags you'd like to set, set them when you invoke
 These are set in the generated *Makefile.configure*, which should be
 included by the source's `Makefile`.  The following are recognised:
 
-- `LDADD`: **-l** libraries and flags usually used for linking binaries
-- `LDLIBS`: **-l** libraries and flags usually used for linking shared
-  libraries (`LIBADD` is sometimes used for this)
-- `LDFLAGS`: **-L** linker flags used for linking
+- `AR`: archiver (overrides the variable passed in from the environment)
+- `BINDIR`: install directory for binaries (defaults to *PREFIX/bin*)
+- `CC`: C compiler (overrides the variable passed in from the
+  environment)
+- `CFLAGS`: C compiler flags used for compiling objects (overrides the
+  variable passed in from the environment)
 - `CPPFLAGS`: C preprocessor flags used for compiling objects
 - `DESTDIR`: prefixed to all install directories during installation,
   but not otherwise affecting install directories
-- `PREFIX`: directory for default install directories (defaults to
-  */usr/local*)
-- `MANDIR`: install directory for manpages (defaults to *PREFIX/man*)
-- `LIBDIR`: install directory for libraries (defaults to *PREFIX/lib*)
-- `BINDIR`: install directory for binaries (defaults to *PREFIX/bin*)
-- `SHAREDIR`: install directory for shared files (defaults to
-  *PREFIX/share*)
-- `SBINDIR`: install directory for system binaries (defaults to
-  *PREFIX/sbin*)
 - `INCLUDEDIR`: install directory for header files (defaults to
   *PREFIX/include*)
+- `LDADD`: **-l** libraries and flags usually used for linking binaries
+- `LDFLAGS`: **-L** linker flags used for linking
+- `LDLIBS`: **-l** libraries and flags usually used for linking shared
+  libraries (`LIBADD` is sometimes used for this)
+- `LIBDIR`: install directory for libraries (defaults to *PREFIX/lib*)
 - `LINKER_SONAME`: linker command used to create shared libraries
   (defaults to **-soname** or **-install_name**)
+- `MANDIR`: install directory for manpages (defaults to *PREFIX/man*)
+- `PREFIX`: directory for default install directories (defaults to
+  */usr/local*)
+- `SBINDIR`: install directory for system binaries (defaults to
+  *PREFIX/sbin*)
+- `SHAREDIR`: install directory for shared files (defaults to
+  *PREFIX/share*)
 
 Anything else is discarded and warned about.
 
-If you want to use override the default `AR`, `CC`, or `CFLAGS`
-variables, specify them as environmental variables.  (The results will
-be set either way in *Makefile.configure*.)  For example:
+Any variables by these names passed in from the environment are
+discarded except for `AR`, `CC`, and `CFLAGS`.
 
-```
-CC=musl-gcc ./configure
-```
+If not set in the environment or passed as arguments, `AR`, `CC`, and
+`CFLAGS` are set to the defaults used by `make`, with additional
+`CFLAGS` set as `-g -W -Wall -Wextra -Wmissing-prototypes
+-Wstrict-prototypes -Wwrite-strings -Wno-unused-parameter`.
 
-The `CC`, `LDFLAGS`, `CPPFLAGS`, and `CFLAGS` are used when running the
-configuration tests themselves.  If a default `cc` compiler is not found,
-**oconfigure** will test for `clang` and `gcc` before giving up.
+Note that the `CC`, `LDFLAGS`, `CPPFLAGS`, and `CFLAGS` are used when
+running the configuration tests themselves.
+
+If a default `cc` compiler is not found, **oconfigure** will test for
+`clang` and `gcc` before giving up.
 
 For Linux users with
 [libbsd](https://libbsd.freedesktop.org) installed,
 **oconfigure** can be instructed to use libbsd exclusively as follows:
 
 ```
-CFLAGS=$(pkg-config --cflags libbsd-overlay) \
-  ./configure LDFLAGS=$(pkg-config --libs libbsd-overlay)
+./configure LDFLAGS=$(pkg-config --libs libbsd-overlay) \
+  CFLAGS=$(pkg-config --cflags libbsd-overlay)
 ```
 
 For new versions of libbsd, this will pull in the library for all

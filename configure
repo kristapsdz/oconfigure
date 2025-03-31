@@ -76,14 +76,50 @@ fi
 #----------------------------------------------------------------------
 # Initialise all variables here such that nothing can leak in from the
 # environment except for AR, CC and CFLAGS, which we might have passed
-# in.
+# in.  Allow these to be overridden by the command line forms.
 #----------------------------------------------------------------------
 
+for keyvals in "$@"
+do
+	key=`echo $keyvals | cut -s -d '=' -f 1`
+	if [ -z "$key" ]
+	then
+		continue
+	fi
+	val=`echo $keyvals | cut -d '=' -f 2-`
+	# Re-export these variables now so that they override whatever
+	# was passed in from the environment.
+	case "$key" in
+	AR)
+		export AR="$val" ;;
+	CC)
+		export CC="$val" ;;
+	CFLAGS)
+		export CFLAGS="$val" ;;
+	*)
+		;;
+	esac
+done
+
+# The AR, CC, and CFLAGS are set by the environment (which was possibly
+# overriden by those on the command line).  Let `make` tell which flags
+# will ultimately be used in the event that none were passed in.
+
+PASSED_IN_CFLAGS=$CFLAGS
 AR=`printf "all:\\n\\t@echo \\\$(AR)\\n" | make ${MAKE_FLAGS} -sf -`
 CC=`printf "all:\\n\\t@echo \\\$(CC)\\n" | make ${MAKE_FLAGS} -sf -`
 CFLAGS=`printf "all:\\n\\t@echo \\\$(CFLAGS)\\n" | make ${MAKE_FLAGS} -sf -`
-CFLAGS="${CFLAGS} -g -W -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes"
-CFLAGS="${CFLAGS} -Wwrite-strings -Wno-unused-parameter"
+
+# If there are no passed-in CFLAGS, so the CFLAGS are coming from `make,
+# add some additional useful defaults.
+
+if [ -z "$PASSED_IN_CFLAGS" ]
+then
+	CFLAGS="${CFLAGS} -g -W -Wall -Wextra"
+	CFLAGS="${CFLAGS} -Wmissing-prototypes -Wstrict-prototypes"
+	CFLAGS="${CFLAGS} -Wwrite-strings -Wno-unused-parameter"
+fi
+
 LDLIBS=
 LDADD=
 LDADD_B64_NTOP=
@@ -144,6 +180,8 @@ do
 	fi
 	val=`echo $keyvals | cut -d '=' -f 2-`
 	case "$key" in
+	CC|CFLAGS|AR)
+		;;
 	LDADD)
 		LDADD="$val" ;;
 	LDLIBS)
