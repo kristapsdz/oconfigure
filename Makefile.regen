@@ -1,4 +1,4 @@
-VERSION	= 0.4.0
+VERSION	= 0.5.0
 COMPATS	= compat_arc4random.c \
 	  compat_blowfish.c \
 	  compat_crypt_newhash.c \

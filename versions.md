@@ -1,5 +1,14 @@
 This file describes version information of this project.
 
+## 0.5.0
+
+Allow `AR`, `CC`, and `CFLAGS` to be provided as command-line arguments
+alongside the existing environment variable method (command-line
+arguments override the environment).
+
+Additional pairs of arguments (e.g., `./configure FOO=BAR`) are now
+passed to the generated *Makefile.configure* as additional arguments.
+
 ## 0.4.0
 
 Move to using standard `uint32_t` style for fixed-width integers instead
