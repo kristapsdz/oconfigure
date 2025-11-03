@@ -1,5 +1,15 @@
 This file describes version information of this project.
 
+## 0.5.1
+
+Fix for providing the correct type of
+[explicit\_bzero(3)](https://man.openbsd.org/explicit_bzero.3)
+for GCC14.
+
+Fix a crashing regression test on RHEL9, where the value provided to the
+[crypt(3)](https://man.openbsd.org/crypt.3) function was the same static
+memory that's used by the function.
+
 ## 0.5.0
 
 Allow `AR`, `CC`, and `CFLAGS` to be provided as command-line arguments
