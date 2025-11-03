@@ -45,6 +45,7 @@ int
 main(void)
 {
 	const char	*hash, *result, *seed;
+	char	 	 buf[64];
 
 	/* Hash the password. */
 
@@ -58,8 +59,9 @@ main(void)
 
 	/* Compare the hash and the password. */
 
-	result = crypt("this_is_a_pasword", hash);
-	return strcmp(result, hash) == 0 ? 0 : 1;
+	memcpy(buf, hash, sizeof(buf));
+	result = crypt("this_is_a_password", buf);
+	return strcmp(result, buf) == 0 ? 0 : 1;
 }
 
 #else
