@@ -7,3 +7,8 @@ compats.o
 regress/*
 !regress/*.c
 configure.local
+test.so
+test.dylib
+test-static
+test-static.a
+test-static.o
