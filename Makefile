@@ -91,7 +91,10 @@ SRCS			= regress/md5.c \
 
 all: $(REGRESS)
 
-$(REGRESS): compats.o config.h $(SRCS)
+$(REGRESS): compats.o config.h test.$(LINKER_SOSUFFIX) $(SRCS)
+
+test.$(LINKER_SOSUFFIX):
+	cc $(LINKER_SOFLAG) -o test.$(LINKER_SOSUFFIX) -Wl,$(LINKER_SONAME),test.$(LINKER_SOSUFFIX) test-static.c
 
 $(REGRESS_NODEP):
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $@.c compats.o $(LDFLAGS)
@@ -138,7 +141,7 @@ regress: $(REGRESS)
 	done
 
 clean:
-	rm -f compats.o $(REGRESS)
+	rm -f compats.o $(REGRESS) test.$(LINKER_SOSUFFIX)
 
 distclean:
 	rm -f Makefile.configure config.log config.h
