@@ -94,7 +94,7 @@ all: $(REGRESS)
 $(REGRESS): compats.o config.h test.$(LINKER_SOSUFFIX) $(SRCS)
 
 test.$(LINKER_SOSUFFIX):
-	cc $(LINKER_SOFLAG) -o test.$(LINKER_SOSUFFIX) -Wl,$(LINKER_SONAME),test.$(LINKER_SOSUFFIX) test-static.c
+	$(CC) $(LINKER_SOFLAG) -o test.$(LINKER_SOSUFFIX) -Wl,$(LINKER_SONAME),test.$(LINKER_SOSUFFIX) test-static.c
 
 $(REGRESS_NODEP):
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $@.c compats.o $(LDFLAGS)
