@@ -10,34 +10,35 @@ To use:
 [compats.c](https://raw.githubusercontent.com/kristapsdz/oconfigure/master/compats.c),
 and
 [tests.c](https://raw.githubusercontent.com/kristapsdz/oconfigure/master/tests.c)
-into your source tree
-2. have `include Makefile.configure` at the top of your Makefile
-3. have `#include "config.h"` as the first inclusion in your sources
-4. read over the documentation below in case you need to guard header
-   inclusion
+into your source tree (or clone the repository and grab files from there)
+2. `include Makefile.configure` at the top of your Makefile (either
+   BSD or GNU are supported)
+3. `#include "config.h"` as the first inclusion in your sources
+4. read over the documentation below for which functions and features
+   may be used
 5. compile compats.o with your sources and link with it
 
-It allows easy porting to Linux (glibc and musl), FreeBSD, NetBSD, Mac
-OS X, and OmniOS (illumos).  SunOS (Solaris 11) is partially working.
-These systems all have their support enforced by GitHub CI actions.
-Other systems may also be supported: please let us know if they are.
+**oconfigure** allows easy porting to Linux (glibc and musl), FreeBSD, NetBSD,
+Mac OS X, and OmniOS (illumos).  SunOS (Solaris 11) is partially working.
+These systems all have their support enforced by GitHub CI actions.  Other
+systems may also be supported: please let us know if they are.
 
-See [versions.md](versions.md) for version information.  Versions are
+See [versions.md](versions.md) for version documentation.  Versions are
 consistent with [semver](https://semver.org) directives.
 
-This framework was inspired by [mandoc](https://mandoc.bsd.lv)'s
-`configure` script written by Ingo Schwarze.
+## Usage: developers and maintainers
 
-## Users and maintainers
+Run `./configure` prior to running `make`.
 
-Run `./configure` prior to running `make`.  The `configure` script will
-check for common features as noted in the test files, e.g.,
-[pledge(2)](https://man.openbsd.org/pledge.2), and also provide
-compatibility for other functions, e.g.,
-[strlcpy(3)](https://man.openbsd.org/strlcpy.3).
+The script checks for system features (e.g.,
+[pledge(2)](https://man.openbsd.org/pledge.2) and at times provides
+compatibility for missing functions (e.g.,
+[strlcpy(3)](https://man.openbsd.org/strlcpy.3)).  It also detects
+compiler operation, such as how to link shared libraries with
+`$LINKER_SOFLAG`.
 
-The `./configure` script may be executed in a cross-compiling
-environment with the compiler and linker set appropriately.
+The script may be executed in a cross-compiling environment with the
+compiler, linker, and linker flags set appropriately.
 
 If you have Makefile flags you'd like to set, set them when you invoke
 `configure` as key-value pairs on the command-line, e.g.,
@@ -46,8 +47,8 @@ If you have Makefile flags you'd like to set, set them when you invoke
 ./configure PREFIX=/opt
 ```
 
-These are set in the generated *Makefile.configure*, which should be
-included by the source's `Makefile`.  The following are recognised:
+These are propogated to the generated *Makefile.configure*.  The
+following are specially recognised:
 
 - `AR`: archiver (overrides the variable passed in from the environment)
 - `BINDIR`: install directory for binaries (defaults to *PREFIX/bin*)
@@ -65,8 +66,12 @@ included by the source's `Makefile`.  The following are recognised:
 - `LDLIBS`: **-l** libraries and flags usually used for linking shared
   libraries (`LIBADD` is sometimes used for this)
 - `LIBDIR`: install directory for libraries (defaults to *PREFIX/lib*)
+- `LINKER_SOFLAG`: linker flag used to create shared libraries
+  (defaults to **-shared** or **-dynamiclib**)
 - `LINKER_SONAME`: linker command used to create shared libraries
   (defaults to **-soname** or **-install_name**)
+- `LINKER_SOSUFFIX`: suffix for shared libraries
+  (defaults to **so** or **dylib**)
 - `MANDIR`: install directory for manpages (defaults to *PREFIX/man*)
 - `PREFIX`: directory for default install directories (defaults to
   */usr/local*)
@@ -76,12 +81,12 @@ included by the source's `Makefile`.  The following are recognised:
   *PREFIX/share*)
 
 Any variables by these names passed in from the environment are
-discarded except for `AR`, `CC`, and `CFLAGS`.
-
-If not set in the environment or passed as arguments, `AR`, `CC`, and
-`CFLAGS` are set to the defaults used by `make`, with additional
-`CFLAGS` set as `-g -W -Wall -Wextra -Wmissing-prototypes
--Wstrict-prototypes -Wwrite-strings -Wno-unused-parameter`.
+discarded except for `AR`, `CC`, and `CFLAGS`.  If not set in the
+environment or passed as arguments, these variables are set to the
+defaults used by `make`, with additional `CFLAGS` set as `-g -W -Wall
+-Wextra -Wmissing-prototypes -Wstrict-prototypes -Wwrite-strings
+-Wno-unused-parameter`.  If a default `cc` compiler is not found for
+assignment to `CC`, `clang` and `gcc` are tested before giving up.
 
 Note that the `CC`, `LDFLAGS`, `CPPFLAGS`, and `CFLAGS` are used when
 running the configuration tests themselves.
@@ -89,8 +94,7 @@ running the configuration tests themselves.
 Any extra key-value assignment pairs are passed unchanged and unquoted,
 one per line, to the generated *Makefile.configure*.
 
-If a default `cc` compiler is not found, **oconfigure** will test for
-`clang` and `gcc` before giving up.
+### libbsd
 
 For Linux users with
 [libbsd](https://libbsd.freedesktop.org) installed,
@@ -104,19 +108,28 @@ For Linux users with
 For new versions of libbsd, this will pull in the library for all
 compatibility replacements instead of those within *compats.c*.
 
-For shared library generation, a `LINKER_SONAME` variable (which may be
-overridden) is set in the generated *Makefile.configure* to assist in
-Mac OS X portability.  Generating a shared library *lib.so.0* from
-*lib.c* might look like:
+### Shared libraries
+
+For shared library generation, the `LINKER_SONAME`, `LINKER_SOFLAG`, and
+`LINKER_SOSUFFIX` variables are set in the generated *Makefile.configure* to
+assist in Mac OS X portability.  Generating a shared library named *lib* from
+*lib.c* might look like in your Makefile:
 
 ```
-cc -fPIC -o lib.o -c lib.c
-cc -shared -o lib.so.0 -Wl,${LINKER_SONAME},lib.so.0 lib.o
+lib.o: lib.c
+    $(CC) -fPIC -o lib.o -c lib.c
+
+lib.$(LINKER_SOSUFFIX): lib.o
+    $(CC) $(LINKER_SOFLAG) -o lib.$(LINKER_SOSUFFIX).0 \
+        -Wl,$(LINKER_SONAME),lib.$(LINKER_SOSUFFIX).0 lib.o
 ```
 
 The choice of **-fPIC** or **-fpic** is left for the user.
 
-## Developers
+The suffix and flag only apply to shared libraries: dynamically-loaded
+libraries use `-shared` and `so` on all Unix-like systems.
+
+## Usage: developers
 
 Using **oconfigure** requires some work within your sources to node
 compatibility areas, then some in your build environment:
@@ -877,3 +890,9 @@ value for both `WAIT_ANY` and `WAIT_MYPGRP` if not found.
 
 Since a compatibility function is provided, `HAVE_WAIT_ANY` shouldn't be
 directly used in most circumstances.
+
+# Acknowledgements
+
+This framework was inspired by [mandoc](https://mandoc.bsd.lv)'s
+`configure` script written by Ingo Schwarze.
+

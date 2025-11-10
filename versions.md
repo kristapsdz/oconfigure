@@ -1,5 +1,16 @@
 This file describes version information of this project.
 
+## 1.0.0
+
+First general release.  **oconfigure** has been used on many, many
+systems and for a long time without issue.  It's time.
+
+This adds much stronger Mac OS X support, including setting the
+`LINKER_SOFLAG` and `LINKER_SOSUFFIX` values to support using Mac's
+default "dylib" libraries.
+
+The README has also been tweaked and tuned for easier reading.
+
 ## 0.5.1
 
 Fix for providing the correct type of
