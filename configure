@@ -244,20 +244,18 @@ then
 		echo "${CC} -fPIC -o ${test_soname}.o -c ${test_soname}.c: failed" 1>&2
 		echo "${CC} -fPIC -o ${test_soname}.o -c ${test_soname}.c: failed" 1>&3
 	}
-	LINKER_SOFLAG="-shared"
-	LINKER_SOSUFFIX="so"
+	LINKER_SOFLAG="-dynamiclib"
+	LINKER_SOSUFFIX="dylib"
 	echo "LINKER_SOSUFFIX: testing ${LINKER_SOFLAG}" 1>&3
 	${CC} ${LINKER_SOFLAG} -o ${test_soname}.${LINKER_SOSUFFIX}.0 \
 	    ${test_soname}.o 2>/dev/null || {
-		LINKER_SOFLAG="-dynamiclib"
-		LINKER_SOSUFFIX="dylib"
+		LINKER_SOFLAG="-shared"
+		LINKER_SOSUFFIX="so"
 		echo "LINKER_SOFLAG: testing ${LINKER_SOFLAG}" 1>&3
-		${CC} -dynamiclib -o ${test_soname}.${LINKER_SOSUFFIX}.0 \
+		${CC} ${LINKER_SOFLAG} -o ${test_soname}.${LINKER_SOSUFFIX}.0 \
 		    ${test_soname}.o || {
 			echo "LINKER_SOFLAG: cannot determine: default to -shared" 1>&2
 			echo "LINKER_SOFLAG: cannot determine: default to -shared" 1>&3
-			LINKER_SOFLAG="-shared"
-			LINKER_SOSUFFIX="so"
 		}
 	}
 	echo "LINKER_SOFLAG: $LINKER_SOFLAG" 1>&3
