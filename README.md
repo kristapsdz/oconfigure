@@ -129,6 +129,24 @@ The choice of **-fPIC** or **-fpic** is left for the user.
 The suffix and flag only apply to shared libraries: dynamically-loaded
 libraries use `-shared` and `so` on all Unix-like systems.
 
+### Static binaries
+
+Static libraries may be built on all platforms, but Mac OS X does not
+allow creating static binaries.  The `LDADD_STATIC` variable is set in
+the generated *Makefile.configure* to either be `-static` on conforming
+systems or empty on Mac OS X.
+
+```
+lib.o: lib.c
+    $(CC) -fPIC -o lib.o -c lib.c
+
+lib.a: lib.o
+    $(AR) rcs lib.a lib.o
+
+test: lib.a
+    $(CC) $(LDADD_STATIC) -o test lib.a
+```
+
 ## Usage: developers
 
 Using **oconfigure** requires some work within your sources to node
