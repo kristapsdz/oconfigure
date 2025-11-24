@@ -150,7 +150,7 @@ regress: $(REGRESS)
 	done
 
 clean:
-	rm -f compats.o $(REGRESS) test.$(LINKER_SOSUFFIX) test-static*
+	rm -f compats.o $(REGRESS) test.$(LINKER_SOSUFFIX) test-static.a test-static.o test-static
 
 distclean:
 	rm -f Makefile.configure config.log config.h
