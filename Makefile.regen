@@ -78,10 +78,13 @@ TESTS	= test-__progname.c \
 	  test-timingsafe_bcmp.c \
 	  test-unveil.c \
 	  test-WAIT_ANY.c
+HEADERS = configure-fts.h \
+	  configure-sys_queue.h \
+	  configure-sys_tree.h
 
 all: compats.c tests.c configure
 
-configure: configure.in Makefile.regen configure-sys_queue.h
+configure: configure.in Makefile.regen $(HEADERS)
 	rm -f $@
 	( sed -n '/^@CONFIGURE_SYS_QUEUE_H@$$/!p;//q' configure.in ; \
 	  sed -e 's!\\$$!\\\\!g' -e 's!\$$!\\$$!g' configure-sys_queue.h ; \
@@ -89,8 +92,11 @@ configure: configure.in Makefile.regen configure-sys_queue.h
 	( sed -n '/^@CONFIGURE_SYS_TREE_H@$$/!p;//q' configure.1 ; \
 	  sed -e 's!\\$$!\\\\!g' -e 's!\$$!\\$$!g' configure-sys_tree.h ; \
 	  sed '1,/^@CONFIGURE_SYS_TREE_H@$$/d' configure.1 ; ) > configure.2
-	sed "s!@VERSION@!$(VERSION)!g" configure.2 >$@
-	rm -f configure.1 configure.2
+	( sed -n '/^@CONFIGURE_FTS_H@$$/!p;//q' configure.2 ; \
+	  sed -e 's!\\$$!\\\\!g' -e 's!\$$!\\$$!g' configure-fts.h ; \
+	  sed '1,/^@CONFIGURE_FTS_H@$$/d' configure.2 ; ) > configure.3
+	sed "s!@VERSION@!$(VERSION)!g" configure.3 >$@
+	rm -f configure.[1-3]
 	chmod 555 $@
 
 compats.c: $(COMPATS) Makefile.regen
