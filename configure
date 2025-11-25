@@ -396,7 +396,6 @@ HAVE_SETRESGID=
 HAVE_SETRESUID=
 HAVE_SOCK_NONBLOCK=
 HAVE_SHA2=
-HAVE_SHA2_H=
 HAVE_STRLCAT=
 HAVE_STRLCPY=
 HAVE_STRNDUP=
@@ -406,7 +405,7 @@ HAVE_SYS_BYTEORDER_H=
 HAVE_SYS_ENDIAN_H=
 HAVE_SYS_MKDEV_H=
 HAVE_SYS_QUEUE=
-HAVE_SYS_SYSMACROS=
+HAVE_SYS_SYSMACROS_H=
 HAVE_SYS_TREE=
 HAVE_SYSTRACE=0
 HAVE_TERMIOS=
@@ -490,7 +489,8 @@ runtest_process() {
 	shift
 	finished="$1"
 	shift
-	eval _manual=\${HAVE_"$2"}
+	eval _manual=\$HAVE_"$2"
+
 	# Check whether this HAVE_ setting is manually overridden.
 	# If yes, use the override, if no, do not decide anything yet.
 	# Arguments: lower-case test name, manual value
@@ -528,7 +528,7 @@ runtest() {
 	finished=$(echo "$logfile" | sed 's!log!result!')
 	runtest_process "$logfile" "$pendingfile" "$finished" "$1" "$2" "$3" "$4" "$5" &
 	PENDING_TESTS=$(( PENDING_TESTS + 1 ))
-	[ $PENDING_TESTS -lt $NPROCS ] || reap
+	[ $PENDING_TESTS -lt "$NPROCS" ] || reap
 }
 
 # Begin running the tests themselves.
