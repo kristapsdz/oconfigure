@@ -133,7 +133,7 @@ regress: $(REGRESS)
 	rm -rf .regress
 	mkdir .regress
 	cp configure tests.c .regress
-	( cd .regress ; printf "all:\\n\\t./configure\n" | make -sf - )
+	( cd .regress ; printf "all:\\n\\t./configure -j\n" | make -sf - )
 	rm -rf .regress
 	@for f in $(REGRESS) ; \
 	do \
