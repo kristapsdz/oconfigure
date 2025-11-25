@@ -440,7 +440,7 @@ singletest() {
 	extralib=""
 	configlog "$1: testing..."
 	configlog "$COMP -DTEST_$2 $3 -o $TMPROOT/test-$1 tests.c $LDFLAGS $4"
-	if $COMP "-DTEST_$2" "$3" -o "$TMPROOT/test-$1" tests.c "$LDFLAGS" "$4" 1>&3 2>&3
+	if $COMP "-DTEST_$2" $3 -o "$TMPROOT/test-$1" tests.c $LDFLAGS $4 1>&3 2>&3
 	then
 		configlog "$1: $CC succeeded"
 	else 
@@ -449,7 +449,7 @@ singletest() {
 			configlog "$1: $CC failed (retrying)"
 			configlog "$1: testing..."
 			configlog "$COMP -DTEST_$2 $3 -o $TMPROOT/test-$1 tests.c $LDFLAGS $5"
-			if $COMP "-DTEST_$2" "$3" -o "$TMPROOT/test-$1" tests.c "$LDFLAGS" "$5" 1>&3 2>&3
+			if $COMP "-DTEST_$2" $3 -o "$TMPROOT/test-$1" tests.c $LDFLAGS $5 1>&3 2>&3
 			then
 				configlog "$1: $CC succeeded"
 				extralib="(with $5)"
