@@ -9,6 +9,7 @@ jobs:
       run: |
         cat /etc/os-release
         ./configure -j0
+        grep '^#define HAVE_' config.h | sort
         cat config.log
     - name: Build and test
       run: make regress
@@ -31,6 +32,7 @@ jobs:
     - name: Configure
       run: |
         ./configure -j0
+        grep '^#define HAVE_' config.h | sort
         cat config.log
     - name: Build and test
       run: make regress
@@ -46,6 +48,7 @@ jobs:
         run: |
           freebsd-version
           ./configure -j0
+          grep '^#define HAVE_' config.h | sort
           cat config.log
           make regress
   dragonflybsd:
@@ -58,6 +61,7 @@ jobs:
         usesh: true
         run: |
           ./configure -j0
+          grep '^#define HAVE_' config.h | sort
           cat config.log
           make regress
   netbsd:
@@ -72,6 +76,7 @@ jobs:
         run: |
           uname -a
           ./configure -j0
+          grep '^#define HAVE_' config.h | sort
           cat config.log
           make regress
   omnios:
@@ -88,5 +93,6 @@ jobs:
         run: |
           uname -a
           ./configure -j0
+          grep '^#define HAVE_' config.h | sort
           cat config.log
           make regress
