@@ -95,7 +95,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Test in OpenIndiana
-      uses: vmactions/openindiana-vm@v1
+      uses: vmactions/openindiana-vm@v0
       with:
         usesh: true
         copyback: false
