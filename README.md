@@ -112,16 +112,28 @@ compatibility replacements instead of those within *compats.c*.
 
 For shared library generation, the `LINKER_SONAME`, `LINKER_SOFLAG`, and
 `LINKER_SOSUFFIX` variables are set in the generated *Makefile.configure* to
-assist in Mac OS X portability.  Generating a shared library named *lib* from
-*lib.c* might look like in your Makefile:
+assist in Mac OS X portability.  To further complicate issues, the order
+of suffix parts in Mac OS X is different from every other system.
+
+Generating a shared library version 3 named *lib* from *lib.c* might
+look like in your Makefile:
 
 ```
 lib.o: lib.c
     $(CC) -fPIC -o lib.o -c lib.c
 
-lib.$(LINKER_SOSUFFIX): lib.o
-    $(CC) $(LINKER_SOFLAG) -o lib.$(LINKER_SOSUFFIX).0 \
-        -Wl,$(LINKER_SONAME),lib.$(LINKER_SOSUFFIX).0 lib.o
+.if $(LINKER_SOSUFFIX) == "dylib"
+SUFFIX = 3.$(LINKER_SOSUFFIX)
+.else
+SUFFIX = $(LINKER_SOSUFFIX).3
+.endif
+
+lib.$(SUFFIX): lib.o
+    $(CC) $(LINKER_SOFLAG) -o lib.$(SUFFIX) \
+        -Wl,$(LINKER_SONAME),lib.$(SUFFIX) lib.o
+
+lib.$(LINKER_SOSUFFIX): lib.$(SUFFIX)
+	ln -sf lib.$(SUFFIX) $@
 ```
 
 The choice of **-fPIC** or **-fpic** is left for the user.
