@@ -5,10 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - name: Install dependencies
+      run: sudo apt-get install -y shellcheck
     - name: Configure
       run: |
         cat /etc/os-release
         ./configure -j0
+        shellcheck configure
         grep '^#define HAVE_' config.h | sort
         cat config.log
     - name: Build and test
