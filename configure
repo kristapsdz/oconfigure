@@ -680,7 +680,7 @@ cat << __HEREDOC__
 #endif
 #if defined(__sun)
 # ifndef _XOPEN_SOURCE /* SunOS already defines */
-#  define _XOPEN_SOURCE /* XPGx */
+#  define _XOPEN_SOURCE 700 /* XPGx */
 # endif
 # define _XOPEN_SOURCE_EXTENDED 1 /* XPG4v2 */
 # ifndef __EXTENSIONS__ /* SunOS already defines */
