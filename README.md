@@ -19,7 +19,7 @@ into your source tree (or clone the repository and grab files from there)
 5. compile compats.o with your sources and link with it
 
 **oconfigure** allows easy porting to Linux (glibc and musl), FreeBSD, NetBSD,
-Mac OS X, and OmniOS (illumos).  SunOS (Solaris 11) is partially working.
+Mac OS X, DragonFlyBSD, and OmniOS (illumos).
 These systems all have their support enforced by GitHub CI actions.  Other
 systems may also be supported: please let us know if they are.
 
@@ -28,7 +28,8 @@ consistent with [semver](https://semver.org) directives.
 
 ## Usage: developers and maintainers
 
-Run `./configure` prior to running `make`.
+Run `./configure` prior to running `make`.  For parallel builds, use
+`./configure -j0` to run on all available processes.
 
 The script checks for system features (e.g.,
 [pledge(2)](https://man.openbsd.org/pledge.2) and at times provides
