@@ -9,6 +9,7 @@ jobs:
       run: |
         cat /etc/os-release
         ./configure -j0
+        cat config.log
     - name: Build and test
       run: make regress
   linux_libbsd:
@@ -28,7 +29,9 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Configure
-      run: ./configure -j0
+      run: |
+        ./configure -j0
+        cat config.log
     - name: Build and test
       run: make regress
   freebsd:
@@ -43,6 +46,7 @@ jobs:
         run: |
           freebsd-version
           ./configure -j0
+          cat config.log
           make regress
   dragonflybsd:
     runs-on: ubuntu-latest
@@ -54,6 +58,7 @@ jobs:
         usesh: true
         run: |
           ./configure -j0
+          cat config.log
           make regress
   netbsd:
     runs-on: ubuntu-latest
@@ -67,6 +72,7 @@ jobs:
         run: |
           uname -a
           ./configure -j0
+          cat config.log
           make regress
   omnios:
     runs-on: ubuntu-latest
@@ -82,4 +88,5 @@ jobs:
         run: |
           uname -a
           ./configure -j0
+          cat config.log
           make regress
