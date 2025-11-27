@@ -17,19 +17,19 @@
 
 OCONFIGURE_VERSION="@VERSION@"
 
-# Number of parallel processes used for configuring.  If set to zero (by
-# providing -j0 or just -j), the maximum number of processes on the host
-# is used.
+# Number of parallel processes used for configuring.  If set to less
+# than or including zero, the maximum number of processes on the host is
+# used.
 NPROCS=1
 
 # Print a usage message.
 usage() {
-	echo "Usage: configure [-j[ncpu]] KEYS..." 1>&2
+	echo "Usage: configure [-j NCPU] KEYS..." 1>&2
 	echo "Options:" 1>&2
-	echo "  -j NCPU     parallelism or empty/zero to auto-detect" 1>&2
+	echo "  -j NCPU     parallelism (0 or <0 to auto-detect)" 1>&2
 }
 
-args=$(getopt hj:: "$*") || {
+args=$(getopt hj: "$*") || {
 	usage
 	exit 1
 }
@@ -44,13 +44,8 @@ do
 		exit 0
 		;;
 	-j)
-		if [ "$#" -eq 3 ]
-		then
-			NPROCS="$2"
-			shift
-		else
-			NPROCS=0
-		fi
+		NPROCS="$2"
+		shift
 		shift
 		;;
 	--)
@@ -114,15 +109,15 @@ configlog() {
 # processors, try to infer how many are available by using a
 # cross-platform attempt.
 
-[ "$NPROCS" -eq 0 ] && \
+[ "$NPROCS" -le 0 ] && \
 	NPROCS=$(getconf NPROCESSORS_ONLN 2>/dev/null || echo 0)
-[ "$NPROCS" -eq 0 ] && \
+[ "$NPROCS" -le 0 ] && \
 	NPROCS=$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 0)
-[ "$NPROCS" -eq 0 ] && \
+[ "$NPROCS" -le 0 ] && \
 	NPROCS=$(nproc 2>/dev/null || exit 0)
-[ "$NPROCS" -eq 0 ] && \
+[ "$NPROCS" -le 0 ] && \
 	NPROCS=$(syscl -n hw.ncpu 2>/dev/null || exit 0)
-[ "$NPROCS" -eq 0 ] && \
+[ "$NPROCS" -le 0 ] && \
 	NPROCS=1
 
 configlog "NPROCS: using $NPROCS parallel processes"
