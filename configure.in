@@ -700,66 +700,66 @@ __HEREDOC__
 # someting that pulls in support for size_t.
 # Our function declarations are standalone, so specify them here.
 
-if [ ${HAVE_ARC4RANDOM} -eq 0 -o \
-     ${HAVE_BLOWFISH} -eq 0 -o \
-     ${HAVE_FTS} -eq 0 -o \
-     ${HAVE_MD5} -eq 0 -o \
-     ${HAVE_MEMMEM} -eq 0 -o \
-     ${HAVE_MEMRCHR} -eq 0 -o \
-     ${HAVE_MKFIFOAT} -eq 0 -o \
-     ${HAVE_MKNODAT} -eq 0 -o \
-     ${HAVE_READPASSPHRASE} -eq 0 -o \
-     ${HAVE_REALLOCARRAY} -eq 0 -o \
-     ${HAVE_RECALLOCARRAY} -eq 0 -o \
-     ${HAVE_SETRESGID} -eq 0 -o \
-     ${HAVE_SETRESUID} -eq 0 -o \
-     ${HAVE_SHA2} -eq 0 -o \
-     ${HAVE_STRLCAT} -eq 0 -o \
-     ${HAVE_STRLCPY} -eq 0 -o \
-     ${HAVE_STRNDUP} -eq 0 -o \
-     ${HAVE_STRNLEN} -eq 0 ]
+if [ "$HAVE_ARC4RANDOM" -eq 0 ] || \
+   [ "$HAVE_BLOWFISH" -eq 0 ] || \
+   [ "$HAVE_FTS" -eq 0 ] || \
+   [ "$HAVE_MD5" -eq 0 ] || \
+   [ "$HAVE_MEMMEM" -eq 0 ] || \
+   [ "$HAVE_MEMRCHR" -eq 0 ] || \
+   [ "$HAVE_MKFIFOAT" -eq 0 ] || \
+   [ "$HAVE_MKNODAT" -eq 0 ] || \
+   [ "$HAVE_READPASSPHRASE" -eq 0 ] || \
+   [ "$HAVE_REALLOCARRAY" -eq 0 ] || \
+   [ "$HAVE_RECALLOCARRAY" -eq 0 ] || \
+   [ "$HAVE_SETRESGID" -eq 0 ] || \
+   [ "$HAVE_SETRESUID" -eq 0 ] || \
+   [ "$HAVE_SHA2" -eq 0 ] || \
+   [ "$HAVE_STRLCAT" -eq 0 ] || \
+   [ "$HAVE_STRLCPY" -eq 0 ] || \
+   [ "$HAVE_STRNDUP" -eq 0 ] || \
+   [ "$HAVE_STRNLEN" -eq 0 ]
 then
 	echo "#include <sys/types.h> /* size_t, mode_t, dev_t */ "
 fi
 
-if [ ${HAVE_ARC4RANDOM} -eq 0 -o \
-     ${HAVE_BLOWFISH} -eq 0 -o \
-     ${HAVE_MD5} -eq 0 -o \
-     ${HAVE_SHA2} -eq 0 ]
+if [ "$HAVE_ARC4RANDOM" -eq 0 ] || \
+   [ "$HAVE_BLOWFISH" -eq 0 ] || \
+   [ "$HAVE_MD5" -eq 0 ] || \
+   [ "$HAVE_SHA2" -eq 0 ]
 then
 	echo "#include <stdint.h> /* C99 [u]int[nn]_t types */"
 fi
 
-if [ ${HAVE_ERR} -eq 0 ]
+if [ "$HAVE_ERR" -eq 0 ]
 then
 	echo "#include <stdarg.h> /* err(3) */"
 fi
 
-if [ ${HAVE_PATH_MAX} -eq 0 ]
+if [ "$HAVE_PATH_MAX" -eq 0 ]
 then
 	echo "#define PATH_MAX 4096"
 fi
 
-if [ ${HAVE_WAIT_ANY} -eq 0 ]
+if [ "$HAVE_WAIT_ANY" -eq 0 ]
 then
 	echo "#define WAIT_ANY (-1) /* sys/wait.h */"
 	echo "#define WAIT_MYPGRP 0"
 fi
 
-if [ ${HAVE_PASSWORD_LEN} -eq 0 ]
+if [ "$HAVE_PASSWORD_LEN" -eq 0 ]
 then
 	echo "#define _PASSWORD_LEN (128) /* pwd.h */"
 fi
 
-if [ ${HAVE_INFTIM} -eq 0 ]
+if [ "$HAVE_INFTIM" -eq 0 ]
 then
 	echo "#define INFTIM (-1) /* poll.h */"
 fi
 
-if [ ${HAVE_OSBYTEORDER_H} -eq 1 -a \
-     ${HAVE_ENDIAN_H} -eq 0 -a \
-     ${HAVE_SYS_BYTEORDER_H} -eq 0 -a \
-     ${HAVE_SYS_ENDIAN_H} -eq 0 ]
+if [ "$HAVE_OSBYTEORDER_H" -eq 1 ] && \
+   [ "$HAVE_ENDIAN_H" -eq 0 ] && \
+   [ "$HAVE_SYS_BYTEORDER_H" -eq 0 ] && \
+   [ "$HAVE_SYS_ENDIAN_H" -eq 0 ]
 then
 	cat << __HEREDOC__
 #define htobe16(x) OSSwapHostToBigInt16(x)
@@ -777,10 +777,10 @@ then
 __HEREDOC__
 fi
 
-if [ ${HAVE_SYS_BYTEORDER_H} -eq 1 -a \
-     ${HAVE_ENDIAN_H} -eq 0 -a \
-     ${HAVE_OSBYTEORDER_H} -eq 0 -a \
-     ${HAVE_SYS_ENDIAN_H} -eq 0 ]
+if [ "$HAVE_SYS_BYTEORDER_H" -eq 1 ] && \
+   [ "$HAVE_ENDIAN_H" -eq 0 ] && \
+   [ "$HAVE_OSBYTEORDER_H" -eq 0 ] && \
+   [ "$HAVE_SYS_ENDIAN_H" -eq 0 ]
 then
 	cat << __HEREDOC__
 #define htobe16(x) BE_16(x)
@@ -831,7 +831,7 @@ __HEREDOC__
 
 # Now we do our function declarations for missing functions.
 
-if [ ${HAVE_ERR} -eq 0 ]
+if [ "$HAVE_ERR" -eq 0 ]
 then
 	cat << __HEREDOC__
 extern void err(int, const char *, ...) __attribute__((noreturn));
@@ -849,7 +849,7 @@ extern void vwarnx(const char *, va_list);
 __HEREDOC__
 fi
 
-if [ ${HAVE_MD5} -eq 0 ]
+if [ "$HAVE_MD5" -eq 0 ]
 then
 	cat << __HEREDOC__
 #define MD5_BLOCK_LENGTH 64
@@ -869,7 +869,7 @@ extern void MD5Final(uint8_t [MD5_DIGEST_LENGTH], MD5_CTX *);
 __HEREDOC__
 fi
 
-if [ ${HAVE_SHA2} -eq 0 ]
+if [ "$HAVE_SHA2" -eq 0 ]
 then
 	cat << __HEREDOC__
 #define SHA256_BLOCK_LENGTH		64
@@ -922,7 +922,7 @@ char *SHA512Data(const uint8_t *, size_t, char *);
 __HEREDOC__
 fi
 
-if [ ${HAVE_SECCOMP_FILTER} -eq 1 ]
+if [ "$HAVE_SECCOMP_FILTER" -eq 1 ]
 then
 	seccomp_audit_arch=
 	arch=$(uname -m 2>/dev/null || echo unknown)
@@ -988,7 +988,7 @@ else
 __HEREDOC__
 fi
 
-if [ ${HAVE_B64_NTOP} -eq 0 ]
+if [ "$HAVE_B64_NTOP" -eq 0 ]
 then
 	cat << __HEREDOC__
 extern int b64_ntop(unsigned char const *, size_t, char *, size_t);
@@ -996,7 +996,7 @@ extern int b64_pton(char const *, unsigned char *, size_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_SCAN_SCALED} -eq 0 ]
+if [ "$HAVE_SCAN_SCALED" -eq 0 ]
 then
 	cat << __HEREDOC__
 #define	FMT_SCALED_STRSIZE	7 /* minus sign, 4 digits, suffix, null byte */
@@ -1005,35 +1005,35 @@ int scan_scaled(char *, long long *);
 __HEREDOC__
 fi
 
-if [ ${HAVE_EXPLICIT_BZERO} -eq 0 ]
+if [ "$HAVE_EXPLICIT_BZERO" -eq 0 ]
 then
 	cat << __HEREDOC__
 extern void explicit_bzero(void *, size_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_MEMMEM} -eq 0 ]
+if [ "$HAVE_MEMMEM" -eq 0 ]
 then
 	cat << __HEREDOC__
 void *memmem(const void *, size_t, const void *, size_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_MEMRCHR} -eq 0 ]
+if [ "$HAVE_MEMRCHR" -eq 0 ]
 then
 	cat << __HEREDOC__
 void *memrchr(const void *b, int, size_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_GETPROGNAME} -eq 0 ]
+if [ "$HAVE_GETPROGNAME" -eq 0 ]
 then
 	cat << __HEREDOC__
 extern const char *getprogname(void);
 __HEREDOC__
 fi
 
-if [ ${HAVE_READPASSPHRASE} -eq 0 ]
+if [ "$HAVE_READPASSPHRASE" -eq 0 ]
 then
 	cat << __HEREDOC__
 #define RPP_ECHO_OFF 0x00
@@ -1047,105 +1047,105 @@ char *readpassphrase(const char *, char *, size_t, int);
 __HEREDOC__
 fi
 
-if [ ${HAVE_REALLOCARRAY} -eq 0 ]
+if [ "$HAVE_REALLOCARRAY" -eq 0 ]
 then
 	cat << __HEREDOC__
 extern void *reallocarray(void *, size_t, size_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_RECALLOCARRAY} -eq 0 ]
+if [ "$HAVE_RECALLOCARRAY" -eq 0 ]
 then
 	cat << __HEREDOC__
 extern void *recallocarray(void *, size_t, size_t, size_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_STRLCAT} -eq 0 ]
+if [ "$HAVE_STRLCAT" -eq 0 ]
 then
 	cat << __HEREDOC__
 extern size_t strlcat(char *, const char *, size_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_STRLCPY} -eq 0 ]
+if [ "$HAVE_STRLCPY" -eq 0 ]
 then
 	cat << __HEREDOC__
 extern size_t strlcpy(char *, const char *, size_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_STRNDUP} -eq 0 ]
+if [ "$HAVE_STRNDUP" -eq 0 ]
 then
 	cat << __HEREDOC__
 extern char *strndup(const char *, size_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_STRNLEN} -eq 0 ]
+if [ "$HAVE_STRNLEN" -eq 0 ]
 then
 	cat << __HEREDOC__
 extern size_t strnlen(const char *, size_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_STRTONUM} -eq 0 ]
+if [ "$HAVE_STRTONUM" -eq 0 ]
 then
 	cat << __HEREDOC__
 extern long long strtonum(const char *, long long, long long, const char **);
 __HEREDOC__
 fi
 
-if [ ${HAVE_MKFIFOAT} -eq 0 ]
+if [ "$HAVE_MKFIFOAT" -eq 0 ]
 then
 	cat << __HEREDOC__
 int mkfifoat(int, const char *, mode_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_MKNODAT} -eq 0 ]
+if [ "$HAVE_MKNODAT" -eq 0 ]
 then
 	cat << __HEREDOC__
 int mknodat(int, const char *, mode_t, dev_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_SETRESGID} -eq 0 ]
+if [ "$HAVE_SETRESGID" -eq 0 ]
 then
 	cat << __HEREDOC__
 int setresgid(gid_t rgid, gid_t egid, gid_t sgid);
 __HEREDOC__
 fi
 
-if [ ${HAVE_SETRESUID} -eq 0 ]
+if [ "$HAVE_SETRESUID" -eq 0 ]
 then
 	cat << __HEREDOC__
 int setresuid(uid_t ruid, uid_t euid, uid_t suid);
 __HEREDOC__
 fi
 
-if [ ${HAVE_SYS_QUEUE} -eq 0 ]
+if [ "$HAVE_SYS_QUEUE" -eq 0 ]
 then
 	cat << __HEREDOC__
 @CONFIGURE_SYS_QUEUE_H@
 __HEREDOC__
 fi
 
-if [ ${HAVE_SYS_TREE} -eq 0 ]
+if [ "$HAVE_SYS_TREE" -eq 0 ]
 then
 	cat << __HEREDOC__
 @CONFIGURE_SYS_TREE_H@
 __HEREDOC__
 fi
 
-if [ ${HAVE_FTS} -eq 0 ]
+if [ "$HAVE_FTS" -eq 0 ]
 then
 	cat << __HEREDOC__
 @CONFIGURE_FTS_H@
 __HEREDOC__
 fi
 
-if [ ${HAVE_CRYPT_NEWHASH} -eq 0 ]
+if [ "$HAVE_CRYPT_NEWHASH" -eq 0 ]
 then
 	cat << __HEREDOC__
 int crypt_newhash(const char *, const char *, char *, size_t);
@@ -1153,7 +1153,7 @@ int crypt_checkpass(const char *, const char *);
 __HEREDOC__
 fi
 
-if [ ${HAVE_BLOWFISH} -eq 0 ]
+if [ "$HAVE_BLOWFISH" -eq 0 ]
 then
 	cat << __HEREDOC__
 #define BLF_N	16
@@ -1180,7 +1180,7 @@ void blf_cbc_decrypt(blf_ctx *, uint8_t *, uint8_t *, uint32_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_TIMINGSAFE_BCMP} -eq 0 ]
+if [ "$HAVE_TIMINGSAFE_BCMP" -eq 0 ]
 then
 	cat << __HEREDOC__
 int timingsafe_bcmp(const void *, const void *, size_t);
@@ -1188,7 +1188,7 @@ int timingsafe_memcmp(const void *, const void *, size_t);
 __HEREDOC__
 fi
 
-if [ ${HAVE_ARC4RANDOM} -eq 0 ]
+if [ "$HAVE_ARC4RANDOM" -eq 0 ]
 then
 	cat << __HEREDOC__
 uint32_t arc4random(void);
