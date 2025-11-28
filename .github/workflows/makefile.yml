@@ -16,7 +16,8 @@ jobs:
         cmp config.h.sorted expected/config-linux.h
         cat config.log
     - name: Build and test
-      run: make regress
+      run: |
+        make regress
   linux_libbsd:
     runs-on: ubuntu-latest
     steps:
@@ -26,9 +27,11 @@ jobs:
     - name: Configure
       run: |
         cat /etc/os-release
-        CFLAGS=$(pkg-config --cflags libbsd-overlay) ./configure CPPFLAGS="-DENABLE_SECCOMP_FILTER=1" LDFLAGS=$(pkg-config --libs libbsd-overlay)
+        ./configure -j0 CFLAGS=$(pkg-config --cflags libbsd-overlay) CPPFLAGS="-DENABLE_SECCOMP_FILTER=1" LDFLAGS=$(pkg-config --libs libbsd-overlay)
+        grep '^#define HAVE_' config.h
     - name: Build and test
-      run: make regress
+      run: |
+        make regress
   macos:
     runs-on: macos-latest
     steps:
