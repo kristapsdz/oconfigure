@@ -12,7 +12,8 @@ jobs:
         cat /etc/os-release
         ./configure -j0
         shellcheck configure
-        grep '^#define HAVE_' config.h | sort
+        grep '^#define HAVE_' config.h | sort > config.h.sorted
+        cmp config.h.sorted expected/config-linux.h
         cat config.log
     - name: Build and test
       run: make regress
@@ -35,10 +36,12 @@ jobs:
     - name: Configure
       run: |
         ./configure -j0
-        grep '^#define HAVE_' config.h | sort
+        grep '^#define HAVE_' config.h | sort > config.h.sorted
+        cmp config.h.sorted expected/config-macos.h
         cat config.log
     - name: Build and test
-      run: make regress
+      run: |
+        make regress
   freebsd:
     runs-on: ubuntu-latest
     steps:
@@ -51,7 +54,8 @@ jobs:
         run: |
           freebsd-version
           ./configure -j0
-          grep '^#define HAVE_' config.h | sort
+          grep '^#define HAVE_' config.h | sort > config.h.sorted
+          cmp config.h.sorted expected/config-freebsd.h
           cat config.log
           make regress
   dragonflybsd:
@@ -64,7 +68,8 @@ jobs:
         usesh: true
         run: |
           ./configure -j0
-          grep '^#define HAVE_' config.h | sort
+          grep '^#define HAVE_' config.h | sort > config.h.sorted
+          cmp config.h.sorted expected/config-dragonflybsd.h
           cat config.log
           make regress
   netbsd:
@@ -79,7 +84,8 @@ jobs:
         run: |
           uname -a
           ./configure -j0
-          grep '^#define HAVE_' config.h | sort
+          grep '^#define HAVE_' config.h | sort > config.h.sorted
+          cmp config.h.sorted expected/config-netbsd.h
           cat config.log
           make regress
   omnios:
@@ -96,6 +102,7 @@ jobs:
         run: |
           uname -a
           ./configure -j0
-          grep '^#define HAVE_' config.h | sort
+          grep '^#define HAVE_' config.h | sort > config.h.sorted
+          cmp config.h.sorted expected/config-omnios.h
           cat config.log
           make regress
