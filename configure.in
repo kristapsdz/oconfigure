@@ -56,13 +56,10 @@ usage() {
 	echo "See <https://github.com/kristapsdz/oconfigure> for detailed docs."
 }
 
-# shellcheck disable=SC2048,SC2086
-args=$(getopt hj: $*) || {
-	usage 1>&2
-	exit 1
-}
-
-eval set -- "$args"
+# Parse command line arguments without getopt.  The reason getopt is not
+# used is because it will munge the common idiom of
+#   ./configure CFLAGS="a b c"
+# into stripping the trailing quotes.
 
 while [ $# -ne 0 ]
 do
@@ -71,13 +68,27 @@ do
 		usage 1>&2
 		exit 0
 		;;
-	-j)
-		NPROCS="$2"
-		shift
+	-j*)
+		# Handle -j0, -j=0, -j 0.
+		if [ "$1" = "-j" ]
+		then
+			shift
+			OPT="$1"
+		elif [ "$1" != "${1#-j=}" ]
+	        then
+			OPT="${1#-j=}"
+		else
+			OPT="${1#-j}"
+		fi
+		NPROCS="$OPT"
 		shift
 		;;
-	--)
-		shift
+	-*)
+		echo "$1: option not recognised" 1>&2
+		usage 1>&2
+		exit 1
+		;;
+	*)
 		break
 		;;
 	esac

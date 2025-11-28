@@ -27,7 +27,7 @@ jobs:
     - name: Configure
       run: |
         cat /etc/os-release
-        ./configure -j0 CFLAGS=$(pkg-config --cflags libbsd-overlay) CPPFLAGS="-DENABLE_SECCOMP_FILTER=1" LDFLAGS=$(pkg-config --libs libbsd-overlay)
+        ./configure -j0 CFLAGS="$(pkg-config --cflags libbsd-overlay)" CPPFLAGS="-DENABLE_SECCOMP_FILTER=1" LDFLAGS="$(pkg-config --libs libbsd-overlay)"
         grep '^#define HAVE_' config.h
     - name: Build and test
       run: |
