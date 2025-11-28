@@ -56,7 +56,8 @@ usage() {
 	echo "See <https://github.com/kristapsdz/oconfigure> for detailed docs."
 }
 
-args=$(getopt hj: "$*") || {
+# shellcheck disable=SC2048,SC2086
+args=$(getopt hj: $*) || {
 	usage 1>&2
 	exit 1
 }
