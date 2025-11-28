@@ -24,15 +24,40 @@ OCONFIGURE_VERSION="1.0.0"
 # used.
 NPROCS=1
 
-# Print a usage message.
+# Print a lengthy usage message to stdout.
 usage() {
-	echo "Usage: configure [-j NCPU] KEYS..." 1>&2
-	echo "Options:" 1>&2
-	echo "  -j NCPU     parallelism (0 or <0 to auto-detect)" 1>&2
+	echo "Usage: configure [-j NCPU] KEYS..."
+	echo
+	echo "Options:"
+	echo "  -j NCPU         parallel tasks (<=0 to auto-detect)"
+	echo
+	echo "Build key-value pairs and their defaults:"
+	echo "  AR              archiver (system default)"
+	echo "  CC              C compiler (system default)"
+	echo "  CFLAGS          C compiler flags (system default)"
+	echo "  CPPFLAGS        C preprocessor flags"
+	echo "  LDADD           linked libraries and flags"
+	echo "  LDFLAGS         linker flags used"
+	echo "  LDLIBS          shared library libraries and flags"
+	echo "  LINKER_SOFLAG   flag to create shared libraries (-shared or -dynamiclib)"
+	echo "  LINKER_SONAME   flag to name shared libraries (-soname or -install_name)"
+	echo "  LINKER_SOSUFFIX suffix for shared libraries (so or dylib)"
+	echo
+	echo "Install directory key-value pairs and their defaults:"
+	echo "  BINDIR          binaries (PREFIX/bin)"
+	echo "  DESTDIR         install root prefix"
+	echo "  INCLUDEDIR      header files (PREFIX/include)"
+	echo "  LIBDIR          libraries (PREFIX/lib)"
+	echo "  MANDIR          manpages (PREFIX/man)"
+	echo "  PREFIX          install root (/usr/local)"
+	echo "  SBINDIR         system binaries (PREFIX/sbin)"
+	echo "  SHAREDIR        shared files (PREFIX/share)"
+	echo
+	echo "See <https://github.com/kristapsdz/oconfigure> for detailed docs."
 }
 
 args=$(getopt hj: "$*") || {
-	usage
+	usage 1>&2
 	exit 1
 }
 
@@ -42,7 +67,7 @@ while [ $# -ne 0 ]
 do
 	case "$1" in
 	-h)
-		usage
+		usage 1>&2
 		exit 0
 		;;
 	-j)
