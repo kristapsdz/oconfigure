@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,400italic,500,700" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/default.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/github.min.css" />
+		<style>
+			article				{ display: flex;
+							  gap: 1rem; }
+			article > section		{ flex: 1;
+							  width: 100%; }
+			html, body			{ margin: 0; }
+			body				{ font-family: 'Alegreya sans', sans-serif; 
+							  max-width: 60rem; 
+							  width: calc(100% - 2rem); 
+							  line-height: 1.3em;
+							  margin: 1rem auto; }
+			.nm				{ font-weight: bolder; }
+			summary				{ cursor: pointer;
+							  border-radius: 0.5rem;
+							  padding: 0.25rem 0.5rem;
+							  margin: 0.25rem 0;
+							  border: thin solid rgb(0 0 0 / 15%);
+							  background-color: rgb(0 0 0 / 5%); }
+			.note				{ border: thin solid rgb(0 0 0 / 15%);
+							  padding: 0.5rem;
+							  margin: 0.25rem 0;
+							  display: inline-block;
+							  border-radius: 0.5rem; }
+			nav > a				{ padding-left: 0.25rem;
+							  margin-left: 0.25rem;
+							  border-left: thin solid black; }
+			pre				{ background-color: rgba(0 0 0 / 2%);
+						 	  padding: 0.25rem 0.5rem;
+							  margin: 0.25rem 0;
+							  border-radius: 0.5rem; }
+			footer				{ text-align: center;
+							  margin-top: 2rem;
+							  opacity: 0.8;
+							  font-size: smaller; }
+			@media (width < 45em) {
+			 article			{ display: block; }
+			}
+		</style>
+		<script defer="defer" src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js">
+		</script>
+		<script>
+			window.addEventListener('load', () => {
+			    document.body.querySelectorAll('code').forEach(el => {
+			        if (el.className === 'nohighlight')
+			            return;
+				if (el.className === '')
+				    el.className = 'language-c';
+			        const res = hljs.highlightAuto(el.textContent);
+			        el.innerHTML = res.value;
+			    });
+			});
+		</script>
+		<title>oconfigure</title>
+	</head>
+	<body>
+		<nav>
+			<span>v@VERSION@</span>
+			<a href="https://github.com/kristapsdz/oconfigure">repository</a>
+			<a href="https://github.com/kristapsdz/oconfigure/releases">releases</a>
+			<a href="https://github.com/kristapsdz/oconfigure/actions">liveness</a>
+		</nav>
+		<h1>oconfigure</h1>
+		<p>
+			<span class="nm">oconfigure</span> is a configuration system for writing
+			portable C-language software with
+			<a href="https://www.openbsd.org">OpenBSD</a> features and functions.  It
+			allows easy porting to Linux (glibc and musl), FreeBSD, NetBSD, Mac OS X,
+			DragonFlyBSD, and OmniOS (illumos).  Other systems may also be supported:
+			please let me know if they are.
+		</p>
+		<p>
+			The system consists of three files that need to be included in your source
+			code: a <em>configure</em> script, a <em>tests.c</em> file used by the
+			script to probe for OpenBSD features, and a <em>compats.c</em> source file
+			providing all compatibility functions.  The <em>configure</em> script
+			outputs <em>Makefile.configure</em> and <em>config.h</em> when run, which
+			must be integrated into your system.  In full:
+		</p>
+		<ol>
+			<li>
+				copy
+				<a href="https://raw.githubusercontent.com/kristapsdz/oconfigure/master/configure">configure</a>,
+				<a href="https://raw.githubusercontent.com/kristapsdz/oconfigure/master/compats.c">compats.c</a>,
+				and
+				<a href="https://raw.githubusercontent.com/kristapsdz/oconfigure/master/tests.c">tests.c</a>
+				into your source tree, or grab files from a
+				<a href="https://github.com/kristapsdz/oconfigure">cloned repository</a>
+				or
+				<a href="https://github.com/kristapsdz/oconfigure/releases">downloaded release</a>
+			</li>
+			<li>
+				run <code class="language-sh">./configure</code> to create
+				<em>Makefile.configure</em> and <em>config.h</em>
+			</li>
+			<li>
+				<code class="language-mk">include Makefile.configure</code> at the
+				top of your Makefile (BSD or GNU
+				<a href="https://man.openbsd.org/make">make</a>) and add <em>compats.c</em> to
+				be linked into your binary or library
+			</li>
+			<li>
+				reference compatibility functions by adding
+				<code class="language-c">#include "config.h"</code> as the first
+				inclusion in your sources
+			</li>
+		</ol>
+		<h2>
+			Usage
+		</h2>
+		<p>
+			The central part of <span class="nm">oconfigure</span> is the
+			<em>configure</em> script.  It repeatedly compiles different parts of the
+			<em>tests.c</em> file to test for OpenBSD-compatible features like
+			<a href="https://man.openbsd.org/pledge.2">pledge(2)</a> or
+			<a href="https://man.openbsd.org/strlcpy.3">strlcpy(3)</a>.
+			It also detects compiler operation, such as which flag to use for linking
+			shared libraries.  The results are output as a header file,
+			<em>config.h</em>, for inclusion in your sources; and a
+			<a href="https://man.openbsd.org/make">make(1)</a> fragment,
+			<em>Makefile.configure</em>, for your build system.
+		</p>
+		<p>
+			Run the script as <code class="language-sh">./configure</code> or
+			<code class="language-sh">sh ./configure</code>, depending upon whether it's
+			executable.  It can be run in parallel mode as
+			<code class="language-sh">./configure -j<i>n</i></code>, where <i>n</i> is
+			the number of processors or zero for all.  Key-value pairs may be passed
+			into the script to affect feature testing, such as for cross-compiling or
+			overload libraries.
+		</p>
+		<p class="note">
+			📚 See 
+			<a href="#options">Configuration options and environment</a> for general
+			details and 
+			<a href="#libbsd">libbsd</a> for specific libbsd instructions.
+		</p>
+		<p>
+			The generated <em>Makefile.configure</em> will contain key-value pairs used
+			for building software with
+			<a href="https://man.openbsd.org/make">make(1)</a>.  The
+			following example shows how to include and use <em>Makefile.configure</em>.
+			It uses BSD make style.  The <em>compats.c</em> is distributed with
+			<span class="nm">oconfigure</span>, while <em>Makefile.configure</em> and
+			<em>config.h</em> are generated by the <em>configure</em> script.
+		</p>
+		<pre><code class="language-mk">include Makefile.configure
+# Require zlib, just to make things interesting.
+LDADD_PKG != pkg-config --libs zlib || echo "-lz"
+CFLAGS_PKG != pkg-config --cflags zlib || echo ""
+
+LDADD += $(LDADD_PKG)
+CFLAGS += $(CFLAGS_PKG)
+
+# Build the main binary with the compatibility functions.
+main: main.o compats.o
+	$(CC) -o $@ main.o compats.o $(LDFLAGS) $(LDADD)
+
+# Install into BINDIR in the the DESTDIR fake root.
+install:
+	mkdir -p $(DESTDIR)$(BINDIR)
+	$(INSTALL_PROGRAM) main $(DESTDIR)$(BINDIR)
+
+# All sources depend on the generated config.h.
+main.o compats.o: config.h
+
+clean:
+	rm -f main main.o compats.o</code></pre>
+		<p class="note">
+			📚 See <a href="#shared-libraries">Shared libraries</a> for building shared
+			libraries and 
+			<a href="#static-binaries">Static binaries</a> for building static binaries.
+		</p>
+		<p>
+			Next, how must the software be modified to use compatibility?  It depends on
+			whether the code is testing for a feature, like looking for 
+			<a href="https://man.openbsd.org/pledge.2">pledge(2)</a>
+			or
+			<a href="https://www.freebsd.org/cgi/man.cgi?capsicum(4)">capsicum(4)</a>,
+			or using an OpenBSD function like
+			<a href="https://man.openbsd.org/strlcpy.3">strlcpy(3)</a> that has a
+			compatibility shim in <span class="nm">oconfigure</span>.
+		</p>
+		<p>
+			In general, using an OpenBSD-specific feature <i>without</i> compatibility
+			requires a conditional guard; while using an OpenBSD-specific feature
+			<i>with</i> compatibility might require a header guard.
+		</p>
+		<p class="note">
+			📚 See <a href="#features">Features</a> for a full list of feature tests and
+			compatibility functions.
+		</p>
+		<pre><code class="language-c">#include "config.h" &#47;* required inclusion *&#47;
+#if HAVE_ERR &#47;* sometimes err.h exists, sometimes not *&#47;
+# include &#60;err.h&#62;
+#endif
+#include &#60;stdio.h&#62;
+#include &#60;unistd.h&#62;
+
+int main(void) {
+#if HAVE_PLEDGE &#47;* do we have pledge? *&#47;
+	if (pledge("stdio", NULL) == -1)
+		err(1, NULL); &#47;* compat provides this *&#47;
+#endif
+	warnx("hello, world!"); &#47;* compat provides this *&#47;
+	return 0;
+}</code></pre>
+		<p>
+			The <code>#if HAVE_ERR</code> statement draws from <em>config.h</em> to see
+			if the <em>err.h</em> header file exists.  If it does, use it; otherwise,
+			the source will use the compatibility in <em>config.h</em>.  After those
+			lines, the <code>warn()</code> and <code>err()</code> functions will
+			resolve.  The <code>#if HAVE_PLEDGE</code> is a feature test, so what's
+			within will only be compiled if <code>pledge()</code> was detected.
+		</p>
+		<h2>
+			Acknowledgements
+		</h2>
+		<p>
+			This framework was inspired by 
+			<a href="https://mandoc.bsd.lv">mandoc</a>&#8217;s
+			<code class="language-sh">configure</code> script written by Ingo Schwarze.
+		</p>
+		<h2>
+			Tables and appendices	
+		</h2>
+		<p>
+			The following sections are for specific use cases and documentation.
+		</p>
+		<h3 id="features">
+			Features
+		</h3>
+		<p>
+			What follows is a description of the feature tests and compatibility
+			provided by <em>config.h</em> and <em>compats.c</em> when included into your
+			sources.  Each is linked to the test and compatibility source, where
+			applicable.
+		</p>
+		<article>
+			<section>
+				<h4>
+					Compatibility functions
+				</h4>
+				<details name="compat">
+					<summary><code>arc4random()</code>, &hellip;</summary>
+					<p>
+						Tests and compatibility for
+						<a href="https://man.openbsd.org/arc4random.3">arc4random(3)</a>
+						functions in <em>stdlib.h</em>, defining
+						<code>HAVE_ARC4RANDOM</code> with the result.
+					</p>
+					<pre><code class="language-c">#if HAVE_ARC4RANDOM
+# include &#60;stdlib.h&#62; &#47;* arc4random, arc4random_buf... *&#47;
+#endif</code></pre>
+					<p>
+						The compatibility functions provide the same quality
+						(via the same source) as OpenBSD, using the
+						host&#8217;s <code>getentropy()</code> function for
+						seed.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_arc4random.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-arc4random.c">test</a>
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>blf_enc()</code>, <code>blf_dec()</code>, &hellip;</summary>
+					<p>
+						Tests and compatibility for
+						<a href="https://man.openbsd.org/blf_enc.3">blf_enc(3)</a>
+						functions including the raw block functions (not
+						documented on OpenBSD, but still in the public API).
+					</p>
+					<pre><code class="language-c">#if HAVE_BLOWFISH
+# include &#60;blf.h&#62; &#47;* blf_enc ... *&#47;
+#endif</code></pre>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_blowfish.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-blowfish.c">test</a>
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>b64_ntop()</code>, <code>b64_pton()</code></summary>
+					<p>
+						Tests and compatibility for these functions, which
+						do not have manpages on OpenBSD despite existing and
+						being usable.  On some systems, the functions are
+						only declared, but not defined.  To avoid
+						superfluous inclusions, their usage should be
+						guarded:
+					</p>
+					<pre><code class="language-c">#if HAVE_B64_NTOP
+# include &#60;netinet&#47;in.h&#62;
+# include &#60;resolv.h&#62;
+#endif</code></pre>
+					<p>
+						Some systems (Linux only?) with
+						<code>HAVE_B64_NTOP</code> need
+						<strong>-lresolv</strong> during linking.  If so,
+						<code>LDADD_B64_NTOP</code> is defined in
+						<em>Makefile.configure</em> to
+						<strong>-lresolv</strong>.  Otherwise, it is empty.
+					</p>
+					<p>
+						Since these functions are always poorly documented,
+						the following demonstrates usage for
+						<code>b64_ntop()</code>, which translates
+						<code class="nohighlight">src</code> <em>into</em>
+						an encoded NUL-terminated string
+						<code class="nohighlight">dst</code> and
+						returns the string length or -1.  The
+						<code class="nohighlight">dstsz</code> is the
+						maximum size required for encoding.
+					</p>
+					<pre><code class="language-c">srcsz = strlen(src);
+dstsz = ((srcsz + 2) &#47; 3 * 4) + 1;
+dst = malloc(dstsz);
+if (b64_ntop(src, srcsz, dst, dstsz) == -1)
+	goto bad_size;</code></pre>
+					<p>
+						<code>b64_pton()</code> reverses this situation from an
+						encoded NUL-terminated string
+						<code class="nohighlight">src</code> into the
+						decoded and NUL-terminated string
+						<code class="nohighlight">dst</code> (it&#8217;s
+						common not to need the NUL-terminator for the
+						decoded string, which is meant to be binary).  The
+						<code class="nohighlight">dstsz</code> is the
+						maximum size required for decoding.
+					</p>
+					<pre><code class="language-c">srcsz = strlen(src);
+dstsz = srscsz &#47; 4 * 3;
+dst = malloc(dstsz + 1); &#47;* NUL terminator *&#47;
+if ((c = b64_pton(src, dst, dstsz)) == -1)
+	goto bad_data;
+dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_b64_ntop.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-b64_ntop.c">test</a>
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>crypt_newhash()</code>, &hellip;</summary>
+					<p>
+						Tests and compatibility for the
+						<a href="https://man.openbsd.org/crypt.3">crypt(3)</a>-replacing
+						functions
+						<a href="https://man.openbsd.org/crypt_newhash.3">crypt_newhash(3)</a>
+						and
+						<a href="https://man.openbsd.org/crypt_newhash.3">crypt_checkpass(3)</a>
+						functions, defining <code>HAVE_CRYPT_NEWHASH</code>
+						with the result.
+					</p>
+					<p>
+						The portability functions only provide
+						<code>bcrypt()</code> functionality.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_crypt_newhash.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-crypt_newhash.c">test</a>
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>htole32()</code>, <code>be32toh()</code>, &hellip;</summary>
+					<p>
+						On most operating systems (Linux, OpenBSD),
+						<em>endian.h</em> provides the POSIX.1 endian
+						functions, e.g.,
+						<a href="https://man.openbsd.org/htole32.3">htole32(3)</a>,
+						<a href="https://man.openbsd.org/be32toh.3">be32toh(3)</a>,
+						etc.  On FreeBSD, however, these are in
+						<em>sys&#47;endian.h</em>.  Mac OS X and SunOS have
+						their own functions in their own places.
+					</p>
+					<p>
+						The required invocation to use the endian functions
+						is:
+					</p>
+					<pre><code class="language-c">#if HAVE_ENDIAN_H
+# include &#60;endian.h&#62;
+#elif HAVE_SYS_ENDIAN_H
+# include &#60;sys&#47;endian.h&#62;
+#elif HAVE_OSBYTEORDER_H
+# include &#60;libkern&#47;OSByteOrder.h&#62;
+#elif HAVE_SYS_BYTEORDER_H
+# include &#60;sys&#47;byteorder.h&#62;
+#endif</code></pre>
+					<p>
+						Compatibility for the Mac OS X and SunOS functions
+						to the usual <code>htole32()</code> style is provided.
+						To make this easier, the
+						<code>COMPAT_ENDIAN_H</code> is also defined:
+					</p>
+					<pre><code class="language-c">#include COMPAT_ENDIAN_H</code></pre>
+					<p>
+						This will paste the appropriate location.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>err()</code>, <code>warn()</code>, &hellip;</summary>
+					<p>
+						Tests for the
+						<a href="https://man.openbsd.org/err.3">err(3)</a> functions,
+						defining <code>HAVE_ERR</code> variable with the result.
+					</p>
+					<p>
+						Provides compatibility functions if not found.  The
+						functions are for <code>err()</code>,
+						<code>errx()</code>, <code>errc()</code>,
+						<code>warn()</code>, <code>warnx()</code>,
+						<code>warnc()</code>, and the variable-argument
+						versions of each.
+					</p>
+					<pre><code class="language-c">#if HAVE_ERR
+# include &#60;err.h&#62;
+#endif</code></pre>
+					<p>
+						The <em>err.h</em> header needs to be guarded to
+						prevent systems using the compatibility functions
+						for failing, as the header does not exist.
+					</p>
+					<p>
+						It&#8217;s worth noting that 
+						<a href="https://www.gnu.org/software/libc/">glibc</a>
+						defines many of these functions, but misses the
+						<code>errc()</code> and <code>warnc()</code> variations.
+						<strong>oconfigure</strong> considers it all or
+						nothing, so will not define <code>HAVE_ERR</code> in
+						this case.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>explicit_bzero()</code></summary>
+					<p>
+						Tests for 
+						<a href="https://man.openbsd.org/explicit_bzero.3">explicit_bzero(3)</a>
+						in <em>string.h</em>, defining
+						<code>HAVE_EXPLICIT_BZERO</code> with the result.
+					</p>
+					<pre><code class="language-c">#include &#60;string.h&#62; &#47;* explicit_bzero *&#47;</code></pre>
+					<p>
+						Provides a compatibility function if not found.  The
+						compatibility function will use
+						<a href="http://en.cppreference.com/w/c/string/byte/memset">memset_s</a>,
+						if found.  <code>HAVE_EXPLICIT_BZERO</code>
+						shouldn&#8217;t be directly used in most
+						circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>fts_open()</code>, <code>fts_read()</code>, &hellip;</summary>
+					<p>
+						Tests for
+						<a href="https://man.openbsd.org/fts_open.3">fts_open(3)</a>
+						functions in <em>fts.h</em>, defining
+						<code>HAVE_FTS</code> with the result.
+					</p>
+					<pre><code class="language-c">#if HAVE_FTS
+# include &#60;sys&#47;types.h&#62;
+# include &#60;fts.h&#62; &#47;* fts_open(3) et al. *&#47;
+#endif</code></pre>
+					<p>
+						The <em>fts.h</em> header needs to be guarded to
+						prevent systems using the compatibility functions
+						for failing, as the header does not exist.
+					</p>
+					<p>
+						Provides compatibility functions if not found.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>getprogname()</code></summary>
+					<p>
+						Tests for
+						<a href="https://man.openbsd.org/getprogname.3">getprogname(3)</a>
+						in <em>stdlib.h</em>, defining
+						<code>HAVE_GETPROGNAME</code> with the result.
+					</p>
+					<pre><code class="language-c">#include &#60;stdlib.h&#62; &#47;* getprogname *&#47;</code></pre>
+					<p>
+						Provides a compatibility function if not found.  The
+						compatibility function tries to use
+						<code>__progname</code>,
+						<code>program_invocation_short_name</code>, or
+						<code>getexecname()</code>.  If none of these interfaces may
+						be found, it will emit a compile-time error.
+						<code>HAVE_GETPROGNAME</code> shouldn&#8217;t be directly
+						used in most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>INFTIM</code></summary>
+					<p>
+						Tests for the <code>INFTIM</code> macro value in
+						<a href="https://man.openbsd.org/poll.2">poll(2)</a>,
+						defining <code>HAVE_INFTIM</code> with the result.
+					</p>
+					<pre><code class="language-c">#include &#60;poll.h&#62; &#47;* INFTIM *&#47;</code></pre>
+					<p>
+						Provides a compatibility value if not found.  Since
+						a compatibility value is provided,
+						<code>HAVE_INFTIM</code> shouldn&#8217;t be directly
+						used in most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>MD5Init()</code>, <code>MD5Update()</code>, &hellip;</summary>
+					<p>
+						Tests for the standalone
+						<a href="https://man.openbsd.org/md5.3">md5(3)</a>
+						functions, defining <code>HAVE_MD5</code> with the
+						result.
+					</p>
+					<p>
+						If not found, provides a full complement of
+						standalone (i.e., not needing any crypto libraries)
+						MD5 hashing functions.  These are
+						<code>MD5Init</code>, <code>MD5Update</code>,
+						<code>MD5Pad</code>, <code>MD5Transform</code>,
+						<code>MD5End</code>, and <code>MD5Final</code>.  The
+						preprocessor macros <code>MD5_BLOCK_LENGTH</code>,
+						<code>MD5_DIGEST_LENGTH</code>, and
+						<code>MD5_DIGEST_STRING_LENGTH</code> are also
+						defined.
+					</p>
+					<p>
+						These differ ever-so-slightly from the OpenBSD
+						versions in that they use C99 types for greater
+						portability, e.g., <code>uint8_t</code> instead of
+						<code>u_int8_t</code>.
+					</p>
+					<p>
+						If using these functions, you&#8217;ll want to guard
+						an inclusion of the system-default.  Otherwise a
+						partial <em>md5.h</em> may conflict with results, or
+						a missing <em>md5.h</em> may terminate compilation.
+					</p>
+					<pre><code class="language-c">#if HAVE_MD5
+# include &#60;sys&#47;types.h&#62;
+# include &#60;md5.h&#62;
+#endif</code></pre>
+					<p>
+						On some systems (FreeBSD or those with
+						<a href="https://www.hadrons.org/software/libmd/">Guillem Jover&#8217;s libmd</a>)
+						with <code>HAVE_MD5</code>, you&#8217;ll also need
+						to add <strong>-lmd</strong> when you compile your
+						system, else it will fail with undefined references.
+					</p>
+					<p>
+						The <code>LDADD_MD5</code> value provided in
+						<em>Makefile.configure</em> will be set to
+						<strong>-lmd</strong> if it&#8217;s required. Otherwise
+						it is empty.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>memmem()</code></summary>
+					<p>
+						Tests for
+						<a href="https://man.openbsd.org/memmem.3">memmem(3)</a> in
+						<em>string.h</em>, defining <code>HAVE_MEMMEM</code> with
+						the result.
+					</p>
+					<pre><code class="language-c">#include &#60;string.h&#62; &#47;* memmem *&#47;</code></pre>
+					<p>
+						Provides a compatibility function if not found.
+						Since a compatibility function is provided,
+						<code>HAVE_MEMMEM</code> shouldn&#8217;t be directly used in
+						most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>memrchr()</code></summary>
+					<p>
+						Tests for
+						<a href="https://man.openbsd.org/memrchr.3">memrchr(3)</a>
+						in <em>string.h</em>, defining <code>HAVE_MEMRCHR</code>
+						with the result.
+					</p>
+					<pre><code class="language-c">#include &#60;string.h&#62; &#47;* memrchr *&#47;</code></pre>
+					<p>
+						Provides a compatibility function if not found.
+						Since a compatibility function is provided,
+						<code>HAVE_MEMRCHR</code> shouldn&#8217;t be directly used
+						in most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>WAIT_ANY</code></summary>
+					<p>
+						Tests for <code>WAIT_ANY</code> in 
+						<a href="https://man.openbsd.org/waitpid.2">waitpid(2)</a>,
+						defining <code>HAVE_WAIT_ANY</code> with the result.
+					</p>
+					<pre><code class="language-c">#include &#60;sys&#47;wait.h&#62; &#47;* WAIT_ANY, WAIT_MYPGRP *&#47;</code></pre>
+					<p>
+						Provides a compatibility value for both
+						<code>WAIT_ANY</code> and <code>WAIT_MYPGRP</code>
+						if not found.  Since a compatibility function is
+						provided, <code>HAVE_WAIT_ANY</code> shouldn&#8217;t
+						be directly used in most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>mkfifoat()</code></summary>
+					<p>
+						Tests for the
+						<a href="https://man.openbsd.org/mkfifoat.3">mkfifoat(3)</a>
+						function, defining <code>HAVE_MKFIFOAT</code> with
+						the result.
+					</p>
+					<p>
+						Provides a compatibility function if not found.
+						This is <em>not</em> a direct replacement, as the
+						function is not atomic: it internally gets a
+						reference to the current directory, changes into the
+						&#8220;at&#8221; directory, runs the function, then
+						returns to the prior current.  Upon errors, it makes
+						a best effort to restore the current working
+						directory to what it was.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>mknodat()</code></summary>
+					<p>
+						Tests for the <a href="https://man.openbsd.org/mknodat.3">mknodat(3)</a>
+						function, defining <code>HAVE_MKNODAT</code> with the
+						result.
+					</p>
+					<p>
+						Provides a compatibility function if not found.
+						This is <em>not</em> a direct replacement, as the
+						function is not atomic: it internally gets a
+						reference to the current directory, changes into the
+						&#8220;at&#8221; directory, runs the function, then
+						returns to the prior current.  Upon errors, it makes
+						a best effort to restore the current working
+						directory to what it was.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>PATH_MAX</code></summary>
+					<p>
+						Tests for the <code>PATH_MAX</code> variable in
+						<em>limits.h</em>, defining
+						<code>HAVE_PATH_MAX</code> with the result.
+					</p>
+					<pre><code class="language-c">#include &#60;limits.h&#62; &#47;* PATH_MAX *&#47;</code></pre>
+					<p>
+						If not found, defines the <code>PATH_MAX</code>
+						macro to be 4096.  Since a compatibility value is
+						provided, <code>HAVE_PATH_MAX</code> shouldn&#8217;t
+						be directly used in most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>readpassphrase()</code></summary>
+					<p>
+						Tests for the
+						<a href="https://man.openbsd.org/readpassphrase.3">readpassphrase(3)</a>
+						function, defining <code>HAVE_READPASSPHRASE</code>
+						with the result.
+						The <em>readpassphrase.h</em> header
+						inclusion needs to be guarded for systems that
+						include it by default; otherwise, the definitions
+						are provided in the generated <em>config.h</em>:
+					</p>
+					<pre><code class="language-c">#if HAVE_READPASSPHRASE
+# include &#60;readpassphrase.h&#62;
+#endif</code></pre>
+					<p>
+						Provides a compatibility function if not found.  If
+						using this function, makes sure you explicitly zero
+						the passphrase buffer as described in
+						<a href="https://man.openbsd.org/readpassphrase.3">readpassphrase(3)</a>.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>reallocarray()</code></summary>
+					<p>
+						Tests for
+						<a href="https://man.openbsd.org/reallocarray.3">reallocarray(3)</a>
+						in <em>stdlib.h</em>, defining
+						<code>HAVE_REALLOCARRAY</code> with the result.
+					</p>
+					<pre><code class="language-c">#include &#60;stdlib.h&#62; &#47;* reallocarray *&#47;</code></pre>
+					<p>
+						Provides a compatibility function if not found.
+						Since a compatibility function is provided,
+						<code>HAVE_REALLOCARRAY</code> shouldn&#8217;t be
+						directly used in most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>recallocarray()</code></summary>
+					<p>
+						Tests for
+						<a href="https://man.openbsd.org/recallocarray.3">recallocarray(3)</a>
+						in <em>stdlib.h</em>, defining
+						<code>HAVE_RECALLOCARRAY</code> with the result.
+					</p>
+					<pre><code class="language-c">#include &#60;stdlib.h&#62; &#47;* recallocarray *&#47;</code></pre>
+					<p>
+						Provides a compatibility function if not found.
+						Since a compatibility function is provided,
+						<code>HAVE_RECALLOCARRAY</code> shouldn&#8217;t be
+						directly used in most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>scan_scaled()</code>, <code>fmt_scaled()</code></summary>
+					<p>
+						Tests for OpenBSD&#8217;s
+						<a href="https://man.openbsd.org/scan_scaled.3">scan_scaled(3)</a>,
+						defining <code>HAVE_SCAN_SCALED</code> if it was
+						found.
+					</p>
+					<pre><code class="language-c">#if HAVE_SCAN_SCALED
+# include &#60;util.h&#62;
+#endif</code></pre>
+					<p>
+						Provides compatibility functions if not found.  If
+						this is required, the <code>LDADD_SCAN_SCALED</code>
+						variable in <em>Makefile.configure</em> will be set
+						to the required library (<strong>-lutil</strong>).
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>SHA256Init()</code>, <code>SHA256Update()</code>, &hellip;</summary>
+					<p>
+						Tests for the standalone
+						<a href="https://man.openbsd.org/sha2.3">sha2(3)</a>
+						functions, defining <code>HAVE_SHA2</code> with the
+						result.  This was previously provided as
+						<code>HAVE_SHA2_H</code>, which still works as an
+						alias for <code>HAVE_SHA2</code>.
+					</p>
+					<p>
+						If not found, provides a full complement of
+						standalone SHA2 hashing functions.  These are
+						<code>SHA256Init()</code>, <code>SHA256Transform()</code>,
+						<code>SHA256Update()</code>, <code>SHA256Pad()</code>,
+						<code>SHA256Final()</code>, <code>SHA256End()</code>,
+						<code>SHA256File()</code>, <code>SHA256FileChunk()</code>, and
+						<code>SHA256Data()</code>.  The preprocessor macros
+						<code>SHA256_BLOCK_LENGTH</code>,
+						<code>SHA256_DIGEST_LENGTH</code>, and
+						<code>SHA256_DIGEST_STRING_LENGTH</code> are also
+						defined.
+					</p>
+					<p>
+						The SHA2 functions and macros are provided for
+						SHA256, SHA384, and SHA512. So for example the
+						<code>SHA512Final()</code> function is also provided.
+					</p>
+					<p>
+						If using these functions, you&#8217;ll want to guard an
+						inclusion of the system-default.  Otherwise a partial
+						<em>sha2.h</em> may conflict with results, or a missing
+						<em>sha2.h</em> may terminate compilation.
+					</p>
+					<pre><code class="language-c">#if HAVE_SHA2
+# include &#60;sys&#47;types.h&#62;
+# include &#60;sha2.h&#62;
+#endif</code></pre>
+					<p>
+						On some systems (such as those with
+						<a href="https://www.hadrons.org/software/libmd/">Guillem Jover&#8217;s libmd</a>)
+						with <code>HAVE_SHA2</code>, you&#8217;ll also need
+						to add <strong>-lmd</strong> when you compile your
+						system, else it will fail with undefined references.
+					</p>
+					<p>
+						The <code>LDADD_SHA2</code> value provided in
+						<em>Makefile.configure</em> will be set to
+						<strong>-lmd</strong> if it&#8217;s required. Otherwise
+						it is empty.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>strlcat()</code></summary>
+					<p>
+						Tests for
+						<a href="https://man.openbsd.org/strlcat.3">strlcat(3)</a>
+						in <em>string.h</em>, defining
+						<code>HAVE_STRLCAT</code> with the result.
+					</p>
+					<pre><code class="language-c">#include &#60;string.h&#62; &#47;* strlcat *&#47;</code></pre>
+					<p>
+						Provides a compatibility function if not found.
+						Since a compatibility function is provided,
+						<code>HAVE_STRLCAT</code> shouldn&#8217;t be
+						directly used in most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>strlcpy()</code></summary>
+					<p>
+						Tests for
+						<a href="https://man.openbsd.org/strlcpy.3">strlcpy(3)</a>
+						in <em>string.h</em>, defining
+						<code>HAVE_STRLCPY</code> with the result.
+					</p>
+					<pre><code class="language-c">#include &#60;string.h&#62; &#47;* strlcpy *&#47;</code></pre>
+					<p>
+						Provides a compatibility function if not found.
+						Since a compatibility function is provided,
+						<code>HAVE_STRLCPY</code> shouldn&#8217;t be
+						directly used in most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>strndup()</code></summary>
+					<p>
+						Tests for
+						<a href="https://man.openbsd.org/strndup.3">strndup(3)</a>
+						in <em>string.h</em>, defining <code>HAVE_STRNDUP</code>
+						with the result. 
+					</p>
+					<pre><code class="language-c">#include &#60;string.h&#62; &#47;* strndup *&#47;</code></pre>
+					<p>
+						Provides a compatibility function if not found.
+						Since a compatibility function is provided,
+						<code>HAVE_STRNDUP</code> shouldn&#8217;t be
+						directly used in most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>strnlen()</code></summary>
+					<p>
+						Tests for
+						<a href="https://man.openbsd.org/strnlen.3">strnlen(3)</a>
+						in <em>string.h</em>, defining <code>HAVE_STRNLEN</code>
+						with the result.
+					</p>
+					<pre><code class="language-c">#include &#60;string.h&#62; &#47;* strnlen *&#47;</code></pre>
+					<p>
+						Provides a compatibility function if not found.
+						Since a compatibility function is provided,
+						<code>HAVE_STRNLEN</code> shouldn&#8217;t be
+						directly used in most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>strtonum()</code></summary>
+					<p>
+						Tests for
+						<a href="https://man.openbsd.org/strtonum.3">strtonum(3)</a>
+						in <em>stdlib.h</em>, defining
+						<code>HAVE_STRTONUM</code> with the result.
+					</p>
+					<pre><code class="language-c">#include &#60;stdlib.h&#62; &#47;* strtonum *&#47;</code></pre>
+					<p>
+						Provides a compatibility function if not found.
+						Since a compatibility value is provided,
+						<code>HAVE_STRTONUM</code> shouldn&#8217;t be
+						directly used in most circumstances.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>LIST_HEAD()</code>, <code>TAILQ_HEAD()</code>, &hellip;</summary>
+					<p>
+						Tests for the
+						<a href="https://man.openbsd.org/queue.3">queue(3)</a>
+						header, <em>sys/queue.h</em>.  Defines
+						<code>HAVE_SYS_QUEUE</code> if found.  To use these
+						macros, make sure to guard inclusion:
+					</p>
+					<pre><code class="language-c">#if HAVE_SYS_QUEUE
+# include &#60;sys&#47;queue.h&#62;
+#endif</code></pre>
+					<p>
+						Provides all of the queue macros if not.  This uses
+						<code>TAILQ_FOREACH_SAFE</code> as a basis for
+						determining whether the header exists and is
+						well-formed.  This is because glibc provides a
+						skeleton <em>sys&#47;queue.h</em> without this
+						critical macro.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>SPLAY_INIT()</code>, <code>RB_INIT()</code>, &hellip;</summary>
+					<p>
+						Tests for the
+						<a href="https://man.openbsd.org/tree.3">tree(3)</a> header,
+						<em>sys/tree.h</em>.  Defines
+						<code>HAVE_SYS_TREE</code> if found.
+						To use these macros,
+						make sure to guard inclusion:
+					</p>
+					<pre><code class="language-c">#if HAVE_SYS_TREE
+# include &#60;sys&#47;tree.h&#62;
+#endif</code></pre>
+					<p>
+						Provides all of the tree macros if not found.
+					</p>
+				</details>
+				<details name="compat">
+					<summary><code>timingsafe_bcmp()</code></summary>
+					<p>
+						Tests for the
+						<a href="https://man.openbsd.org/timingsafe_bcmp.3">timingsafe_bcmp(3)</a>
+						functions in <em>string.h</em>, defining
+						<code>HAVE_TIMINGSAFE_BCMP</code> with the result.
+					</p>
+					<pre><code class="language-c">#if HAVE_TIMINGSAFE_BCMP
+# include &#60;string.h&#62; &#47;* timingsafe_bcmp... *&#47;
+#endif</code></pre>
+					<p>
+						If not found, provides compatibility functions.
+					</p>
+				</details>
+			</section>
+			<section>
+				<h4>
+					Feature tests
+				</h4>
+				<details name="features">
+					<summary>Capsicum</summary>
+					<p>
+						Tests for
+						<a href="https://www.freebsd.org">FreeBSD</a>&#8217;s
+						<a href="https://www.freebsd.org/cgi/man.cgi?capsicum(4)">Capsicum</a>
+						subsystem, defining the <code>HAVE_CAPSICUM</code> variable
+						with the result.
+					</p>
+					<pre><code class="language-c">#if HAVE_CAPSICUM
+# include &#60;sys&#47;resource.h&#62;
+# include &#60;sys&#47;capsicum.h&#62;
+#endif</code></pre>
+					<p>
+						The guard is required for systems without these headers.
+					</p>
+				</details>
+				<details name="features">
+					<summary><code>crypt()</code></summary>
+					<p>
+						On OpenBSD, passwords are managed primarily through
+						<a href="https://man.openbsd.org/crypt_newhash.3">crypt_newhash(3)</a>
+						and friends.  However, the old
+						<a href="https://man.openbsd.org/crypt.3">crypt(3)</a>
+						function is still used in portable applications.  Even
+						though it&#8217;s not very portable.
+					</p>
+					<p>
+						This tests for
+						<a href="https://man.openbsd.org/crypt.3">crypt(3)</a>,
+						defining <code>HAVE_CRYPT</code> with the result.
+					</p>
+					<p>
+						On many systems with <code>HAVE_CRYPT</code>, you&#8217;ll
+						also need to add <strong>-lcrypt</strong> when you compile your
+						system, else it will fail with undefined references.
+						The <code>LDADD_CRYPT</code> value provided in
+						<em>Makefile.configure</em> will be set to
+						<strong>-lcrypt</strong> if it&#8217;s required. Otherwise it is
+						empty.
+					</p>
+				</details>
+				<details name="features">
+					<summary>landlock</summary>
+					<p>
+						Tests for Linux&#8217;s
+						<a href="https://landlock.io/">landlock)</a> LSM.  Defines
+						<code>HAVE_LANDLOCK</code> if found.
+					</p>
+					<p>
+						<em>This test does not mean that the module is enabled.</em>
+						You&#8217;ll need to perform a run-time check for
+						<code>landlock_restrict_self()</code>&#8217;s return value in
+						your sources.
+					</p>
+					<p>
+						To actually use Landlock, you&#8217;ll need to modify your
+						system&#8217;s LSM at boot time.
+					</p>
+				</details>
+				<details name="features">
+					<summary>libsocket</summary>
+					<p>
+						On IllumOS-based distributions, all socket functions
+						(<a href="https://man.openbsd.org/bind.2">bind(2)</a>,
+						<a href="https://man.openbsd.org/listen.2">listen(2)</a>,
+						<a href="https://man.openbsd.org/socketpair.2">socketpair(2)</a>, etc.)
+						require linking to the <strong>-lsocket</strong> and
+						<strong>-lnsl</strong> libraries.
+					</p>
+					<p>
+						If this is required, the <code>LDADD_LIB_SOCKET</code>
+						variable in <em>Makefile.configure</em> will be set to the
+						required libraries.
+					</p>
+				</details>
+				<details name="features">
+					<summary><code>minor()</code>, <code>major()</code>, &hellip;</summary>
+					<p>
+						<a href="https://man.openbsd.org/major.2">major(2)</a>,
+						<a href="https://man.openbsd.org/minor.2">minor(2)</a>,
+						and
+						<a href="https://man.openbsd.org/makedev.2">makedev(2)</a>
+						all live in different places on different systems.
+					</p>
+					<pre><code class="language-c">#if HAVE_SYS_MKDEV_H
+# include &#60;sys&#47;types.h&#62; &#47;* dev_t *&#47;
+# include &#60;sys&#47;mkdev.h&#62; &#47;* minor&#47;major&#47;makedev *&#47;
+#elif HAVE_SYS_SYSMACROS_H
+# include &#60;sys&#47;sysmacros.h&#62; &#47;* minor&#47;major&#47;makedev *&#47;
+#else
+# include &#60;sys&#47;types.h&#62; &#47;* minor&#47;major&#47;makedev *&#47;
+#endif</code></pre>
+					<p>
+						This can be made much easier as follows, where
+						<code>COMPAT_MAJOR_MINOR_H</code> is set to one of the
+						above.  <em>sys&#47;types.h</em> may be included twice.
+					</p>
+					<pre><code class="language-c">#include &#60;sys&#47;types.h&#62;
+#include COMPAT_MAJOR_MINOR_H</code></pre>
+				</details>
+				<details name="features">
+					<summary><code>pledge()</code></summary>
+					<p>
+						Test for
+						<a href="https://man.openbsd.org/pledge.2">pledge(2)</a>,
+						defining <code>HAVE_PLEDGE</code> with the result.  Does not
+						provide any compatibility.
+					</p>
+					<pre><code class="language-c">#include &#60;unistd.h&#62; &#47;* pledge *&#47;</code></pre>
+					<p>
+						The <code>HAVE_PLEDGE</code> guard is not required except
+						around the function invocation.
+					</p>
+				</details>
+				<details name="features">
+					<summary><code>sandbox_init()</code></summary>
+					<p>
+						Tests for
+						<a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man3/sandbox_init.3.html">sandbox_init(3)</a>,
+						defining <code>HAVE_SANDBOX_INIT</code> with the result.
+						Does not provide any compatibility.
+					</p>
+				</details>
+				<details name="features">
+					<summary>seccomp</summary>
+					<p>
+						Tests for Linux&#8217;s
+						<a href="http://man7.org/linux/man-pages/man2/prctl.2.html">prctl(2)</a>
+						function, which is the gateway for
+						<a href="http://man7.org/linux/man-pages/man2/seccomp.2.html">seccomp(2)</a>.
+						This defines several variables:
+					</p>
+					<ul>
+						<li>
+							<code>HAVE_SECCOMP_HEADER</code>: Compile-time
+							support exists for seccomp.
+						</li>
+						<li>
+							<code>SECCOMP_AUDIT_ARCH</code>: If
+							<code>HAVE_SECCOMP_HEADER</code> is set, this is set
+							to the architecture used for seccomp operations
+							(e.g., <code>AUDIT_ARCH_ARM</code>).  If this is not
+							set and <code>HAVE_SECCOMP_HEADER</code> is set,
+							seccomp is enabled in the kernel but the hardware
+							architecture is not known by oconfigure.  Please
+							create an issue or pull request with your
+							<code class="language-sh">uname -m</code>
+							and hardware profile.
+						</li>
+						<li>
+							<code>HAVE_SECCOMP_FILTER</code>: Set if both
+							<code>HAVE_SECCOMP_HEADER</code> and
+							<code>SECCOMP_AUDIT_ARCH</code> are set.
+						</li>
+					</ul>
+					<p>
+						<em>This test does not mean that the sandboxing is
+						enabled.</em> You&#8217;ll need to perform a run-time check
+						for <code>prctl()</code>&#8217;s return value in your sources.
+					</p>
+				</details>
+				<details name="features">
+					<summary><code>SOCK_NONBLOCK</code></summary>
+					<p>
+						Tests for
+						<a href="https://man.openbsd.org/socketpair.2">socketpair(2)</a>
+						in <em>sys&#47;socket.h</em> supporting the
+						<code>SOCK_NONBLOCK</code> mask as found on OpenBSD.
+						Defines the <code>HAVE_SOCK_NONBLOCK</code> variable.
+					</p>
+					<pre><code class="language-c">#if HAVE_SOCK_NONBLOCK
+	socketpair(AF_UNIX, flags|SOCK_NONBLOCK, 0, fd);
+#else
+	socketpair(AF_UNIX, flags, 0, fd);
+	fcntl(fd[0], F_SETFL, 
+	fcntl(fd[0], F_GETFL, 0)|O_NONBLOCK);
+	fcntl(fd[1], F_SETFL, 
+	fcntl(fd[1], F_GETFL, 0)|O_NONBLOCK);
+#endif</code></pre>
+					<p>
+						The guard is not required only around the variable usage,
+						not header inclusion.  However, the above example could have
+						the <em>fcntl.h</em> header guarded by
+						<code>!HAVE_SOCK_NONBLOCK</code>.
+					</p>
+				</details>
+				<details name="features">
+					<summary>systrace</summary>
+					<p>
+						Tests for the deprecated systrace(4) interface.  Defines
+						<code>HAVE_SYSTRACE</code> if found.  Does not provide any
+						compatibility.
+					</p>
+					<p>
+						This function is never &#8220;found&#8221;.
+					</p>
+				</details>
+				<details name="features">
+					<summary>termios</summary>
+					<p>
+						Tests for whether
+						<a href="https://man.openbsd.org/termios.4">termios(4)</a>
+						exists, defining <code>HAVE_TERMIOS</code> with the result,
+						specifically with the use case of testing terminal widths
+						via <a href="https://man.openbsd.org/ioctl.2">ioctl(2)</a>
+						and <code>TIOCGWINSZ</code> (which must also exist).  Does
+						not provide any compaibility.
+					</p>
+				</details>
+				<details name="features">
+					<summary><code>unveil()</code></summary>
+					<p>
+						Test for
+						<a href="https://man.openbsd.org/unveil.2">unveil(2)</a>,
+						defining <code>HAVE_UNVEIL</code> with the result.  Does not
+						provide any compatibility.
+					</p>
+					<pre><code class="language-c">#include &#60;unistd.h&#62; &#47;* unveil *&#47;</code></pre>
+					<p>
+						The <code>HAVE_UNVEIL</code> guard is not required except
+						around the function invocation.
+					</p>
+				</details>
+			</section>
+		</article>
+		<h3 id="options">
+			Configuration options and environment
+		</h3>
+		<p>
+			The following key-value pairs may be passed into the
+			<em>configure</em> script to either affect feature testing, choice of
+			environment (via the compiler), or simply be passed unchanged into the
+			generated <em>Makefile.configure</em>.
+			They may subsequently be used by the including <em>Makefile</em> for
+			portably building software.
+		</p>
+		<p>
+			Tools&hellip;
+		</p>
+		<details>
+			<summary>
+				<code class="nohighlight">AR</code>: static library archiver
+			</summary>
+			<p>
+				Uses system defaults (dictated by
+				<a href="https://man.openbsd.org/make">make</a>) or as overridden by the
+				environment.
+				Be careful: used to determine build-time environment (cross-compiling).
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">CC</code>: C compiler
+			</summary>
+			<p>
+				Uses system defaults (dictated by
+				<a href="https://man.openbsd.org/make">make</a>) or as overridden by the
+				environment.
+				If not provided, <code class="language-sh">cc</code>,
+				<code class="language-sh">clang</code> and
+				<code class="language-sh">gcc</code> are tested before giving up.
+				Be careful: used to determine build-time environment (cross-compiling).
+			</p>
+		</details>
+		<p>
+			Flags&hellip;
+		</p>
+		<details>
+			<summary>
+				<code class="nohighlight">CFLAGS</code>: C compiler flags
+			</summary>
+			<p>
+				Used for compiling objects.
+				Uses system defaults (dictated by
+				<a href="https://man.openbsd.org/make">make</a>) or as overridden by the
+				environment.
+				Defaults to having <strong>-g -W -Wall -Wextra -Wmissing-prototypes
+				-Wstrict-prototypes -Wwrite-strings -Wno-unused-parameter</strong>.
+				Be careful: used to determine build-time environment (cross-compiling).
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">CPPFLAGS</code>: C preprocessor flags
+			</summary>
+			<p>
+				Used for pre-compiling objects.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">LDADD</code>: <strong>-l</strong>
+				libraries and flags usually used for linking binaries
+			</summary>
+			<p>
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">LDFLAGS</code>: <strong>-L</strong> linker
+				flags used for linking
+			</summary>
+			<p>
+				Disregarded if found in the environment.
+				Be careful: used to determine build-time environment (cross-compiling).
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">LDLIBS</code>: <strong>-l</strong>
+				libraries and flags usually used for linking shared libraries
+			</summary>
+			<p>
+				<code class="nohighlight">LIBADD</code> is sometimes used for this.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">LINKER_SOFLAG</code>: linker flag to
+				create shared libraries
+			</summary>
+			<p>
+				Defaults to <strong>-shared</strong> or <strong>-dynamiclib</strong>,
+				depending on whether non-Apple.
+				Determined by invoking the compiler.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">LINKER_SONAME</code>: linker command used
+				to create shared libraries
+			</summary>
+			<p>
+				Defaults to <strong>-soname</strong> or <strong>-install_name</strong>,
+				depending on whether non-Apple.
+				Determined by invoking the compiler.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">LINKER_SOSUFFIX</code>: suffix for shared
+				libraries 
+			</summary>
+			<p>
+				Defaults to <strong>so</strong> or <strong>dylib</strong>,
+				depending on whether non-Apple.
+				Determined by invoking the compiler and switching on
+				<code class="nohighlight">LINKER_SOFLAG</code>.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<p>
+			Directories&hellip;
+		</p>
+		<details>
+			<summary>
+				<code class="nohighlight">DESTDIR</code>: install directory fake
+				root
+			</summary>
+			<p>
+				Prefixed to all install directories during installation.
+				Not otherwise affecting install directories.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">INCLUDEDIR</code>: install directory for
+				header files 
+			</summary>
+			<p>
+				Defaults to <em>PREFIX/include</em>.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">BINDIR</code>: install directory
+				for binaries
+			</summary>
+			<p>
+				Defaults to <em>PREFIX/bin</em>.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">LIBDIR</code>: install directory for
+				libraries
+			</summary>
+			<p>
+				Defaults to <em>PREFIX/ib</em>.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">MANDIR</code>: install directory for
+				manpages
+			</summary>
+			<p>
+				Defaults to <em>PREFIX/man</em>.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">PREFIX</code>: directory for default
+				install directories
+			</summary>
+			<p>
+				Defaults to <em>/usr/local</em>.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">SBINDIR</code>: install directory for
+				system binaries
+			</summary>
+			<p>
+				Defaults to <em>PREFIX/sbin</em>.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<details>
+			<summary>
+				<code class="nohighlight">SHAREDIR</code>: install directory for
+				shared files 
+			</summary>
+			<p>
+				Defaults to <em>PREFIX/share</em>.
+				Disregarded if found in the environment.
+			</p>
+		</details>
+		<p>
+			Any extra key-value assignment pairs are passed unchanged
+			and unquoted, one per line, to the generated <em>Makefile.configure</em>.
+		</p>
+		<h3 id="libbsd">
+			libbsd
+		</h3>
+		<p>
+			For Linux users with
+			<a href="https://libbsd.freedesktop.org">libbsd</a> installed,
+			<span class="nm">oconfigure</span> can be instructed to use libbsd
+			exclusively as follows:
+		</p>
+		<pre><code class="language-sh">./configure LDFLAGS=$(pkg-config --libs libbsd-overlay) \
+	CFLAGS=$(pkg-config --cflags libbsd-overlay)</code></pre>
+		<p>
+			For new versions of libbsd, this will pull in the library for all
+			compatibility replacements instead of those within <em>compats.c</em>.
+		</p>
+		<h3 id="shared-libraries">
+			Shared libraries
+		</h3>
+		<p>
+			For shared library generation, the
+			<code class="nohighlight">LINKER_SONAME</code>,
+			<code class="nohighlight">LINKER_SOFLAG</code>, and
+			<code class="nohighlight">LINKER_SOSUFFIX</code> variables are set in the
+			generated <em>Makefile.configure</em> to assist in Mac OS X portability.  To
+			further complicate issues, the order of suffix parts in Mac OS X is
+			different from every other system.
+		</p>
+		<p>
+			Generating a shared library version 3 named <em>lib</em> from <em>lib.c</em>
+			might look like in your Makefile:
+		</p>
+		<pre><code class="language-mk">lib.o: lib.c
+	$(CC) -fPIC -o lib.o -c lib.c
+
+.if $(LINKER_SOSUFFIX) == "dylib"
+SUFFIX = 3.$(LINKER_SOSUFFIX)
+.else
+SUFFIX = $(LINKER_SOSUFFIX).3
+.endif
+
+lib.$(SUFFIX): lib.o
+	$(CC) $(LINKER_SOFLAG) -o lib.$(SUFFIX) \
+		-Wl,$(LINKER_SONAME),lib.$(SUFFIX) lib.o
+
+lib.$(LINKER_SOSUFFIX): lib.$(SUFFIX)
+	ln -sf lib.$(SUFFIX) $@</code></pre>
+		<p>
+			The choice of <strong>-fPIC</strong> or <strong>-fpic</strong> is left for
+			the user.
+		</p>
+		<p>
+			The suffix and flag only apply to shared libraries: dynamically-loaded
+			libraries use <strong>-shared</strong> and <strong>so</strong> on all Unix-like
+			systems.
+		</p>
+		<h3 id="static-binaries">Static binaries</h3>
+		<p>
+			Static libraries may be built on all platforms, but Mac OS X does not allow
+			creating static binaries.  The <code class="nohighlight">LDADD_STATIC</code>
+			variable is set in the generated <em>Makefile.configure</em> to either be
+			<strong>-static</strong> on conforming systems or empty on Mac OS X.
+		</p>
+		<pre><code class="language-mk">lib.o: lib.c
+	$(CC) -fPIC -o lib.o -c lib.c
+
+lib.a: lib.o
+	$(AR) rcs lib.a lib.o
+
+test: lib.a
+	$(CC) $(LDADD_STATIC) -o test lib.a</code></pre>
+		<footer>
+			&copy; <a rel="author" href="https://github.com/kristapsdz">Kristaps Dzonsons</a>
+		</footer>
+	</body>
+</html>
