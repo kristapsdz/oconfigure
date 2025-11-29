@@ -1,5 +1,32 @@
 This file describes version information of this project.
 
+## 2.0.0
+
+Implement parallel configuration by adding a **-j** flag, which can
+either be set to a non-zero number of parallel tasks or, if zero or
+empty, will maximise all available processors.  The default is one,
+which is the current behaviour.
+
+Parallelism works by having each configuration subprocess write its
+results into temporary directory.  These are collected safely by the
+parent process.
+
+Also add a help message with **-h** that prints all recognised flags and
+key-value pairs.
+
+The script has been heavily shell-checked as well, which has resulted in
+some fixes:
+
+- `DESTDIR` was missing from `Makefile.configure`
+- `HAVE_SYS_SYSMACROS_H` was not properly initialised (harmless)
+
+Solaris has been fully removed, as it's not a useful target.
+
+DragonFlyBSD has been added as a supported target.
+
+The documentation has been moved from the GitHub README to its own
+[website](https://kristaps.bsd.lv/oconfigure).
+
 ## 1.0.0
 
 First general release.  **oconfigure** has been used on many, many
