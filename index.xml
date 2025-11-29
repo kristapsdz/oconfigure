@@ -112,6 +112,13 @@
 				inclusion in your sources
 			</li>
 		</ol>
+		<p>
+			<span class="nm">oconfigure</span> is used on a fair amount of software
+			written with OpenBSD as a basis, such as
+			<a href="https://kristaps.bsd.lv/kcgi">kcgi</a>,
+			<a href="https://kristaps.bsd.lv/lowdown">lowdown</a>,
+			etc.
+		</p>
 		<h2>
 			Usage
 		</h2>
@@ -406,6 +413,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 					<p>
 						This will paste the appropriate location.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-endian_h.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>err()</code>, <code>warn()</code>, &hellip;</summary>
@@ -439,6 +450,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						nothing, so will not define <code>HAVE_ERR</code> in
 						this case.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_err.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-err.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>explicit_bzero()</code></summary>
@@ -456,6 +472,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						if found.  <code>HAVE_EXPLICIT_BZERO</code>
 						shouldn&#8217;t be directly used in most
 						circumstances.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_explicit_bzero.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-explicit_bzero.c">test</a>
 					</p>
 				</details>
 				<details name="compat">
@@ -478,6 +499,12 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 					<p>
 						Provides compatibility functions if not found.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_fts.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/configure-fts.h">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-fts.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>getprogname()</code></summary>
@@ -498,6 +525,14 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						<code>HAVE_GETPROGNAME</code> shouldn&#8217;t be directly
 						used in most circumstances.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_getprogname.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-getprogname.c">test</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-getexecname.c">test</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-__progname.c">test</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-program_invocation_short_name.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>INFTIM</code></summary>
@@ -512,6 +547,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						a compatibility value is provided,
 						<code>HAVE_INFTIM</code> shouldn&#8217;t be directly
 						used in most circumstances.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-INFTIM.c">test</a>
 					</p>
 				</details>
 				<details name="compat">
@@ -563,6 +602,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						<strong>-lmd</strong> if it&#8217;s required. Otherwise
 						it is empty.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_md5.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-md5.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>memmem()</code></summary>
@@ -578,6 +622,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						Since a compatibility function is provided,
 						<code>HAVE_MEMMEM</code> shouldn&#8217;t be directly used in
 						most circumstances.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_memmem.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-memmem.c">test</a>
 					</p>
 				</details>
 				<details name="compat">
@@ -595,6 +644,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						<code>HAVE_MEMRCHR</code> shouldn&#8217;t be directly used
 						in most circumstances.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_memrchr.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-memrchr.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>WAIT_ANY</code></summary>
@@ -610,6 +664,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						if not found.  Since a compatibility function is
 						provided, <code>HAVE_WAIT_ANY</code> shouldn&#8217;t
 						be directly used in most circumstances.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-WAIT_ANY.c">test</a>
 					</p>
 				</details>
 				<details name="compat">
@@ -630,6 +688,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						a best effort to restore the current working
 						directory to what it was.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_mkfifoat.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-mkfifoat.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>mknodat()</code></summary>
@@ -648,6 +711,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						a best effort to restore the current working
 						directory to what it was.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_mknodat.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-mknodat.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>PATH_MAX</code></summary>
@@ -662,6 +730,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						macro to be 4096.  Since a compatibility value is
 						provided, <code>HAVE_PATH_MAX</code> shouldn&#8217;t
 						be directly used in most circumstances.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-PATH_MAX.c">test</a>
 					</p>
 				</details>
 				<details name="compat">
@@ -685,6 +757,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						the passphrase buffer as described in
 						<a href="https://man.openbsd.org/readpassphrase.3">readpassphrase(3)</a>.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_readpassphrase.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-readpassphrase.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>reallocarray()</code></summary>
@@ -701,6 +778,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						<code>HAVE_REALLOCARRAY</code> shouldn&#8217;t be
 						directly used in most circumstances.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_reallocarray.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-reallocarray.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>recallocarray()</code></summary>
@@ -716,6 +798,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						Since a compatibility function is provided,
 						<code>HAVE_RECALLOCARRAY</code> shouldn&#8217;t be
 						directly used in most circumstances.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_recallocarray.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-recallocarray.c">test</a>
 					</p>
 				</details>
 				<details name="compat">
@@ -734,6 +821,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						this is required, the <code>LDADD_SCAN_SCALED</code>
 						variable in <em>Makefile.configure</em> will be set
 						to the required library (<strong>-lutil</strong>).
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_scan_scaled.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-scan_scaled.c">test</a>
 					</p>
 				</details>
 				<details name="compat">
@@ -787,6 +879,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						<strong>-lmd</strong> if it&#8217;s required. Otherwise
 						it is empty.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_sha2.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-sha2.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>strlcat()</code></summary>
@@ -802,6 +899,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						Since a compatibility function is provided,
 						<code>HAVE_STRLCAT</code> shouldn&#8217;t be
 						directly used in most circumstances.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_strlcat.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-strlcat.c">test</a>
 					</p>
 				</details>
 				<details name="compat">
@@ -819,6 +921,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						<code>HAVE_STRLCPY</code> shouldn&#8217;t be
 						directly used in most circumstances.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_strlcpy.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-strlcpy.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>strndup()</code></summary>
@@ -834,6 +941,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						Since a compatibility function is provided,
 						<code>HAVE_STRNDUP</code> shouldn&#8217;t be
 						directly used in most circumstances.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_strndup.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-strndup.c">test</a>
 					</p>
 				</details>
 				<details name="compat">
@@ -851,6 +963,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						<code>HAVE_STRNLEN</code> shouldn&#8217;t be
 						directly used in most circumstances.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_strnlen.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-strnlen.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>strtonum()</code></summary>
@@ -866,6 +983,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						Since a compatibility value is provided,
 						<code>HAVE_STRTONUM</code> shouldn&#8217;t be
 						directly used in most circumstances.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_strotnum.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-strotnum.c">test</a>
 					</p>
 				</details>
 				<details name="compat">
@@ -888,6 +1010,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						skeleton <em>sys&#47;queue.h</em> without this
 						critical macro.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/configure-sys_queue.h">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-sys_queue.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>SPLAY_INIT()</code>, <code>RB_INIT()</code>, &hellip;</summary>
@@ -905,6 +1032,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 					<p>
 						Provides all of the tree macros if not found.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/configure-sys_tree.h">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-sys_tree.c">test</a>
+					</p>
 				</details>
 				<details name="compat">
 					<summary><code>timingsafe_bcmp()</code></summary>
@@ -919,6 +1051,11 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 #endif</code></pre>
 					<p>
 						If not found, provides compatibility functions.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/compat_timingsafe_bcmp.c">compat</a>,
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-timingsafe_bcmp.c">test</a>
 					</p>
 				</details>
 			</section>
@@ -967,6 +1104,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						<strong>-lcrypt</strong> if it&#8217;s required. Otherwise it is
 						empty.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-crypt.c">test</a>
+					</p>
 				</details>
 				<details name="features">
 					<summary>landlock</summary>
@@ -984,6 +1125,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 					<p>
 						To actually use Landlock, you&#8217;ll need to modify your
 						system&#8217;s LSM at boot time.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-landlock.c">test</a>
 					</p>
 				</details>
 				<details name="features">
@@ -1040,6 +1185,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						The <code>HAVE_PLEDGE</code> guard is not required except
 						around the function invocation.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-pledge.c">test</a>
+					</p>
 				</details>
 				<details name="features">
 					<summary><code>sandbox_init()</code></summary>
@@ -1048,6 +1197,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						<a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man3/sandbox_init.3.html">sandbox_init(3)</a>,
 						defining <code>HAVE_SANDBOX_INIT</code> with the result.
 						Does not provide any compatibility.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-sandbox_init.c">test</a>
 					</p>
 				</details>
 				<details name="features">
@@ -1087,6 +1240,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						enabled.</em> You&#8217;ll need to perform a run-time check
 						for <code>prctl()</code>&#8217;s return value in your sources.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-seccomp_filter.c">test</a>
+					</p>
 				</details>
 				<details name="features">
 					<summary><code>SOCK_NONBLOCK</code></summary>
@@ -1112,6 +1269,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						the <em>fcntl.h</em> header guarded by
 						<code>!HAVE_SOCK_NONBLOCK</code>.
 					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-SOCK_NONBLOCK.c">test</a>
+					</p>
 				</details>
 				<details name="features">
 					<summary>systrace</summary>
@@ -1122,6 +1283,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 					</p>
 					<p>
 						This function is never &#8220;found&#8221;.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-systrace.c">test</a>
 					</p>
 				</details>
 				<details name="features">
@@ -1134,6 +1299,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 						via <a href="https://man.openbsd.org/ioctl.2">ioctl(2)</a>
 						and <code>TIOCGWINSZ</code> (which must also exist).  Does
 						not provide any compaibility.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-termios.c">test</a>
 					</p>
 				</details>
 				<details name="features">
@@ -1148,6 +1317,10 @@ dst[c] = &#39;\0&#39;; &#47;* NUL termination *&#47;</code></pre>
 					<p>
 						The <code>HAVE_UNVEIL</code> guard is not required except
 						around the function invocation.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-unveil.c">test</a>
 					</p>
 				</details>
 			</section>
