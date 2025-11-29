@@ -12,7 +12,7 @@ jobs:
         cat /etc/os-release
         ./configure -j0
         shellcheck configure
-        grep '^#define HAVE_' config.h | sort > config.h.sorted
+        grep '^#define HAVE_' config.h | sort -s > config.h.sorted
         cmp config.h.sorted expected/config-linux.h
         cat config.log
     - name: Build and test
@@ -28,8 +28,8 @@ jobs:
       run: |
         cat /etc/os-release
         ./configure -j0 CFLAGS="$(pkg-config --cflags libbsd-overlay)" CPPFLAGS="-DENABLE_SECCOMP_FILTER=1" LDFLAGS="$(pkg-config --libs libbsd-overlay)"
-        grep '^#define HAVE_' config.h | sort > config.h.sorted
-        grep '^#define HAVE_' config.h | sort
+        grep '^#define HAVE_' config.h | sort -s > config.h.sorted
+        grep '^#define HAVE_' config.h | sort -s
         cmp config.h.sorted expected/config-linux_libbsd.h
         cat config.log
     - name: Build and test
@@ -42,7 +42,7 @@ jobs:
     - name: Configure
       run: |
         ./configure -j0
-        grep '^#define HAVE_' config.h | sort > config.h.sorted
+        grep '^#define HAVE_' config.h | sort -s > config.h.sorted
         cmp config.h.sorted expected/config-macos.h
         cat config.log
     - name: Build and test
@@ -60,7 +60,7 @@ jobs:
         run: |
           freebsd-version
           ./configure -j0
-          grep '^#define HAVE_' config.h | sort > config.h.sorted
+          grep '^#define HAVE_' config.h | sort -s > config.h.sorted
           cmp config.h.sorted expected/config-freebsd.h
           cat config.log
           make regress
@@ -74,7 +74,7 @@ jobs:
         usesh: true
         run: |
           ./configure -j0
-          grep '^#define HAVE_' config.h | sort > config.h.sorted
+          grep '^#define HAVE_' config.h | sort -s > config.h.sorted
           cmp config.h.sorted expected/config-dragonflybsd.h
           cat config.log
           make regress
@@ -90,7 +90,7 @@ jobs:
         run: |
           uname -a
           ./configure -j0
-          grep '^#define HAVE_' config.h | sort > config.h.sorted
+          grep '^#define HAVE_' config.h | sort -s > config.h.sorted
           cmp config.h.sorted expected/config-netbsd.h
           cat config.log
           make regress
@@ -108,7 +108,7 @@ jobs:
         run: |
           uname -a
           ./configure -j0
-          grep '^#define HAVE_' config.h | sort > config.h.sorted
+          grep '^#define HAVE_' config.h | sort -s > config.h.sorted
           cmp config.h.sorted expected/config-omnios.h
           cat config.log
           make regress
