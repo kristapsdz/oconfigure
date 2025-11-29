@@ -29,6 +29,7 @@ jobs:
         cat /etc/os-release
         ./configure -j0 CFLAGS="$(pkg-config --cflags libbsd-overlay)" CPPFLAGS="-DENABLE_SECCOMP_FILTER=1" LDFLAGS="$(pkg-config --libs libbsd-overlay)"
         grep '^#define HAVE_' config.h | sort > config.h.sorted
+        grep '^#define HAVE_' config.h | sort
         cmp config.h.sorted expected/config-linux_libbsd.h
         cat config.log
     - name: Build and test
