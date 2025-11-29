@@ -1,4 +1,4 @@
-WWWDIR	= /var/www/vhosts/kristaps.bsd.lv/htdocs/lowdown
+WWWDIR	= /var/www/vhosts/kristaps.bsd.lv/htdocs/oconfigure
 sinclude Makefile.regen.local
 VERSION	= 1.0.0
 COMPATS	= compat_arc4random.c \
