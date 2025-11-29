@@ -108,7 +108,7 @@ jobs:
         run: |
           uname -a
           ./configure -j0
-          grep '^#define HAVE_' config.h | sort -s > config.h.sorted
+          grep '^#define HAVE_' config.h | sort > config.h.sorted
           cmp config.h.sorted expected/config-omnios.h
           cat config.log
           make regress
