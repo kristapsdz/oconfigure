@@ -98,7 +98,7 @@ done
 # exit.  This simplifies the script from needing to tidy up everything
 # directly.
 
-TMPROOT=$(mktemp -d) || exit 1
+TMPROOT=$(mktemp -d -t tmproot.XXXXXX) || exit 1
 # shellcheck disable=SC2064
 trap "rm -rf \"$TMPROOT\"" EXIT
 
