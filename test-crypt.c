@@ -1,4 +1,4 @@
-#if defined(__linux__) || defined(__wasi__)
+#if defined(__linux__) || defined(__wasi__) || defined(__GNU__)
 # define _DEFAULT_SOURCE /* new glibc */
 # define _XOPEN_SOURCE /* old glibc */
 #endif
