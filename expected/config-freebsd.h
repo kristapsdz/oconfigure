@@ -4,7 +4,7 @@
 #define HAVE_CAPSICUM 1
 #define HAVE_CRYPT 1
 #define HAVE_CRYPT_NEWHASH 0
-#define HAVE_ENDIAN_H 0
+#define HAVE_ENDIAN_H 1
 #define HAVE_ERR 1
 #define HAVE_EXPLICIT_BZERO 1
 #define HAVE_FTS 1
