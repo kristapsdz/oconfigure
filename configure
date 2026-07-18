@@ -98,7 +98,9 @@ done
 # exit.  This simplifies the script from needing to tidy up everything
 # directly.
 
-TMPROOT=$(mktemp -d -t tmproot.XXXXXX) || exit 1
+# Use the "-d -t oconfigure.XXXXXXX" for compliance with old macOS,
+# which has a weird mktemp that behaves unlike most others.
+TMPROOT=$(mktemp -d -t oconfigure.XXXXXXXX) || exit 1
 # shellcheck disable=SC2064
 trap "rm -rf \"$TMPROOT\"" EXIT
 

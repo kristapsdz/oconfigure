@@ -1,5 +1,9 @@
 This file describes version information of this project.
 
+## 2.0.1
+
+Fix `mktemp` so that it works on old macOS systems.
+
 ## 2.0.0
 
 Implement parallel configuration by adding a **-j** flag, which can
