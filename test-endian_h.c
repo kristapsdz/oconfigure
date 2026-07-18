@@ -1,4 +1,4 @@
-#if defined(__linux__) || defined(__wasi__)
+#if defined(__linux__) || defined(__wasi__) || defined(__GNU__)
 # define _DEFAULT_SOURCE
 #endif
 #include <endian.h>
