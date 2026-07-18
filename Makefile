@@ -139,7 +139,7 @@ regress: $(REGRESS)
 	do \
 		printf "%s... " "$$f" ; \
 		set +e ; \
-		./$$f 2>/dev/null ; \
+		./$$f ; \
 		if [ $$? -ne 0 ]; then \
 			echo "FAIL"; \
 			exit 1 ; \

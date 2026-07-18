@@ -5,6 +5,7 @@
 # include <md5.h>
 #endif
 
+#include <stdio.h> /* strcmp */
 #include <string.h> /* strcmp */
 
 int 
@@ -18,6 +19,8 @@ main(void)
 	MD5Update(&ctx, (const uint8_t *)"abcd", 4);
 	MD5Final(digest, &ctx);
 	MD5End(&ctx, result);
+
+	fprintf(stderr, "%s, %s\n", result, "b0e641c998cc3eae6fa2f8726d98cddd");
 
 	if (strcmp(result, "b0e641c998cc3eae6fa2f8726d98cddd"))
 		return 1;
