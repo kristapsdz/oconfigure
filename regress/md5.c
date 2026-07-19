@@ -5,7 +5,6 @@
 # include <md5.h>
 #endif
 
-#include <stdio.h> /* strcmp */
 #include <string.h> /* strcmp */
 
 int 
@@ -13,16 +12,12 @@ main(void)
 {
 	MD5_CTX ctx;
 	char result[MD5_DIGEST_STRING_LENGTH];
-	uint8_t digest[MD5_DIGEST_LENGTH];
 
 	MD5Init(&ctx);
 	MD5Update(&ctx, (const uint8_t *)"abcd", 4);
-	MD5Final(digest, &ctx);
 	MD5End(&ctx, result);
 
-	fprintf(stderr, "%s, %s\n", result, "b0e641c998cc3eae6fa2f8726d98cddd");
-
-	if (strcmp(result, "b0e641c998cc3eae6fa2f8726d98cddd"))
+	if (strcmp(result, "e2fc714c4727ee9395f324cd2e7f331f"))
 		return 1;
 
 	return 0;
