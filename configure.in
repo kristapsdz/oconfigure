@@ -1191,6 +1191,10 @@ then
 __HEREDOC__
 fi
 
+cat << __HEREDOC__
+@CONFIGURE_CDEFS@
+__HEREDOC__
+
 if [ "$HAVE_CRYPT_NEWHASH" -eq 0 ]
 then
 	cat << __HEREDOC__

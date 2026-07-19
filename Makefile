@@ -12,6 +12,7 @@ REGRESS_SCAN_SCALED	= regress/scan_scaled
 REGRESS_NODEP		= regress/arc4random \
 			  regress/blowfish \
 			  regress/capsicum \
+			  regress/cdefs \
 			  regress/crypt_newhash \
 			  regress/endian \
 			  regress/err \
@@ -58,6 +59,7 @@ SRCS			= regress/md5.c \
 			  regress/arc4random.c \
 			  regress/blowfish.c \
 			  regress/capsicum.c \
+			  regress/cdefs.c \
 			  regress/crypt_newhash.c \
 			  regress/endian.c \
 			  regress/err.c \

@@ -256,6 +256,24 @@ int main(void) {
 					Compatibility functions
 				</h4>
 				<details name="compat">
+					<summary><code>__dead</code>, <code>__unused</code>, &hellip;</summary>
+					<p>
+						Compatibility for BSD-style
+						<code>__dead</code>,
+						<code>__pure</code>,
+						<code>__used</code>,
+						and
+						<code>__unused</code>
+						macros.
+						If not already defined, these are defined using the compiler's
+						<code>__attribute__</code> statements.
+					</p>
+					<p>
+						Source:
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/configure-cdefs.h">compat</a>.
+					</p>
+				</details>
+				<details name="compat">
 					<summary><code>arc4random()</code>, &hellip;</summary>
 					<p>
 						Tests and compatibility for
