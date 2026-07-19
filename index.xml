@@ -267,10 +267,13 @@ int main(void) {
 						macros.
 						If not already defined, these are defined using the compiler's
 						<code>__attribute__</code> statements.
+						This tests for <code>sys/cdefs.h</code> for this, defining
+						<code>HAVE_SYS_CDEFS_H</code>, but this should ordinarily not be used.
 					</p>
 					<p>
 						Source:
 						<a href="https://github.com/kristapsdz/oconfigure/blob/master/configure-cdefs.h">compat</a>.
+						<a href="https://github.com/kristapsdz/oconfigure/blob/master/test-sys_cdefs_h.c">test</a>
 					</p>
 				</details>
 				<details name="compat">

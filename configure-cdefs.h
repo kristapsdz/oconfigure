@@ -1,4 +1,6 @@
-#include <sys/cdefs.h>
+#ifdef HAVE_SYS_CDEFS_H
+# include <sys/cdefs.h>
+#endif
 
 #ifndef __dead
 # define __dead __attribute__((__noreturn__))

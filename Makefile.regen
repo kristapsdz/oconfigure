@@ -71,6 +71,7 @@ TESTS	= test-__progname.c \
 	  test-strnlen.c \
 	  test-strtonum.c \
 	  test-sys_byteorder_h.c \
+	  test-sys_cdefs_h.c \
 	  test-sys_endian_h.c \
 	  test-sys_mkdev_h.c \
 	  test-sys_queue.c \

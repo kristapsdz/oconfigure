@@ -439,6 +439,7 @@ HAVE_STRNDUP=
 HAVE_STRNLEN=
 HAVE_STRTONUM=
 HAVE_SYS_BYTEORDER_H=
+HAVE_SYS_CDEFS_H=
 HAVE_SYS_ENDIAN_H=
 HAVE_SYS_MKDEV_H=
 HAVE_SYS_QUEUE=
@@ -627,6 +628,7 @@ runtest strndup		STRNDUP				  || true
 runtest strnlen		STRNLEN				  || true
 runtest strtonum	STRTONUM			  || true
 runtest sys_byteorder_h	SYS_BYTEORDER_H			  || true
+runtest sys_cdefs_h	SYS_CDEFS_H		  	  || true
 runtest sys_endian_h	SYS_ENDIAN_H			  || true
 runtest sys_mkdev_h	SYS_MKDEV_H			  || true
 runtest sys_sysmacros_h	SYS_SYSMACROS_H			  || true
@@ -699,6 +701,7 @@ cat << __HEREDOC__
 #define HAVE_STRNLEN ${HAVE_STRNLEN}
 #define HAVE_STRTONUM ${HAVE_STRTONUM}
 #define HAVE_SYS_BYTEORDER_H ${HAVE_SYS_BYTEORDER_H}
+#define HAVE_SYS_CDEFS_H ${HAVE_SYS_CDEFS_H}
 #define HAVE_SYS_ENDIAN_H ${HAVE_SYS_ENDIAN_H}
 #define HAVE_SYS_MKDEV_H ${HAVE_SYS_MKDEV_H}
 #define HAVE_SYS_QUEUE ${HAVE_SYS_QUEUE}
@@ -2622,7 +2625,9 @@ __HEREDOC__
 fi
 
 cat << __HEREDOC__
-#include <sys/cdefs.h>
+#ifdef HAVE_SYS_CDEFS_H
+# include <sys/cdefs.h>
+#endif
 
 #ifndef __dead
 # define __dead __attribute__((__noreturn__))

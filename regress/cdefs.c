@@ -1,6 +1,8 @@
 #include "../config.h"
 
-#include <sys/cdefs.h>
+#ifdef HAVE_SYS_CDEFS_H
+# include <sys/cdefs.h>
+#endif
 #include <stdlib.h>
 
 __dead __used static void
