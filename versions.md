@@ -1,8 +1,10 @@
 This file describes version information of this project.
 
-## 2.0.1
+## 2.1.0
 
 Fix `mktemp` so that it works on old macOS systems.
+
+Add compatibility for `__dead` and the other BSD `sys/cdefs.h` macros.
 
 ## 2.0.0
 
