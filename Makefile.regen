@@ -81,8 +81,8 @@ TESTS	= test-__progname.c \
 	  test-timingsafe_bcmp.c \
 	  test-unveil.c \
 	  test-WAIT_ANY.c
-HEADERS = configure-cdefs.h \
-	  configure-fts.h \
+HEADERS = configure-fts.h \
+	  configure-sys_cdefs.h \
 	  configure-sys_queue.h \
 	  configure-sys_tree.h
 
@@ -100,7 +100,7 @@ configure: configure.in Makefile.regen $(HEADERS)
 	  sed -e 's!\\$$!\\\\!g' -e 's!\$$!\\$$!g' configure-fts.h ; \
 	  sed '1,/^@CONFIGURE_FTS_H@$$/d' configure.2 ; ) > configure.3
 	( sed -n '/^@CONFIGURE_CDEFS@$$/!p;//q' configure.3 ; \
-	  sed -e 's!\\$$!\\\\!g' -e 's!\$$!\\$$!g' configure-cdefs.h ; \
+	  sed -e 's!\\$$!\\\\!g' -e 's!\$$!\\$$!g' configure-sys_cdefs.h ; \
 	  sed '1,/^@CONFIGURE_CDEFS@$$/d' configure.3 ; ) > configure.4
 	sed "s!@VERSION@!$(VERSION)!g" configure.4 >$@
 	rm -f configure.[1-4]
