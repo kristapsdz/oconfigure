@@ -1,6 +1,6 @@
 #include "../config.h"
 
-#ifdef HAVE_SYS_CDEFS_H
+#if HAVE_SYS_CDEFS_H
 # include <sys/cdefs.h>
 #endif
 #include <stdlib.h>
